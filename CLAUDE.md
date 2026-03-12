@@ -54,10 +54,7 @@ src/
 ## Next Steps
 
 ### Phase 1: Auth & Core Layout
-- [ ] Install and configure `@auth0/nextjs-auth0`
-- [ ] Set up Auth0 routes: `/api/auth/login`, `/api/auth/callback`, `/api/auth/logout`
-- [ ] Create protected layout for `/dashboard` with sidebar navigation
-- [ ] Build user onboarding flow (name, email, basic info)
+- [ ] Install and configure clerk authentication.
 - [ ] Add Supabase client (`@supabase/supabase-js`) + create initial schema:
   - `users` (id, auth0_id, email, name, created_at)
   - `profiles` (id, user_id, headline, summary, skills[], location)
