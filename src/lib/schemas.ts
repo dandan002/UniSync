@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const experienceSchema = z.object({
+export const experienceSchema = z.object({
   company: z.string().default(''),
   title: z.string().default(''),
   start_date: z.string().nullable().default(null),
@@ -9,7 +9,7 @@ const experienceSchema = z.object({
   bullets: z.array(z.string()).default([]),
 }).strip()
 
-const educationSchema = z.object({
+export const educationSchema = z.object({
   school: z.string().default(''),
   degree: z.string().default(''),
   field: z.string().default(''),
@@ -43,6 +43,6 @@ export const profileFormSchema = z.object({
   miscellaneous: z.array(z.string()).default([]),
   experiences: z.array(experienceSchema).default([]),
   education: z.array(educationSchema).default([]),
-})
+}).strip()
 
 export type ProfileFormData = z.infer<typeof profileFormSchema>
