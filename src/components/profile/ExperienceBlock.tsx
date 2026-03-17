@@ -50,7 +50,7 @@ export function ExperienceBlock({ value, onChange, onRemove, index }: Props) {
         <label className="text-sm font-medium text-foreground">Bullets</label>
         <textarea
           value={value.bullets.join('\n')}
-          onChange={(e) => update({ bullets: e.target.value.split('\n') })}
+          onChange={(e) => update({ bullets: e.target.value.split('\n').filter(Boolean) })}
           placeholder="One achievement or responsibility per line"
           rows={3}
           className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-primary placeholder:text-muted-foreground resize-y"

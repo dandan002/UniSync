@@ -59,6 +59,7 @@ export function ResumeUpload({ onParsed, onError }: Props) {
       onError(err instanceof Error ? err.message : 'Unknown error')
     } finally {
       setLoading(false)
+      if (inputRef.current) inputRef.current.value = ''
     }
   }
 
