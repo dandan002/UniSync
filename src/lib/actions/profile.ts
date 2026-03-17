@@ -46,7 +46,7 @@ export async function saveProfile(data: ProfileFormData & { name: string }) {
   // Replace experiences: delete all, then re-insert in order
   await supabase.from('experiences').delete().eq('profile_id', profileId)
   if (data.experiences.length > 0) {
-    await supabase.from('experiences').insert(
+    const { error: expError } = await supabase.from('experiences').insert(
       data.experiences.map((exp, i) => ({
         profile_id: profileId,
         company: exp.company,
@@ -58,12 +58,13 @@ export async function saveProfile(data: ProfileFormData & { name: string }) {
         sort_order: i,
       }))
     )
+    if (expError) throw new Error(`Failed to save experiences: ${expError.message}`)
   }
 
   // Replace education: delete all, then re-insert in order
   await supabase.from('education').delete().eq('profile_id', profileId)
   if (data.education.length > 0) {
-    await supabase.from('education').insert(
+    const { error: eduError } = await supabase.from('education').insert(
       data.education.map((edu, i) => ({
         profile_id: profileId,
         school: edu.school,
@@ -74,6 +75,7 @@ export async function saveProfile(data: ProfileFormData & { name: string }) {
         sort_order: i,
       }))
     )
+    if (eduError) throw new Error(`Failed to save education: ${eduError.message}`)
   }
 
   revalidatePath('/dashboard/profile')

@@ -43,6 +43,7 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
   const [error, setError] = useState<string | null>(null)
 
   function applyParsed(parsed: Partial<ProfileFormData & { name: string }>) {
+    setError(null)
     if (parsed.name) setName(parsed.name)
     if (parsed.headline) setHeadline(parsed.headline)
     if (parsed.location) setLocation(parsed.location)
@@ -96,7 +97,7 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Experience</h2>
-          <button type="button" onClick={() => setExperiences([...experiences, emptyExperience()])} className="flex items-center gap-1 text-xs text-primary hover:underline">
+          <button type="button" onClick={() => setExperiences(prev => [...prev, { ...emptyExperience(), sort_order: prev.length }])} className="flex items-center gap-1 text-xs text-primary hover:underline">
             <Plus className="h-3.5 w-3.5" /> Add experience
           </button>
         </div>
@@ -112,7 +113,7 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">Education</h2>
-          <button type="button" onClick={() => setEducation([...education, emptyEducation()])} className="flex items-center gap-1 text-xs text-primary hover:underline">
+          <button type="button" onClick={() => setEducation(prev => [...prev, { ...emptyEducation(), sort_order: prev.length }])} className="flex items-center gap-1 text-xs text-primary hover:underline">
             <Plus className="h-3.5 w-3.5" /> Add education
           </button>
         </div>
