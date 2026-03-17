@@ -23,7 +23,7 @@ describe('getProfileCompleteness', () => {
     const withExp = {
       ...empty,
       name: 'Jane',
-      experiences: [{ company: 'Acme', title: 'Eng', start_date: null, end_date: null, is_current: false, bullets: [], sort_order: 0 }],
+      experiences: [{ company: 'Acme', title: 'Eng', start_date: null, end_date: null, is_current: false, bullets: [] }],
     }
     expect(getProfileCompleteness(withExp).filled).toBe(2)
   })
@@ -32,8 +32,8 @@ describe('getProfileCompleteness', () => {
     const full: ProfileFormData = {
       name: 'Jane', headline: 'Engineer', location: 'London', summary: 'Great dev',
       skills: ['TS'], interests: ['OSS'], miscellaneous: ['AWS cert'],
-      experiences: [{ company: 'Acme', title: 'Eng', start_date: null, end_date: null, is_current: false, bullets: [], sort_order: 0 }],
-      education: [{ school: 'MIT', degree: 'BSc', field: 'CS', start_date: null, end_date: null, sort_order: 0 }],
+      experiences: [{ company: 'Acme', title: 'Eng', start_date: null, end_date: null, is_current: false, bullets: [] }],
+      education: [{ school: 'MIT', degree: 'BSc', field: 'CS', start_date: null, end_date: null }],
     }
     const r = getProfileCompleteness(full)
     expect(r.filled).toBe(8)
