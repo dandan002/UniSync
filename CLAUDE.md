@@ -57,7 +57,7 @@ src/
 ### Phase 1: Auth & Core Layout
 - [x] Install and configure Clerk authentication.
 - [ ] Add Supabase client (`@supabase/supabase-js`) + create initial schema:
-  - `users` (id, auth0_id, email, name, created_at)
+  - `users` (id, clerk_id, email, name, created_at)
   - `profiles` (id, user_id, headline, summary, skills[], location)
   - `experiences` (id, profile_id, company, title, start_date, end_date, bullets[])
   - `education` (id, profile_id, school, degree, field, start_date, end_date)
