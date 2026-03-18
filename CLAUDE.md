@@ -11,8 +11,9 @@ Resume builder that imports from LinkedIn, GitHub, and existing resumes — refi
 - **Theme**: Dark-first, amber accent (`oklch(0.82 0.14 75)`)
 
 ### Auth
-- **Auth0** — social logins (Google, GitHub, LinkedIn), JWT-based sessions
-- Auth0 tenant: `dev-leqagu36u50tw77h.us.auth0.com`
+- **Clerk** (`@clerk/nextjs` v7) — social logins (Google, GitHub), JWT-based sessions
+- Sign-in: `/sign-in`, Sign-up: `/sign-up`
+- `onboarding_completed` stored in Supabase `users` table (authoritative) and Clerk `publicMetadata` (used by middleware)
 
 ### Database
 - **Supabase** (Postgres) — user profiles, resume data, template metadata
@@ -54,7 +55,7 @@ src/
 ## Next Steps
 
 ### Phase 1: Auth & Core Layout
-- [ ] Install and configure clerk authentication.
+- [x] Install and configure Clerk authentication.
 - [ ] Add Supabase client (`@supabase/supabase-js`) + create initial schema:
   - `users` (id, auth0_id, email, name, created_at)
   - `profiles` (id, user_id, headline, summary, skills[], location)
