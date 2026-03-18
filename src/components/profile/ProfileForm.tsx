@@ -16,13 +16,16 @@ interface Props {
   saveLabel?: string
 }
 
-const emptyExperience = (): Experience => ({
+type ExperienceItem = Experience & { _key: string }
+type EducationItem = Education & { _key: string }
+
+const emptyExperience = (): ExperienceItem => ({
   company: '', title: '', start_date: null, end_date: null,
-  is_current: false, bullets: [], sort_order: 0,
+  is_current: false, bullets: [], sort_order: 0, _key: crypto.randomUUID(),
 })
 
-const emptyEducation = (): Education => ({
-  school: '', degree: '', field: '', start_date: null, end_date: null, sort_order: 0,
+const emptyEducation = (): EducationItem => ({
+  school: '', degree: '', field: '', start_date: null, end_date: null, sort_order: 0, _key: crypto.randomUUID(),
 })
 
 export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel = 'Save profile' }: Props) {
@@ -33,10 +36,10 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
   const [skills, setSkills] = useState<string[]>(initialData?.skills ?? [])
   const [interests, setInterests] = useState<string[]>(initialData?.interests ?? [])
   const [miscellaneous, setMiscellaneous] = useState<string[]>(initialData?.miscellaneous ?? [])
-  const [experiences, setExperiences] = useState<Experience[]>(
+  const [experiences, setExperiences] = useState<ExperienceItem[]>(
     (initialData?.experiences ?? []).map((e, i) => ({ ...emptyExperience(), ...e, sort_order: i }))
   )
-  const [education, setEducation] = useState<Education[]>(
+  const [education, setEducation] = useState<EducationItem[]>(
     (initialData?.education ?? []).map((e, i) => ({ ...emptyEducation(), ...e, sort_order: i }))
   )
   const [saving, setSaving] = useState(false)
@@ -52,10 +55,10 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
     if (parsed.interests?.length) setInterests(parsed.interests)
     if (parsed.miscellaneous?.length) setMiscellaneous(parsed.miscellaneous)
     if (parsed.experiences?.length) {
-      setExperiences(parsed.experiences.map((e, i) => ({ ...emptyExperience(), ...e, sort_order: i })))
+      setExperiences(parsed.experiences.map((e, i) => ({ ...emptyExperience(), ...e, sort_order: i, _key: crypto.randomUUID() })))
     }
     if (parsed.education?.length) {
-      setEducation(parsed.education.map((e, i) => ({ ...emptyEducation(), ...e, sort_order: i })))
+      setEducation(parsed.education.map((e, i) => ({ ...emptyEducation(), ...e, sort_order: i, _key: crypto.randomUUID() })))
     }
   }
 
@@ -103,8 +106,8 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
         </div>
         {experiences.length === 0 && <p className="text-sm text-muted-foreground">No experiences added yet.</p>}
         {experiences.map((exp, i) => (
-          <ExperienceBlock key={i} index={i} value={exp}
-            onChange={(updated) => setExperiences(experiences.map((e, j) => j === i ? updated : e))}
+          <ExperienceBlock key={exp._key} index={i} value={exp}
+            onChange={(updated) => setExperiences(experiences.map((e, j) => j === i ? { ...updated, _key: e._key } : e))}
             onRemove={() => setExperiences(experiences.filter((_, j) => j !== i))}
           />
         ))}
@@ -119,8 +122,8 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
         </div>
         {education.length === 0 && <p className="text-sm text-muted-foreground">No education added yet.</p>}
         {education.map((edu, i) => (
-          <EducationBlock key={i} index={i} value={edu}
-            onChange={(updated) => setEducation(education.map((e, j) => j === i ? updated : e))}
+          <EducationBlock key={edu._key} index={i} value={edu}
+            onChange={(updated) => setEducation(education.map((e, j) => j === i ? { ...updated, _key: e._key } : e))}
             onRemove={() => setEducation(education.filter((_, j) => j !== i))}
           />
         ))}
