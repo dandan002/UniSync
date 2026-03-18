@@ -40,7 +40,7 @@ src/
 │   ├── page.tsx          # Landing page (done)
 │   ├── layout.tsx        # Root layout (done)
 │   ├── globals.css       # Theme + animations (done)
-│   ├── (auth)/           # Auth0 login/callback routes
+│   ├── (auth)/           # Clerk sign-in/sign-up routes
 │   ├── dashboard/        # Main app after login
 │   └── api/              # Next.js API routes (BFF)
 ├── components/
@@ -106,7 +106,7 @@ npm run lint    # ESLint
 
 ## Environment Variables
 
-See `.env.local` for Auth0 credentials. Additional variables needed:
+See `.env.local` for Clerk credentials. Additional variables needed:
 - `SUPABASE_URL` / `SUPABASE_ANON_KEY` — Supabase project
 - `OPENROUTER_API_KEY` — LLM API access
 - `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` — AWS services
