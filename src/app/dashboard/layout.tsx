@@ -1,6 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { Sidebar } from '@/components/dashboard/Sidebar'
+import { UniSyncNav } from '@/components/UniSyncNav'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { userId, sessionClaims } = await auth()
@@ -10,11 +10,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!meta?.onboarding_completed) redirect('/onboarding')
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <Sidebar />
-      <main className="flex-1 overflow-y-auto">
-        {children}
-      </main>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f9f9f9' }}>
+      <UniSyncNav activePage="dashboard" />
+      <main className="pt-20">{children}</main>
     </div>
   )
 }

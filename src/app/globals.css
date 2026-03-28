@@ -46,6 +46,23 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Material Design 3 surface tokens */
+  --color-on-surface: #2d3435;
+  --color-surface: #f9f9f9;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f2f4f4;
+  --color-surface-container: #ebeeef;
+  --color-surface-container-high: #e4e9ea;
+  --color-surface-container-highest: #dde4e5;
+  --color-outline-variant: #adb3b4;
+  --color-outline: #757c7d;
+  --color-on-surface-variant: #5a6061;
+  --color-surface-dim: #d4dbdd;
+  --color-charcoal: #2d3435;
+  /* Stitch font stacks */
+  --font-headline: var(--font-newsreader), serif;
+  --font-inter: var(--font-inter), sans-serif;
 }
 
 :root {
@@ -158,3 +175,24 @@
 .animate-fade-up {
   animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+
+/* Material Symbols icon rendering */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  user-select: none;
+}
+
+/* Paper shadow for resume preview */
+.paper-shadow {
+  box-shadow: 0 4px 24px -4px rgba(45, 52, 53, 0.04);
+}
+
+/* Ghost border for inputs */
+.ghost-border {
+  border-bottom: 1px solid rgba(173, 179, 180, 0.15);
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
