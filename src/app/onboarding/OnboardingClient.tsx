@@ -39,19 +39,18 @@ export function OnboardingClient({ initialStep }: { initialStep: string }) {
           {parsed ? (
             <ParsedResumeReview data={parsed} onReset={() => setParsed(null)} />
           ) : (
-            <>
-              <ResumeImportStep onParsed={setParsed} />
-              <div className="text-center">
-                <button
-                  onClick={handleScratch}
-                  disabled={skipping}
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {skipping ? 'Redirecting…' : 'Skip — I\'ll fill this in manually'}
-                </button>
-              </div>
-            </>
+            <ResumeImportStep onParsed={setParsed} />
           )}
+
+          <div className="text-center">
+            <button
+              onClick={handleScratch}
+              disabled={skipping}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {skipping ? 'Redirecting…' : 'Skip — I\'ll fill this in manually'}
+            </button>
+          </div>
         </div>
       </div>
     )
