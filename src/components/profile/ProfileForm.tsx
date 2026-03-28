@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Loader2, Plus } from 'lucide-react'
 import { TagInput } from './TagInput'
 import { ExperienceBlock } from './ExperienceBlock'
@@ -44,6 +44,18 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
   )
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const raw = sessionStorage.getItem('pendingProfile')
+    if (!raw) return
+    sessionStorage.removeItem('pendingProfile')
+    try {
+      const pending = JSON.parse(raw)
+      applyParsed(pending)
+    } catch {
+      // malformed JSON — ignore silently
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   function applyParsed(parsed: Partial<ProfileFormData & { name: string }>) {
     setError(null)
