@@ -9,8 +9,19 @@ export function getSupabaseClient(): SupabaseClient<any> {
   const url = process.env.SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
   if (!url || !key) {
-    throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY env vars')
+    const missing = !url ? 'SUPABASE_URL' : 'SUPABASE_SERVICE_ROLE_KEY'
+    throw new Error(`Missing ${missing} env var`)
   }
-  _client = createClient<any>(url, key)
+  
+  // Validate URL format
+  try {
+    new URL(url)
+  } catch {
+    throw new Error(`Invalid SUPABASE_URL: ${url}`)
+  }
+  
+  _client = createClient<any>(url, key, {
+    auth: { persistSession: false }
+  })
   return _client
 }

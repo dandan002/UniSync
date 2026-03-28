@@ -10,20 +10,27 @@ export async function syncUser() {
   const clerkUser = await currentUser()
   if (!clerkUser) throw new Error('Could not fetch Clerk user')
 
+  const email = clerkUser.emailAddresses[0]?.emailAddress ?? ''
+  if (!email) throw new Error('User has no email address')
+
   const supabase = getSupabaseClient()
+  
   const { error } = await supabase
     .from('users')
     .upsert(
       {
         clerk_id: userId,
-        email: clerkUser.emailAddresses[0]?.emailAddress ?? '',
+        email,
         name: `${clerkUser.firstName ?? ''} ${clerkUser.lastName ?? ''}`.trim(),
         avatar_url: clerkUser.imageUrl ?? null,
       },
       { onConflict: 'clerk_id' }
     )
 
-  if (error) throw new Error(`syncUser failed: ${error.message}`)
+  if (error) {
+    console.error('Supabase upsert error:', error)
+    throw new Error(`syncUser failed: ${error.message}`)
+  }
 }
 
 export async function completeOnboarding() {

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { UniSyncNav } from '@/components/UniSyncNav'
 
 export default function Home() {
@@ -44,7 +45,10 @@ export default function Home() {
           {/* Upload Bento Grid */}
           <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-12 gap-6 px-4">
             {/* Main Upload Card */}
-            <div className="md:col-span-8 bg-white paper-shadow rounded-xl p-8 flex flex-col items-center justify-center min-h-[400px] border-2 border-dashed border-[#adb3b4]/20 hover:border-[#2d3435]/40 transition-all group cursor-pointer">
+            <Link
+              href="/onboarding?step=2"
+              className="md:col-span-8 bg-white paper-shadow rounded-xl p-8 flex flex-col items-center justify-center min-h-[400px] border-2 border-dashed border-[#adb3b4]/20 hover:border-[#2d3435]/40 transition-all group cursor-pointer"
+            >
               <div className="w-20 h-20 rounded-full bg-[#f2f4f4] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-4xl" style={{ color: '#2d3435' }}>
                   upload_file
@@ -54,14 +58,17 @@ export default function Home() {
               <p className="text-sm mb-8 text-center max-w-xs" style={{ color: '#5a6061' }}>
                 We&apos;ll extract your history and re-style it instantly. Supports PDF, DOCX, and TXT.
               </p>
-              <button className="px-8 py-3 bg-[#2d3435] text-white font-medium rounded-lg shadow-lg hover:opacity-90 transition-all">
+              <span className="px-8 py-3 bg-[#2d3435] text-white font-medium rounded-lg shadow-lg hover:opacity-90 transition-all">
                 Choose File
-              </button>
-            </div>
+              </span>
+            </Link>
 
             {/* Side Actions */}
             <div className="md:col-span-4 flex flex-col gap-6">
-              <div className="flex-1 bg-[#f2f4f4] rounded-xl p-8 flex flex-col justify-between hover:bg-[#e4e9ea] transition-colors cursor-pointer group">
+              <Link
+                href="/sign-up"
+                className="flex-1 bg-[#f2f4f4] rounded-xl p-8 flex flex-col justify-between hover:bg-[#e4e9ea] transition-colors cursor-pointer group"
+              >
                 <div>
                   <span className="material-symbols-outlined mb-4 block" style={{ color: '#5a6061' }}>
                     edit_note
@@ -80,7 +87,7 @@ export default function Home() {
                     arrow_forward
                   </span>
                 </div>
-              </div>
+              </Link>
               <div className="bg-[#2d3435] text-white rounded-xl p-8">
                 <span className="material-symbols-outlined mb-4 block" style={{ color: '#adb3b4' }}>
                   auto_awesome
@@ -227,18 +234,18 @@ export default function Home() {
                 Join professionals who trust UniSync for their next big move.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
+                <Link
                   href="/sign-up"
                   className="px-10 py-4 bg-[#2d3435] text-[#f9f9f9] font-semibold rounded-lg hover:opacity-90 transition-all"
                 >
                   Get Started Free
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/templates"
                   className="px-10 py-4 bg-[#dde4e5] text-[#2d3435] font-semibold rounded-lg hover:opacity-80 transition-all"
                 >
                   View Templates
-                </a>
+                </Link>
               </div>
             </div>
             <div
