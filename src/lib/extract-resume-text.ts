@@ -15,15 +15,17 @@ export async function extractResumeText(file: File): Promise<string> {
 
   if (type === 'application/pdf' || name.endsWith('.pdf')) {
     const pdfjsLib = await import('pdfjs-dist')
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.mjs`
+    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.mjs`
+    }
     const arrayBuffer = await file.arrayBuffer()
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
     let text = ''
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i)
       const content = await page.getTextContent()
-      text += content.items.map((item) => ('str' in item ? item.str : '')).join(' ') + '\n'
+      text += content.items.map((item) => ('str' in item ? item.str : '')).join('') + '\n'
     }
     return text.slice(0, MAX_CHARS)
   }
