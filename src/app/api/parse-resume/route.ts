@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
 
   const apiKey = process.env.OPENROUTER_API_KEY
   if (!apiKey) {
+    console.error('Missing OPENROUTER_API_KEY')
     return NextResponse.json({ error: 'OpenRouter not configured' }, { status: 500 })
   }
 
@@ -55,19 +56,25 @@ export async function POST(req: NextRequest) {
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
+      'HTTP-Referer': process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+      'X-Title': 'UniSync',
     },
     body: JSON.stringify({
-      model: 'google/gemini-flash-1.5',
+      model: 'z-ai/glm-5-turbo',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: body.text.slice(0, 20000) }, // cap at 20k chars
+        { role: 'user', content: body.text.slice(0, 20000) },
       ],
-      response_format: { type: 'json_object' },
     }),
   })
 
   if (!response.ok) {
-    return NextResponse.json({ error: 'LLM call failed' }, { status: 502 })
+    const errorText = await response.text()
+    console.error('OpenRouter error:', response.status, errorText)
+    return NextResponse.json(
+      { error: `LLM call failed: ${response.status}` },
+      { status: 502 }
+    )
   }
 
   const llmData = await response.json()
@@ -75,8 +82,22 @@ export async function POST(req: NextRequest) {
 
   let parsed: unknown
   try {
-    parsed = JSON.parse(rawContent)
+    // Strip markdown code fences and extract JSON object
+    let cleaned = rawContent
+      .replace(/```(?:json)?\s*/gi, '')
+      .replace(/```\s*/g, '')
+      .trim()
+    
+    // Find the outermost JSON object (handle text before/after)
+    const firstBrace = cleaned.indexOf('{')
+    const lastBrace = cleaned.lastIndexOf('}')
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      cleaned = cleaned.slice(firstBrace, lastBrace + 1)
+    }
+    
+    parsed = JSON.parse(cleaned)
   } catch {
+    console.error('Failed to parse LLM response:', rawContent.slice(0, 500))
     return NextResponse.json({ error: 'LLM returned invalid JSON' }, { status: 502 })
   }
 
