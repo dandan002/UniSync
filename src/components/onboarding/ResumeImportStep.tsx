@@ -3,9 +3,10 @@
 import { useState, useRef } from 'react'
 import { Upload } from 'lucide-react'
 import { extractResumeText } from '@/lib/extract-resume-text'
+import { parsedResumeSchema } from '@/lib/schemas'
 import type { ParsedResume } from '@/lib/schemas'
 
-type Step = 'idle' | 'uploading' | 'extracting' | 'parsing' | 'error'
+type Step = 'idle' | 'extracting' | 'parsing' | 'error'
 
 interface Props {
   onParsed: (data: ParsedResume) => void
@@ -21,12 +22,12 @@ export function ResumeImportStep({ onParsed }: Props) {
 
   async function processFile(file: File) {
     if (file.size > MAX_BYTES) {
+      setStep('error')
       setErrorMsg('File too large — max 5 MB')
       return
     }
 
     setErrorMsg(null)
-    setStep('uploading')
 
     let text: string
     try {
@@ -46,7 +47,8 @@ export function ResumeImportStep({ onParsed }: Props) {
         body: JSON.stringify({ text }),
       })
       if (!res.ok) throw new Error('Parse failed')
-      const parsed: ParsedResume = await res.json()
+      const json = await res.json()
+      const parsed = parsedResumeSchema.parse(json)
       onParsed(parsed)
     } catch {
       setStep('error')
@@ -68,7 +70,7 @@ export function ResumeImportStep({ onParsed }: Props) {
 
   function handleDragLeave() { setDragging(false) }
 
-  const isProcessing = step === 'uploading' || step === 'extracting' || step === 'parsing'
+  const isProcessing = step === 'extracting' || step === 'parsing'
 
   function retry() {
     setStep('idle')
@@ -80,7 +82,7 @@ export function ResumeImportStep({ onParsed }: Props) {
       <div className="rounded-xl border-2 border-primary bg-primary/5 p-8 space-y-4">
         <div className="space-y-3">
           {[
-            { label: 'File received', done: step !== 'uploading' },
+            { label: 'File received', done: true },
             { label: 'Text extracted', done: step === 'parsing' },
             { label: 'Parsing with AI…', done: false, active: step === 'parsing' },
           ].map(({ label, done, active }) => (
