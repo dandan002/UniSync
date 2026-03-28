@@ -14,7 +14,7 @@ interface Props {
 
 export function ParsedResumeReview({ data, onReset }: Props) {
   const router = useRouter()
-  const [importing, setImporting] = useState(false)
+  const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const isMinimal = !data.name && !data.experiences?.length
@@ -24,7 +24,7 @@ export function ParsedResumeReview({ data, onReset }: Props) {
     : null
 
   async function handleImport() {
-    setImporting(true)
+    setBusy(true)
     setError(null)
     try {
       await saveProfile({
@@ -42,14 +42,21 @@ export function ParsedResumeReview({ data, onReset }: Props) {
       router.push('/dashboard/profile')
     } catch {
       setError('Something went wrong. Please try again.')
-      setImporting(false)
+      setBusy(false)
     }
   }
 
   async function handleEditFirst() {
-    sessionStorage.setItem('pendingProfile', JSON.stringify(data))
-    await completeOnboarding()
-    router.push('/dashboard/profile')
+    setBusy(true)
+    setError(null)
+    try {
+      sessionStorage.setItem('pendingProfile', JSON.stringify(data))
+      await completeOnboarding()
+      router.push('/dashboard/profile')
+    } catch {
+      setError('Something went wrong. Please try again.')
+      setBusy(false)
+    }
   }
 
   return (
@@ -98,15 +105,15 @@ export function ParsedResumeReview({ data, onReset }: Props) {
       <div className="flex items-center gap-3 pt-2">
         <button
           onClick={handleImport}
-          disabled={importing}
+          disabled={busy}
           className="flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-50 transition-colors"
         >
-          {importing && <Loader2 className="h-4 w-4 animate-spin" />}
-          {importing ? 'Importing…' : 'Import to Profile'}
+          {busy && <Loader2 className="h-4 w-4 animate-spin" />}
+          {busy ? 'Importing…' : 'Import to Profile'}
         </button>
         <button
           onClick={handleEditFirst}
-          disabled={importing}
+          disabled={busy}
           className="rounded-md border border-border px-4 py-2.5 text-sm font-medium hover:bg-muted transition-colors disabled:opacity-50"
         >
           Edit first
@@ -115,7 +122,7 @@ export function ParsedResumeReview({ data, onReset }: Props) {
 
       <button
         onClick={onReset}
-        disabled={importing}
+        disabled={busy}
         className="text-xs text-muted-foreground hover:text-foreground transition-colors"
       >
         ← Upload a different file
