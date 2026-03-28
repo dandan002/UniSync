@@ -55,7 +55,7 @@ export function ProfileForm({ initialData, onSave, showUpload = false, saveLabel
     } catch {
       // malformed JSON — ignore silently
     }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   function applyParsed(parsed: Partial<ProfileFormData & { name: string }>) {
     setError(null)
