@@ -1,0 +1,43 @@
+<h2>What should we build next?</h2>
+<p class="subtitle">Phase 1 (auth, profile, DB) is done. The parse-resume API is wired up but nothing calls it yet. Which area should we focus on first?</p>
+
+<div class="options">
+  <div class="option" data-choice="upload" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Resume Upload &amp; Parse Pipeline</h3>
+      <p>Let users drop a PDF/DOCX on the landing page → extract text → send to the existing OpenRouter parse API → pre-fill their profile. The backend is already 80% there — this is mostly UI + glue code.</p>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">Highest leverage</span>
+        <span style="background:#e3f2fd;color:#1565c0;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">~1 day of work</span>
+        <span style="background:#fff3e0;color:#e65100;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">Core user value</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="editor" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>AI Profile Editor</h3>
+      <p>Upgrade the profile form with inline AI rewriting — select a bullet → rewrite with LLM, bullet optimizer, job description matcher. Makes the profile-editing experience feel like the Stitch "Resume Editor" design.</p>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="background:#f3e5f5;color:#6a1b9a;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">High delight</span>
+        <span style="background:#e3f2fd;color:#1565c0;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">~2 days of work</span>
+        <span style="background:#fce4ec;color:#880e4f;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">Needs profile first</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="builder" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Resume Builder</h3>
+      <p>Let users create named resumes from their profile, pick a LaTeX template, configure which sections to include, and generate a PDF. The full output pipeline: Supabase resumes table → Lambda/pdflatex → S3 → download link.</p>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">End-to-end demo</span>
+        <span style="background:#fce4ec;color:#880e4f;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">~1 week of work</span>
+        <span style="background:#fff8e1;color:#f57f17;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600">Needs AWS setup</span>
+      </div>
+    </div>
+  </div>
+</div>

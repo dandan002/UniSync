@@ -1,0 +1,118 @@
+<h2>Onboarding UI — Import Step</h2>
+<p class="subtitle">The new step added before the existing profile completion. Three states the component cycles through.</p>
+
+<div style="display:flex;gap:20px;overflow-x:auto;padding-bottom:8px">
+
+  <!-- State 1: Choose path -->
+  <div class="mockup" style="min-width:300px;flex:1">
+    <div class="mockup-header">State 1 — Choose path</div>
+    <div class="mockup-body" style="background:#f9f9f9;padding:24px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-family:Georgia,serif;font-size:22px;font-weight:600;margin-bottom:4px">UniSync</div>
+        <div style="font-size:12px;color:#888">Step 2 of 3 — Import your experience</div>
+      </div>
+
+      <!-- Upload card -->
+      <div style="border:2px dashed #ccc;border-radius:10px;padding:24px;text-align:center;background:white;margin-bottom:12px;cursor:pointer;transition:border-color 0.2s" id="dropzone">
+        <div style="font-size:28px;margin-bottom:8px">📄</div>
+        <div style="font-weight:600;font-size:13px;margin-bottom:4px">Drop your resume here</div>
+        <div style="font-size:11px;color:#888;margin-bottom:14px">PDF, DOCX, or TXT · max 5 MB</div>
+        <div style="display:inline-block;background:#2d3435;color:white;padding:7px 18px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Choose file</div>
+      </div>
+
+      <!-- Divider -->
+      <div style="display:flex;align-items:center;gap:10px;margin:14px 0">
+        <div style="flex:1;height:1px;background:#e8e8e8"></div>
+        <span style="font-size:11px;color:#aaa">or</span>
+        <div style="flex:1;height:1px;background:#e8e8e8"></div>
+      </div>
+
+      <!-- Start from scratch -->
+      <button style="width:100%;border:1px solid #e0e0e0;background:white;border-radius:8px;padding:12px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:10px">
+        <span style="font-size:18px">✏️</span>
+        <div style="text-align:left">
+          <div style="font-weight:600;font-size:12px">Start from scratch</div>
+          <div style="color:#888;font-size:11px">Build your profile with AI guidance</div>
+        </div>
+        <span style="margin-left:auto;color:#ccc">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- State 2: Processing -->
+  <div class="mockup" style="min-width:300px;flex:1">
+    <div class="mockup-header">State 2 — Processing</div>
+    <div class="mockup-body" style="background:#f9f9f9;padding:24px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-family:Georgia,serif;font-size:22px;font-weight:600;margin-bottom:4px">UniSync</div>
+        <div style="font-size:12px;color:#888">Step 2 of 3 — Import your experience</div>
+      </div>
+
+      <div style="border:2px solid #2d3435;border-radius:10px;padding:24px;text-align:center;background:white;margin-bottom:12px">
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px">
+          <div style="font-size:16px">📄</div>
+          <div style="font-size:12px;font-weight:600;color:#2d3435">resume_john_doe.pdf</div>
+          <div style="font-size:11px;color:#888;margin-left:4px">142 KB</div>
+        </div>
+
+        <!-- Progress steps -->
+        <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+            <span style="color:#4caf50;font-weight:700">✓</span>
+            <span style="color:#4caf50">File uploaded</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+            <span style="color:#4caf50;font-weight:700">✓</span>
+            <span style="color:#4caf50">Text extracted</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px">
+            <div style="width:11px;height:11px;border:2px solid #2d3435;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0"></div>
+            <span style="color:#2d3435;font-weight:500">Parsing with AI...</span>
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:11px;color:#aaa;margin:0">Usually takes 3–5 seconds</p>
+    </div>
+  </div>
+
+  <!-- State 3: Review -->
+  <div class="mockup" style="min-width:300px;flex:1">
+    <div class="mockup-header">State 3 — Review &amp; Confirm</div>
+    <div class="mockup-body" style="background:#f9f9f9;padding:24px">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="font-family:Georgia,serif;font-size:22px;font-weight:600;margin-bottom:4px">UniSync</div>
+        <div style="font-size:12px;color:#888">Step 2 of 3 — Import your experience</div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+          <div>
+            <div style="font-size:15px;font-weight:700">John Doe</div>
+            <div style="font-size:11px;color:#666">Senior Software Engineer · London</div>
+          </div>
+          <div style="background:#e8f5e9;color:#2e7d32;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700">Parsed</div>
+        </div>
+        <div style="font-size:11px;color:#555;line-height:1.5;padding:10px 0;border-top:1px solid #f5f5f5;border-bottom:1px solid #f5f5f5;margin-bottom:10px">
+          "Results-driven engineer with 8+ years building scalable distributed systems..."
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <div style="background:#f5f5f5;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600">3 experiences</div>
+          <div style="background:#f5f5f5;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600">2 education</div>
+          <div style="background:#f5f5f5;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600">8 skills</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button style="flex:1;background:#2d3435;color:white;border:none;padding:9px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer">Import to Profile</button>
+          <button style="background:white;border:1px solid #ddd;padding:9px 12px;border-radius:6px;font-size:11px;cursor:pointer;color:#555">Edit first</button>
+        </div>
+        <div style="text-align:center;margin-top:8px">
+          <span style="font-size:10px;color:#aaa;cursor:pointer">← Upload a different file</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>

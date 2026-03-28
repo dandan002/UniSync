@@ -1,0 +1,9 @@
+{"type":"server-started","port":63463,"host":"127.0.0.1","url_host":"localhost","url":"http://localhost:63463","screen_dir":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content","state_dir":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/state"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/next-phase.html"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/post-parse-flow.html"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/upload-location.html"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/waiting-1.html"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/flow-overview.html"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/architecture.html"}
+{"type":"screen-added","file":"/Users/dandan/Desktop/Projects/UniSync/.superpowers/brainstorm/8001-1774669170/content/onboarding-ui.html"}
+{"type":"server-stopped","reason":"idle timeout"}

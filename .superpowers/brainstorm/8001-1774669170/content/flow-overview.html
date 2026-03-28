@@ -1,0 +1,106 @@
+<h2>Resume Import — Full Flow</h2>
+<p class="subtitle">End-to-end from onboarding to profile populated. Does this match what you had in mind?</p>
+
+<div style="display:flex;flex-direction:column;gap:0">
+
+  <!-- Step 1 -->
+  <div style="display:flex;gap:16px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+      <div style="width:32px;height:32px;border-radius:50%;background:#2d3435;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">1</div>
+      <div style="width:2px;flex:1;background:#e0e0e0;margin:4px 0;min-height:40px"></div>
+    </div>
+    <div style="padding-bottom:24px;flex:1">
+      <h3 style="margin:4px 0 6px">Onboarding — Choose path</h3>
+      <div style="background:#f9f9f9;border-radius:8px;padding:16px;display:flex;gap:12px">
+        <div style="flex:1;border:2px dashed #ccc;border-radius:8px;padding:14px;text-align:center;font-size:12px">
+          <div style="font-size:22px;margin-bottom:6px">📄</div>
+          <strong>Import my resume</strong><br>
+          <span style="color:#888;font-size:11px">PDF, DOCX, TXT</span>
+        </div>
+        <div style="display:flex;align-items:center;color:#aaa;font-size:12px">or</div>
+        <div style="flex:1;border:1px solid #e0e0e0;border-radius:8px;padding:14px;text-align:center;font-size:12px;background:white">
+          <div style="font-size:22px;margin-bottom:6px">✏️</div>
+          <strong>Start from scratch</strong><br>
+          <span style="color:#888;font-size:11px">Build with AI guidance</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 -->
+  <div style="display:flex;gap:16px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+      <div style="width:32px;height:32px;border-radius:50%;background:#2d3435;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">2</div>
+      <div style="width:2px;flex:1;background:#e0e0e0;margin:4px 0;min-height:40px"></div>
+    </div>
+    <div style="padding-bottom:24px;flex:1">
+      <h3 style="margin:4px 0 6px">File selected → Server extracts text</h3>
+      <div style="background:#f9f9f9;border-radius:8px;padding:12px;font-size:12px;color:#555;font-family:monospace">
+        POST /api/extract-resume<br>
+        &nbsp;&nbsp;← multipart file<br>
+        &nbsp;&nbsp;→ { text: "John Doe\nSenior Engineer..." }<br><br>
+        <span style="color:#888">uses: pdf-parse (PDF) · mammoth (DOCX) · plain text (TXT)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div style="display:flex;gap:16px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+      <div style="width:32px;height:32px;border-radius:50%;background:#2d3435;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">3</div>
+      <div style="width:2px;flex:1;background:#e0e0e0;margin:4px 0;min-height:40px"></div>
+    </div>
+    <div style="padding-bottom:24px;flex:1">
+      <h3 style="margin:4px 0 6px">Text → existing parse API → structured data</h3>
+      <div style="background:#f9f9f9;border-radius:8px;padding:12px;font-size:12px;color:#555;font-family:monospace">
+        POST /api/parse-resume<br>
+        &nbsp;&nbsp;← { text: "..." }<br>
+        &nbsp;&nbsp;→ { name, headline, skills[], experiences[], education[] }
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4 -->
+  <div style="display:flex;gap:16px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+      <div style="width:32px;height:32px;border-radius:50%;background:#2d3435;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">4</div>
+      <div style="width:2px;flex:1;background:#e0e0e0;margin:4px 0;min-height:40px"></div>
+    </div>
+    <div style="padding-bottom:24px;flex:1">
+      <h3 style="margin:4px 0 6px">Review card — confirm before saving</h3>
+      <div style="background:white;border:1px solid #e8e8e8;border-radius:8px;padding:16px;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <div style="font-size:15px;font-weight:700">John Doe</div>
+            <div style="color:#666">Senior Software Engineer · London</div>
+          </div>
+          <div style="background:#e8f5e9;color:#2e7d32;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:600">3 experiences · 2 education · 8 skills</div>
+        </div>
+        <div style="color:#555;font-size:11px;line-height:1.5;border-top:1px solid #f0f0f0;padding-top:10px;margin-bottom:12px">
+          "Results-driven engineer with 8+ years building scalable systems..."
+        </div>
+        <div style="display:flex;gap:6px">
+          <div style="background:#2d3435;color:white;padding:7px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">Import to Profile</div>
+          <div style="border:1px solid #ddd;padding:7px 16px;border-radius:6px;font-size:11px;cursor:pointer;color:#666">Edit first</div>
+          <div style="padding:7px 16px;font-size:11px;cursor:pointer;color:#aaa;margin-left:auto">Start over</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <div style="display:flex;gap:16px;align-items:flex-start">
+    <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+      <div style="width:32px;height:32px;border-radius:50%;background:#2d3435;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">5</div>
+    </div>
+    <div style="flex:1">
+      <h3 style="margin:4px 0 6px">saveProfile() → redirect to /dashboard/profile</h3>
+      <p style="font-size:12px;color:#666;margin:0">Uses the existing server action. Profile is populated, user lands in the editor to refine.</p>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:24px;padding:14px;background:#fff8e1;border-left:3px solid #f9a825;border-radius:4px;font-size:12px;color:#5d4037">
+  <strong>Note on "Start from scratch":</strong> Marks onboarding complete and redirects to <code>/dashboard/profile</code> with an empty form. No new logic needed — existing onboarding flow already handles this.
+</div>

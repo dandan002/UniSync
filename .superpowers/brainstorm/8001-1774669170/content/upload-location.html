@@ -1,0 +1,53 @@
+<h2>Where does the upload live?</h2>
+<p class="subtitle">The Stitch landing page already has a static upload card. Where should the real upload entry point be?</p>
+
+<div class="options">
+  <div class="option" data-choice="landing" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Landing page (current card) + dashboard</h3>
+      <p>Wire up the existing upload card on <code>/</code> for unauthenticated users (redirects to sign-up first, then resumes upload). Also add it to the dashboard for signed-in users. Two entry points, same flow.</p>
+      <div style="margin-top:10px">
+        <div class="mock-nav" style="font-size:12px;margin-bottom:6px">UniSync &nbsp;·&nbsp; Dashboard &nbsp;·&nbsp; Templates</div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <div style="flex:2;border:2px dashed #ccc;border-radius:8px;padding:16px;text-align:center;font-size:12px;color:#666">
+            📄 Drop resume here<br><small>PDF, DOCX, TXT</small>
+          </div>
+          <div style="flex:1;background:#f5f5f5;border-radius:8px;padding:12px;font-size:11px;color:#666">
+            Start from scratch →<br><br>AI LaTeX Engine
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="onboarding" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Onboarding flow step</h3>
+      <p>Add resume upload as a step inside the existing onboarding wizard (after sign-up). Users who skip can always do it later from the dashboard. Natural "first-run" moment.</p>
+      <div style="margin-top:10px;display:flex;gap:6px;align-items:center;font-size:12px">
+        <div style="background:#2d3435;color:white;padding:6px 12px;border-radius:6px">Sign up</div>
+        <div>→</div>
+        <div style="border:2px solid #2d3435;padding:6px 12px;border-radius:6px;font-weight:600">Upload resume</div>
+        <div>→</div>
+        <div style="background:#f0f0f0;padding:6px 12px;border-radius:6px;color:#888">Dashboard</div>
+      </div>
+      <p style="margin-top:8px;font-size:12px;color:#666">Skip option available</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="dashboard-only" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Dashboard only (import button)</h3>
+      <p>Keep the landing page as pure marketing. Once signed in, users get an "Import Resume" button on their profile/dashboard page. Simpler scope, less surface area.</p>
+      <div style="margin-top:10px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="mock-button" style="font-size:12px">↑ Import Resume</div>
+          <span style="font-size:11px;color:#888">on the dashboard</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

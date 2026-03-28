@@ -1,0 +1,40 @@
+<h2>After parsing — what's the UX?</h2>
+<p class="subtitle">The user drops a PDF. The API extracts their name, headline, experiences, skills, etc. Then what?</p>
+
+<div class="options">
+  <div class="option" data-choice="review" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Review &amp; Confirm step</h3>
+      <p>Show the parsed data in a preview card before anything is saved. User sees what was extracted, can deselect fields they don't want, then hits "Import to Profile". Clean, trustworthy, no surprises.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>User stays in control</li><li>Handles parse errors gracefully</li><li>Works even when profile already has data</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>One extra step</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="autofill" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Auto-fill empty fields only</h3>
+      <p>Immediately merge parsed data into the profile — only writing fields that are currently blank. Existing data is never overwritten. User lands on the profile editor pre-populated.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Zero friction for new users</li><li>Fast path to the editor</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Silent merge — unclear what changed</li><li>Risky if parse quality is poor</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="overwrite" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Overwrite &amp; go to editor</h3>
+      <p>Replace the profile entirely with parsed data. Redirect to the profile editor so the user can review and fix from there.</p>
+      <div class="pros-cons" style="margin-top:10px">
+        <div class="pros"><h4>Pros</h4><ul><li>Simplest to implement</li><li>Editor is the review step</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Destroys existing profile data</li><li>Bad for returning users</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>
