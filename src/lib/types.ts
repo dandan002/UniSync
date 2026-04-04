@@ -42,3 +42,24 @@ export interface ResumeRecord {
   updated_at: string
   created_at: string
 }
+
+export interface ResumePreviewHeader {
+  name: string
+  headline: string
+  location: string
+}
+
+export interface ResumePreviewListItem {
+  title: string
+  subtitle?: string
+  meta?: string
+  bullets?: string[]
+}
+
+export interface ResumePreviewSection {
+  id: ResumeSectionId
+  label: string
+  kind: 'text' | 'list' | 'tags'
+  content: string | string[] | ResumePreviewListItem[]
+  isPlaceholder?: boolean
+}
