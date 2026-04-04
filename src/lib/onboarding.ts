@@ -16,3 +16,7 @@ export function getParseResumeErrorMessage(
 
   return 'Something went wrong while parsing your resume. Please try again.'
 }
+
+export function normalizeResumeTextInput(text: string): string {
+  return text.replace(/\r\n/g, '\n').trim()
+}

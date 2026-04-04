@@ -4,13 +4,16 @@ import { useState } from 'react'
 import { ArrowDown, ArrowUp, Loader2 } from 'lucide-react'
 import { updateResume } from '@/lib/actions/resume'
 import { moveResumeSection, resumeTemplates } from '@/lib/resume'
+import { ResumePreview } from '@/components/resume/ResumePreview'
+import type { ProfileFormData } from '@/lib/schemas'
 import type { ResumeRecord } from '@/lib/types'
 
 interface Props {
   resume: ResumeRecord
+  profile: Partial<ProfileFormData & { name: string }>
 }
 
-export function ResumeBuilderForm({ resume }: Props) {
+export function ResumeBuilderForm({ resume, profile }: Props) {
   const [name, setName] = useState(resume.name)
   const [templateId, setTemplateId] = useState(resume.template_id)
   const [sections, setSections] = useState(
@@ -24,6 +27,7 @@ export function ResumeBuilderForm({ resume }: Props) {
     setSaving(true)
     setMessage(null)
     setError(null)
+
     try {
       await updateResume(resume.id, {
         name,
@@ -39,7 +43,7 @@ export function ResumeBuilderForm({ resume }: Props) {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+    <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_minmax(360px,440px)]">
       <div className="space-y-8">
         <section className="rounded-2xl border border-border bg-card p-6">
           <div className="mb-4 flex items-center justify-between gap-4">
@@ -56,7 +60,7 @@ export function ResumeBuilderForm({ resume }: Props) {
               className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
             >
               {saving && <Loader2 className="h-4 w-4 animate-spin" />}
-              {saving ? 'Saving…' : 'Save changes'}
+              {saving ? 'Saving...' : 'Save changes'}
             </button>
           </div>
 
@@ -75,6 +79,7 @@ export function ResumeBuilderForm({ resume }: Props) {
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             {resumeTemplates.map((template) => {
               const active = template.id === templateId
+
               return (
                 <button
                   key={template.id}
@@ -149,29 +154,33 @@ export function ResumeBuilderForm({ resume }: Props) {
         {message && <p className="text-sm text-green-700">{message}</p>}
       </div>
 
-      <aside className="h-fit rounded-2xl border border-border bg-card p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-          Summary
-        </p>
-        <h2 className="mt-3 font-display text-2xl font-semibold">Current setup</h2>
-        <dl className="mt-5 space-y-4 text-sm">
-          <div>
-            <dt className="text-muted-foreground">Template</dt>
-            <dd className="mt-1 font-medium">
-              {resumeTemplates.find((template) => template.id === templateId)?.name}
-            </dd>
-          </div>
-          <div>
-            <dt className="text-muted-foreground">Enabled sections</dt>
-            <dd className="mt-1 font-medium">
-              {sections.filter((section) => section.enabled).length} of {sections.length}
-            </dd>
-          </div>
-        </dl>
-        <p className="mt-6 text-sm text-muted-foreground">
-          PDF preview and export land in the next builder phase. This step defines the structure and
-          template selection now.
-        </p>
+      <aside className="h-fit space-y-4 xl:sticky xl:top-24">
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Snapshot
+          </p>
+          <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <dt className="text-muted-foreground">Template</dt>
+              <dd className="mt-1 font-medium">
+                {resumeTemplates.find((template) => template.id === templateId)?.name}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-muted-foreground">Enabled</dt>
+              <dd className="mt-1 font-medium">
+                {sections.filter((section) => section.enabled).length}/{sections.length}
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <ResumePreview
+          resumeName={name}
+          templateId={templateId}
+          sections={sections}
+          profile={profile}
+        />
       </aside>
     </div>
   )

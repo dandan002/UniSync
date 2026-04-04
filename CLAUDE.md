@@ -108,7 +108,7 @@ src/
   - selecting a template
   - enabling/disabling sections
   - reordering sections
-- [ ] Template preview rendering is not built yet
+- [x] Template-aware preview rendering is implemented
 - [ ] LaTeX output and PDF preview are not built yet
 - [ ] Resume-specific content overrides are not built yet
 
@@ -118,9 +118,9 @@ src/
 
 The next logical slice after the current builder foundation is:
 
-1. Add template-aware preview rendering
-2. Introduce LaTeX template output contracts
-3. Build PDF generation/export
+1. Introduce LaTeX template output contracts
+2. Build PDF generation/export
+3. Add resume-specific content overrides
 
 LinkedIn and GitHub import remain separate unfinished Phase 2 tracks.
 

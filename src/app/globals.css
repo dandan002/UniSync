@@ -176,13 +176,6 @@
   animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* Material Symbols icon rendering */
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-  vertical-align: middle;
-  user-select: none;
-}
-
 /* Paper shadow for resume preview */
 .paper-shadow {
   box-shadow: 0 4px 24px -4px rgba(45, 52, 53, 0.04);

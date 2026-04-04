@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
+import { CircleUserRound } from 'lucide-react'
 
 interface UniSyncNavProps {
   activePage?: 'dashboard' | 'templates' | 'support'
@@ -59,9 +60,7 @@ export function UniSyncNav({ activePage }: UniSyncNavProps) {
             </button>
           </SignUpButton>
           <SignInButton>
-            <span className="material-symbols-outlined text-[#2d3435]/60 cursor-pointer hover:text-[#2d3435] transition-colors">
-              account_circle
-            </span>
+            <CircleUserRound className="h-6 w-6 cursor-pointer text-[#2d3435]/60 transition-colors hover:text-[#2d3435]" />
           </SignInButton>
         </Show>
         <Show when="signed-in">
