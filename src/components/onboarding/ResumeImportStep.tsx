@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { Upload } from 'lucide-react'
 import { extractResumeText } from '@/lib/extract-resume-text'
+import { getParseResumeErrorMessage } from '@/lib/onboarding'
 import { parsedResumeSchema } from '@/lib/schemas'
 import type { ParsedResume } from '@/lib/schemas'
 
@@ -46,13 +47,20 @@ export function ResumeImportStep({ onParsed }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
       })
-      if (!res.ok) throw new Error('Parse failed')
+      if (!res.ok) {
+        const payload = await res.json().catch(() => null)
+        throw new Error(getParseResumeErrorMessage(res.status, payload))
+      }
       const json = await res.json()
       const parsed = parsedResumeSchema.parse(json)
       onParsed(parsed)
-    } catch {
+    } catch (err) {
       setStep('error')
-      setErrorMsg('Something went wrong. Please try again.')
+      setErrorMsg(
+        err instanceof Error
+          ? err.message
+          : 'Something went wrong while parsing your resume. Please try again.'
+      )
     }
   }
 

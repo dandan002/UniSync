@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { saveProfile } from '@/lib/actions/profile'
 import { completeOnboarding } from '@/lib/actions/user'
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export function ParsedResumeReview({ data, onReset }: Props) {
-  const router = useRouter()
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -22,6 +20,10 @@ export function ParsedResumeReview({ data, onReset }: Props) {
   const summaryExcerpt = data.summary
     ? data.summary.slice(0, 120) + (data.summary.length > 120 ? '…' : '')
     : null
+
+  function finishOnboardingRedirect() {
+    window.location.assign('/dashboard/profile')
+  }
 
   async function handleImport() {
     setBusy(true)
@@ -39,7 +41,7 @@ export function ParsedResumeReview({ data, onReset }: Props) {
         education: data.education ?? [],
       })
       await completeOnboarding()
-      router.push('/dashboard/profile')
+      finishOnboardingRedirect()
     } catch {
       setError('Something went wrong. Please try again.')
       setBusy(false)
@@ -52,7 +54,7 @@ export function ParsedResumeReview({ data, onReset }: Props) {
     try {
       sessionStorage.setItem('pendingProfile', JSON.stringify(data))
       await completeOnboarding()
-      router.push('/dashboard/profile')
+      finishOnboardingRedirect()
     } catch {
       setError('Something went wrong. Please try again.')
       setBusy(false)

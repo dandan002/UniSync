@@ -51,3 +51,22 @@ export async function completeOnboarding() {
     publicMetadata: { onboarding_completed: true },
   })
 }
+
+export async function getOnboardingStatus() {
+  const { userId, sessionClaims } = await auth()
+  if (!userId) return false
+
+  const metadata = sessionClaims?.publicMetadata as Record<string, unknown> | undefined
+  const metadataCompleted = Boolean(metadata?.onboarding_completed)
+
+  const supabase = getSupabaseClient()
+  const { data: user, error } = await supabase
+    .from('users')
+    .select('onboarding_completed')
+    .eq('clerk_id', userId)
+    .single()
+
+  if (error || !user) return metadataCompleted
+
+  return Boolean(user.onboarding_completed || metadataCompleted)
+}
