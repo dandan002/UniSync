@@ -116,7 +116,20 @@ src/
 
 ## Active Next Phase
 
-The next logical slice after the current builder foundation is:
+Current planning should target **Phase 3: Profile Editor Enhancements** before returning to deeper resume-builder export work.
+
+The unfinished Phase 3 tracks are:
+
+1. AI rewrite tools inside the profile editing workflow
+2. Job-description matching against the saved profile
+3. Drag-and-drop reordering for experience and education
+4. Mobile-specific profile editor optimization
+
+Current Phase 3 planning target:
+
+- Build AI rewrite tools first, using the existing profile editor as the host surface and the UniSync Stitch visual system as UI guidance.
+
+Phase 4 follow-on work remains:
 
 1. Introduce LaTeX template output contracts
 2. Build PDF generation/export
