@@ -54,14 +54,19 @@ create table if not exists education (
   created_at timestamptz not null default now()
 );
 
--- Resumes table (shell — not written to in Phase 1)
+-- Resumes table
 create table if not exists resumes (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references users(id) on delete cascade,
   name text not null,
+  template_id text not null default 'modern-minimalist',
+  sections_config jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table resumes add column if not exists template_id text not null default 'modern-minimalist';
+alter table resumes add column if not exists sections_config jsonb not null default '[]'::jsonb;
 
 -- Enable RLS on all tables (defense in depth; primary guard is server-side filtering via service_role)
 alter table users enable row level security;

@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { parsedResumeSchema, profileFormSchema } from '../lib/schemas'
+import {
+  parsedResumeSchema,
+  profileFormSchema,
+  resumeSectionSchema,
+  resumeUpdateSchema,
+} from '../lib/schemas'
 
 describe('parsedResumeSchema', () => {
   it('accepts a fully-populated object', () => {
@@ -41,5 +46,46 @@ describe('profileFormSchema', () => {
 
   it('accepts a minimal valid profile (name only)', () => {
     expect(() => profileFormSchema.parse({ name: 'Jane' })).not.toThrow()
+  })
+})
+
+describe('resumeSectionSchema', () => {
+  it('accepts a valid section config row', () => {
+    expect(() =>
+      resumeSectionSchema.parse({
+        id: 'summary',
+        label: 'Summary',
+        enabled: true,
+        order: 0,
+      })
+    ).not.toThrow()
+  })
+})
+
+describe('resumeUpdateSchema', () => {
+  it('accepts a valid resume update payload', () => {
+    expect(() =>
+      resumeUpdateSchema.parse({
+        name: 'Product Resume',
+        template_id: 'modern-minimalist',
+        sections_config: [
+          { id: 'summary', label: 'Summary', enabled: true, order: 0 },
+          { id: 'experience', label: 'Experience', enabled: true, order: 1 },
+        ],
+      })
+    ).not.toThrow()
+  })
+
+  it('rejects duplicate section ids', () => {
+    expect(() =>
+      resumeUpdateSchema.parse({
+        name: 'Duplicate Resume',
+        template_id: 'modern-minimalist',
+        sections_config: [
+          { id: 'summary', label: 'Summary', enabled: true, order: 0 },
+          { id: 'summary', label: 'Summary', enabled: false, order: 1 },
+        ],
+      })
+    ).toThrow(/duplicate/i)
   })
 })

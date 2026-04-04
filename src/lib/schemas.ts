@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { ResumeSectionId } from './types'
 
 export const experienceSchema = z.object({
   company: z.string().default(''),
@@ -46,3 +47,45 @@ export const profileFormSchema = z.object({
 }).strip()
 
 export type ProfileFormData = z.infer<typeof profileFormSchema>
+
+const resumeSectionIds = [
+  'summary',
+  'experience',
+  'education',
+  'skills',
+  'interests',
+  'miscellaneous',
+] as const satisfies readonly ResumeSectionId[]
+
+const resumeTemplateIds = [
+  'modern-minimalist',
+  'executive-classic',
+  'academic-cv',
+] as const
+
+export const resumeSectionSchema = z.object({
+  id: z.enum(resumeSectionIds),
+  label: z.string().min(1),
+  enabled: z.boolean(),
+  order: z.number().int().nonnegative(),
+}).strip()
+
+export const resumeUpdateSchema = z.object({
+  name: z.string().trim().min(1, 'Resume name is required'),
+  template_id: z.enum(resumeTemplateIds),
+  sections_config: z.array(resumeSectionSchema).superRefine((sections, ctx) => {
+    const ids = new Set<string>()
+    for (const section of sections) {
+      if (ids.has(section.id)) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `Duplicate section id: ${section.id}`,
+        })
+      }
+      ids.add(section.id)
+    }
+  }),
+}).strip()
+
+export type ResumeSectionData = z.infer<typeof resumeSectionSchema>
+export type ResumeUpdateData = z.infer<typeof resumeUpdateSchema>

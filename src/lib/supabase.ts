@@ -1,10 +1,9 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let _client: SupabaseClient<any> | null = null
+let _client: SupabaseClient | null = null
 
 // Server-only. Never import in client components.
-export function getSupabaseClient(): SupabaseClient<any> {
+export function getSupabaseClient(): SupabaseClient {
   if (_client) return _client
   const url = process.env.SUPABASE_URL
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -20,7 +19,7 @@ export function getSupabaseClient(): SupabaseClient<any> {
     throw new Error(`Invalid SUPABASE_URL: ${url}`)
   }
   
-  _client = createClient<any>(url, key, {
+  _client = createClient(url, key, {
     auth: { persistSession: false }
   })
   return _client

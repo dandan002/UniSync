@@ -1,114 +1,153 @@
 # UniSync
 
-Resume builder that imports from LinkedIn, GitHub, and existing resumes — refines with AI — exports pixel-perfect LaTeX PDFs.
+Resume builder that imports from existing resumes today, with LinkedIn and GitHub import planned next, then AI refinement and LaTeX PDF export.
 
 ## Tech Stack
 
-### Frontend (Deployed on Vercel)
+### Frontend
 - **Framework**: Next.js 16 (App Router, TypeScript)
-- **UI**: React 19 + shadcn/ui (Radix primitives) + Tailwind CSS 4
-- **Fonts**: DM Serif Display (display) + Instrument Sans (body)
-- **Theme**: Dark-first, amber accent (`oklch(0.82 0.14 75)`)
+- **UI**: React 19 + Tailwind CSS 4 + selected shadcn/ui primitives
+- **Auth UI**: Clerk sign-in and sign-up routes
 
 ### Auth
-- **Clerk** (`@clerk/nextjs` v7) — social logins (Google, GitHub), JWT-based sessions
-- Sign-in: `/sign-in`, Sign-up: `/sign-up`
-- `onboarding_completed` stored in Supabase `users` table (authoritative) and Clerk `publicMetadata` (used by middleware)
+- **Clerk** (`@clerk/nextjs` v7)
+- Sign-in: `/sign-in`
+- Sign-up: `/sign-up`
+- `onboarding_completed` is stored in both Supabase `users` and Clerk `publicMetadata`
 
 ### Database
-- **Supabase** (Postgres) — user profiles, resume data, template metadata
-- Row-level security for multi-tenant isolation
-
-### Backend (AWS)
-- **AWS Lambda + API Gateway** — serverless API for resume processing
-- **AWS S3** — file storage (uploaded resumes, generated PDFs, profile images)
-- **AWS SQS** — job queue for async processing (PDF generation, data imports)
+- **Supabase** (Postgres)
+- Server-only Supabase access through the service-role key
+- Current tables in repo schema:
+  - `users`
+  - `profiles`
+  - `experiences`
+  - `education`
+  - `resumes`
 
 ### AI
-- **OpenRouter API** — LLM calls for resume bullet rewriting, profile extraction, job description matching
+- **OpenRouter API**
+- Currently used for resume parsing during onboarding import
 
-### PDF Generation
-- **LaTeX** — server-side compilation (Lambda or containerized) for typographically precise output
+### Planned Infrastructure
+- AWS Lambda / API Gateway / S3 / SQS for later processing and PDF generation phases
 
 ---
 
-## Project Structure
+## Current Project Structure
 
-```
+```text
 src/
-├── app/                  # Next.js App Router pages
-│   ├── page.tsx          # Landing page (done)
-│   ├── layout.tsx        # Root layout (done)
-│   ├── globals.css       # Theme + animations (done)
-│   ├── (auth)/           # Clerk sign-in/sign-up routes
-│   ├── dashboard/        # Main app after login
-│   └── api/              # Next.js API routes (BFF)
+├── app/
+│   ├── page.tsx                     # landing page
+│   ├── onboarding/                 # onboarding flow
+│   ├── dashboard/
+│   │   ├── profile/                # live profile editor
+│   │   ├── resumes/                # resume list
+│   │   └── resume/[id]/            # resume builder detail page
+│   └── api/parse-resume/           # OpenRouter parsing endpoint
 ├── components/
-│   ├── ui/               # shadcn components
-│   └── ...               # App-specific components
-└── lib/
-    └── utils.ts          # shadcn utilities
+│   ├── onboarding/                 # import/review onboarding components
+│   ├── profile/                    # profile form/editor components
+│   └── resume/                     # resume builder components
+├── lib/
+│   ├── actions/                    # server actions
+│   ├── schemas.ts                  # zod validation
+│   ├── resume.ts                   # resume config helpers/template catalog
+│   └── supabase.ts                 # server-only Supabase client
+└── __tests__/                      # vitest coverage for pure logic
 ```
 
 ---
 
-## Next Steps
+## Implemented Progress
 
-### Phase 1: Auth & Core Layout
-- [x] Install and configure Clerk authentication.
-- [x] Add Supabase client (`@supabase/supabase-js`) + create initial schema:
-  - `users` (id, clerk_id, email, name, created_at)
-  - `profiles` (id, user_id, headline, summary, skills[], location)
-  - `experiences` (id, profile_id, company, title, start_date, end_date, bullets[])
-  - `education` (id, profile_id, school, degree, field, start_date, end_date)
-  - `resumes` (id, user_id, name, template_id, sections_config, created_at, updated_at)
-  - `generated_pdfs` (id, resume_id, s3_key, created_at)
+### Phase 1: Auth, Onboarding, and Core Profile
+- [x] Clerk authentication is configured
+- [x] Middleware/dashboard gating uses Clerk auth plus onboarding metadata
+- [x] Supabase server client and base schema are in place
+- [x] User sync and onboarding completion actions are implemented
+- [x] Profile editor persists:
+  - basic info
+  - experience
+  - education
+  - skills
+  - interests
+  - miscellaneous
+- [x] Dashboard profile page loads and saves real profile data
 
-### Phase 2: Data Import Pipeline
-- [ ] LinkedIn import: OAuth flow → profile data extraction via API/scraping
-- [ ] GitHub import: OAuth flow → fetch repos, contributions, README data
-- [ ] Resume upload: PDF/DOCX upload to S3 → SQS trigger → Lambda parses via LLM
-- [ ] Unified profile merge: reconcile data from multiple sources into one profile
-- [ ] Build AWS infrastructure (Lambda functions, S3 buckets, SQS queues, API Gateway)
+### Phase 2: Resume Import Pipeline
+- [x] Resume upload path exists in onboarding
+- [x] PDF, DOCX, and TXT extraction are supported
+- [x] `/api/parse-resume` validates parsed AI output with Zod
+- [x] Parsed resumes can be:
+  - imported directly into the profile
+  - sent to the profile form for manual review first
+- [ ] LinkedIn import is not built yet
+- [ ] GitHub import is not built yet
+- [ ] Unified multi-source merge is not built yet
+- [ ] AWS-backed async import infrastructure is not built yet
 
-### Phase 3: Profile Editor
-- [ ] WYSIWYG profile editor with sections: summary, experience, education, skills, projects
-- [ ] Inline AI rewrite: select text → rewrite with LLM (OpenRouter)
-- [ ] Bullet point optimizer: quantify achievements, action verbs, conciseness scoring
-- [ ] Job description matcher: paste a JD → AI suggests tailored edits
-- [ ] Drag-and-drop section reordering
+### Phase 3: Profile Editor Enhancements
+- [x] Core profile editor is implemented
+- [ ] AI rewrite tools are not built yet
+- [ ] JD matching is not built yet
+- [ ] Drag-and-drop reordering is not built yet
+- [ ] Mobile-specific editor optimization is not built yet
 
-### Phase 4: Resume Builder & Templates
-- [ ] LaTeX template system: define templates as `.tex` files with variable slots
-- [ ] Template gallery with live previews
-- [ ] Resume builder: pick template → select which profile sections to include → configure order
-- [ ] Real-time PDF preview (compile LaTeX on server, stream result)
-- [ ] PDF generation pipeline: SQS → Lambda (runs `pdflatex`) → S3 → signed URL download
+### Phase 4: Resume Builder Foundation
+- [x] Resume list page is backed by Supabase instead of static mock data
+- [x] Resume creation is implemented
+- [x] Resume records now store:
+  - `name`
+  - `template_id`
+  - `sections_config`
+- [x] `/dashboard/resume/[id]` is now a real builder page
+- [x] Builder currently supports:
+  - renaming a resume
+  - selecting a template
+  - enabling/disabling sections
+  - reordering sections
+- [ ] Template preview rendering is not built yet
+- [ ] LaTeX output and PDF preview are not built yet
+- [ ] Resume-specific content overrides are not built yet
 
-### Phase 5: Polish & Launch
-- [ ] Version history for resumes
-- [ ] Export in multiple formats (PDF, DOCX, plain text)
-- [ ] Resume analytics (keyword density, ATS compatibility score)
-- [ ] Sharing: public resume links
-- [ ] Billing integration (if needed)
-- [ ] Performance optimization, error handling, loading states
-- [ ] Mobile responsiveness for editor
+---
+
+## Active Next Phase
+
+The next logical slice after the current builder foundation is:
+
+1. Add template-aware preview rendering
+2. Introduce LaTeX template output contracts
+3. Build PDF generation/export
+
+LinkedIn and GitHub import remain separate unfinished Phase 2 tracks.
 
 ---
 
 ## Dev Commands
 
 ```bash
-npm run dev     # Start dev server on :3000
-npm run build   # Production build
-npm run lint    # ESLint
+npm run dev
+npm run build
+npm run lint
+npm test
 ```
 
 ## Environment Variables
 
-See `.env.local` for Clerk credentials. Additional variables needed:
-- `SUPABASE_URL` / `SUPABASE_ANON_KEY` — Supabase project
-- `OPENROUTER_API_KEY` — LLM API access
-- `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` — AWS services
-- `AWS_S3_BUCKET` — resume file storage
-- `AWS_SQS_QUEUE_URL` — processing queue
+Required now:
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
+- `NEXT_PUBLIC_CLERK_SIGN_IN_URL`
+- `NEXT_PUBLIC_CLERK_SIGN_UP_URL`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `OPENROUTER_API_KEY`
+
+Needed later for AWS-backed phases:
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_S3_BUCKET`
+- `AWS_SQS_QUEUE_URL`
