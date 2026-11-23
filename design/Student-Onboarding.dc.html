@@ -12,45 +12,45 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;800&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
-a{color:#2F5BEA}a:hover{color:#1E40AF}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 26px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;text-decoration:none;border:1px solid #E4E2DD;background:#FFFFFF;color:#16161A;cursor:pointer;transition:border-color .2s,background .2s}
-.btn:hover{border-color:#C9C6BF;color:#16161A}
-.go{background:#2F5BEA;color:#FFFFFF;border-color:#2F5BEA}.go:hover{background:#2449C4;color:#FFFFFF}
-.next{width:60px;height:60px;border-radius:50%;border:0;background:#2F5BEA;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 14px 30px -12px rgba(47,91,234,.7);transition:background .2s}
-.next:hover{background:#2449C4}
-.icon{width:44px;height:44px;border-radius:50%;border:1px solid #ECEBE8;background:#FFFFFF;color:#16161A;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+a{color:#4A55A8}a:hover{color:#36408A}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 26px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s,background .2s}
+.btn:hover{border-color:#C3C7E0;color:#1E2140}
+.go{background:#D4DAFF;color:#1E2140;border-color:#D4DAFF}.go:hover{background:#B8C1FA;color:#1E2140}
+.next{width:60px;height:60px;border-radius:50%;border:0;background:#D4DAFF;color:#1E2140;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 14px 30px -12px rgba(124,136,220,.45);transition:background .2s}
+.next:hover{background:#B8C1FA}
+.icon{width:44px;height:44px;border-radius:50%;border:1px solid #E6E7F2;background:#FFFFFF;color:#1E2140;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
 .opt{width:100%;min-height:64px;border-radius:18px;padding:0 20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;text-align:left;cursor:pointer;align-items:center;justify-content:space-between;transition:border-color .2s,background .2s}
 .chip{height:48px;padding:0 20px;border-radius:14px;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:border-color .2s,background .2s}
-.big{width:100%;box-sizing:border-box;border:0;border-bottom:2px solid #16161A;padding:8px 0;font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;letter-spacing:-0.03em;color:#16161A;background:transparent;outline:none}
-.area{width:100%;box-sizing:border-box;min-height:130px;border:1px solid #E4E2DD;border-radius:18px;padding:18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:500;line-height:1.5;color:#16161A;resize:none;outline-color:#2F5BEA}
-.field{height:56px;border-radius:16px;border:1px solid #E4E2DD;padding:0 18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:500;color:#16161A;box-sizing:border-box}
+.big{width:100%;box-sizing:border-box;border:0;border-bottom:2px solid #1E2140;padding:8px 0;font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:800;letter-spacing:-0.03em;color:#1E2140;background:transparent;outline:none}
+.area{width:100%;box-sizing:border-box;min-height:130px;border:1px solid #DCDEEE;border-radius:18px;padding:18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:500;line-height:1.5;color:#1E2140;resize:none;outline-color:#4A55A8}
+.field{height:56px;border-radius:16px;border:1px solid #DCDEEE;padding:0 18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:500;color:#1E2140;box-sizing:border-box}
 .q{margin:0;font-size:clamp(32px,4vw,44px);font-weight:800;letter-spacing:-0.045em;line-height:1.05}
-.sk{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,#F0EFEC 0%,#F8F7F5 50%,#F0EFEC 100%);background-size:200% 100%;animation:shim 1.6s linear infinite}
+.sk{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,#ECEEF8 0%,#F7F8FD 50%,#ECEEF8 100%);background-size:200% 100%;animation:shim 1.6s linear infinite}
 .pop{animation:pop .55s cubic-bezier(.34,1.5,.5,1) both}
 .saved{animation:saved 1.6s ease both}
 .burst{transform-origin:50% 50%;animation:burst 1.2s cubic-bezier(.34,1.4,.5,1) both}
 @keyframes shim{to{background-position:-200% 0}}
-@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.96);background:#F5F7FE}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.96);background:#F2F4FF}to{opacity:1;transform:none}}
 @keyframes saved{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
 @keyframes burst{from{transform:scale(.3) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
 @media (max-width:1000px){.paper{display:none!important}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </helmet>
-<div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#16161A;min-height:100vh;display:flex;flex-direction:column">
+<div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh;display:flex;flex-direction:column">
 
 <header style="padding:20px 28px 0;display:flex;flex-direction:column;gap:16px">
 <div style="display:flex;align-items:center;gap:16px">
 <sc-if value="{{canBack}}" hint-placeholder-val="{{true}}"><button class="icon" aria-label="Back" onClick="{{back}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button></sc-if>
-<sc-if value="{{noBack}}" hint-placeholder-val="{{false}}"><a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#16161A;font-weight:800;letter-spacing:-0.04em;font-size:19px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#16161A"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>unisync</a></sc-if>
+<sc-if value="{{noBack}}" hint-placeholder-val="{{false}}"><a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1E2140;font-weight:800;letter-spacing:-0.04em;font-size:19px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a></sc-if>
 <div style="flex:1"></div>
-<sc-if value="{{showSaved}}" hint-placeholder-val="{{false}}"><span class="saved" role="status" style="font-size:14px;color:#1A7F45;font-weight:800">Saved</span></sc-if>
-<sc-if value="{{inFlow}}" hint-placeholder-val="{{true}}"><button onClick="{{exit}}" style="border:0;background:transparent;font-family:inherit;font-size:15px;font-weight:800;color:#5E5E66;cursor:pointer;height:44px">Save and exit</button></sc-if>
+<sc-if value="{{showSaved}}" hint-placeholder-val="{{false}}"><span class="saved" role="status" style="font-size:14px;color:#4A55A8;font-weight:800">Saved</span></sc-if>
+<sc-if value="{{inFlow}}" hint-placeholder-val="{{true}}"><button onClick="{{exit}}" style="border:0;background:transparent;font-family:inherit;font-size:15px;font-weight:800;color:#5E6280;cursor:pointer;height:44px">Save and exit</button></sc-if>
 </div>
 <sc-if value="{{inFlow}}" hint-placeholder-val="{{true}}">
 <div style="display:flex;align-items:center;gap:14px">
-<div role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="8" aria-valuenow="{{step}}" style="flex:1;height:6px;border-radius:3px;background:#F0EFEC;overflow:hidden"><span style="display:block;height:100%;border-radius:3px;background:#2F5BEA;transition:width .6s cubic-bezier(.34,1.2,.5,1);width:{{pct}}%"></span></div>
-<span style="font-size:14px;font-weight:800;color:#5E5E66;white-space:nowrap">{{step}} of 8</span>
+<div role="progressbar" aria-label="Progress" aria-valuemin="1" aria-valuemax="8" aria-valuenow="{{step}}" style="flex:1;height:6px;border-radius:3px;background:#ECEEF8;overflow:hidden"><span style="display:block;height:100%;border-radius:3px;background:#7C88DC;transition:width .6s cubic-bezier(.34,1.2,.5,1);width:{{pct}}%"></span></div>
+<span style="font-size:14px;font-weight:800;color:#5E6280;white-space:nowrap">{{step}} of 8</span>
 </div>
 </sc-if>
 </header>
@@ -62,7 +62,7 @@ a{color:#2F5BEA}a:hover{color:#1E40AF}
 <sc-if value="{{s0}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
 <h1 class="q" style="font-size:clamp(40px,5.4vw,58px)">Welcome back, Bea.</h1>
-<p style="margin:0;font-size:19px;color:#5E5E66;line-height:1.5">Saved on this phone. {{left}} questions left.</p>
+<p style="margin:0;font-size:19px;color:#5E6280;line-height:1.5">Saved on this phone. {{left}} questions left.</p>
 <div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:8px"><button class="btn go" data-press="1" onClick="{{resume}}">Continue</button><button class="btn" onClick="{{restart}}">Start over</button></div>
 </div>
 </sc-if>
@@ -78,7 +78,7 @@ a{color:#2F5BEA}a:hover{color:#1E40AF}
 <div data-s="1" style="display:flex;flex-direction:column;gap:22px">
 <h1 class="q">What should we call you?</h1>
 <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your full name</span><input class="big" type="text" value="Bea Santos" readonly></label>
-<span style="font-size:15px;color:#5E5E66">As it should appear on your resume.</span>
+<span style="font-size:15px;color:#5E6280">As it should appear on your resume.</span>
 </div>
 </sc-if>
 
@@ -88,7 +88,7 @@ a{color:#2F5BEA}a:hover{color:#1E40AF}
 <div role="radiogroup" aria-label="Language" style="display:flex;flex-direction:column;gap:10px">
 <sc-for list="{{langs}}" as="l" hint-placeholder-count="3"><button class="opt" role="radio" aria-checked="{{l.on}}" onClick="{{l.pick}}" style="display:flex;{{l.style}}">{{l.name}}<span style="width:24px;height:24px;border-radius:50%;box-sizing:border-box;{{l.dot}}"></span></button></sc-for>
 </div>
-<span style="font-size:15px;color:#5E5E66">Your resume stays in English.</span>
+<span style="font-size:15px;color:#5E6280">Your resume stays in English.</span>
 </div>
 </sc-if>
 
@@ -103,7 +103,7 @@ a{color:#2F5BEA}a:hover{color:#1E40AF}
 <sc-if value="{{s5}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:22px">
 <h1 class="q">What else have you done?</h1>
-<span style="font-size:16px;color:#5E5E66">Pick all that apply. Small stuff counts.</span>
+<span style="font-size:16px;color:#5E6280">Pick all that apply. Small stuff counts.</span>
 <div role="group" aria-label="Experience" style="display:flex;flex-wrap:wrap;gap:10px">
 <sc-for list="{{exps}}" as="e" hint-placeholder-count="7"><button class="chip" aria-pressed="{{e.on}}" onClick="{{e.pick}}" data-press="1" style="display:inline-flex;align-items:center;{{e.style}}">{{e.name}}</button></sc-for>
 </div>
@@ -133,54 +133,54 @@ a{color:#2F5BEA}a:hover{color:#1E40AF}
 <sc-if value="{{s8}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
 <h1 class="q">Save your resume.</h1>
-<p style="margin:0;font-size:18px;color:#5E5E66;line-height:1.5">So it's here when you come back, and so companies can reply.</p>
-<label style="display:flex;flex-direction:column;gap:8px;font-size:15px;font-weight:800">Mobile number<span style="display:flex;gap:8px"><span class="field" style="display:flex;align-items:center;background:#F6F5F2;flex:none">+63</span><input class="field" type="tel" placeholder="917 123 4567" style="flex:1;min-width:0"></span></label>
+<p style="margin:0;font-size:18px;color:#5E6280;line-height:1.5">So it's here when you come back, and so companies can reply.</p>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:15px;font-weight:800">Mobile number<span style="display:flex;gap:8px"><span class="field" style="display:flex;align-items:center;background:#F4F5FC;flex:none">+63</span><input class="field" type="tel" placeholder="917 123 4567" style="flex:1;min-width:0"></span></label>
 <button class="btn go" data-press="1" onClick="{{next}}">Text me a code</button>
-<div style="display:flex;align-items:center;gap:12px;color:#77767D;font-size:14px"><span style="flex:1;height:1px;background:#ECEBE8"></span>or<span style="flex:1;height:1px;background:#ECEBE8"></span></div>
+<div style="display:flex;align-items:center;gap:12px;color:#6E7290;font-size:14px"><span style="flex:1;height:1px;background:#E6E7F2"></span>or<span style="flex:1;height:1px;background:#E6E7F2"></span></div>
 <button class="btn" onClick="{{next}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Use my school email</button>
-<span style="font-size:14px;color:#5E5E66;text-align:center">We never share your number. Never charges students.</span>
+<span style="font-size:14px;color:#5E6280;text-align:center">We never share your number. Never charges students.</span>
 </div>
 </sc-if>
 
 <sc-if value="{{s9}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:22px;align-items:flex-start">
-<svg class="burst" width="88" height="88" viewBox="0 0 32 32" aria-hidden="true"><g fill="#2F5BEA"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>
+<svg class="burst" width="88" height="88" viewBox="0 0 32 32" aria-hidden="true"><g fill="#7C88DC"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>
 <h1 class="q" style="font-size:clamp(40px,5.4vw,58px)">You're ready, Bea.</h1>
-<p style="margin:0;font-size:19px;color:#5E5E66">6 internships fit you. Here's the best one.</p>
-<a href="Student-Jobs.dc.html" style="width:100%;box-sizing:border-box;display:flex;align-items:center;gap:16px;border:1px solid #ECEBE8;border-radius:20px;padding:18px;text-decoration:none;color:#16161A"><span style="width:52px;height:52px;border-radius:14px;background:#FFF4E0;display:flex;align-items:center;justify-content:center;flex:none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E07B00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-weight:800;font-size:17px">Data intern</span><span style="font-size:15px;color:#5E5E66">Kalye Logistics · Pasig · ₱6,000 a month</span></span><span aria-hidden="true" style="font-size:20px">→</span></a>
+<p style="margin:0;font-size:19px;color:#5E6280">6 internships fit you. Here's the best one.</p>
+<a href="Student-Jobs.dc.html" style="width:100%;box-sizing:border-box;display:flex;align-items:center;gap:16px;border:1px solid #E6E7F2;border-radius:20px;padding:18px;text-decoration:none;color:#1E2140"><span style="width:52px;height:52px;border-radius:14px;background:#F1EDFF;display:flex;align-items:center;justify-content:center;flex:none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-weight:800;font-size:17px">Data intern</span><span style="font-size:15px;color:#5E6280">Kalye Logistics · Pasig · ₱6,000 a month</span></span><span aria-hidden="true" style="font-size:20px">→</span></a>
 <a href="Student-Jobs.dc.html" class="btn go" data-press="1">See all jobs</a>
 </div>
 </sc-if>
 
 <sc-if value="{{showNext}}" hint-placeholder-val="{{true}}">
 <div style="display:flex;justify-content:flex-end;align-items:center;gap:16px;padding-top:4px">
-<sc-if value="{{canSkip}}" hint-placeholder-val="{{false}}"><button onClick="{{next}}" style="border:0;background:transparent;font-family:inherit;font-size:15px;font-weight:800;color:#5E5E66;cursor:pointer;height:44px">Skip</button></sc-if>
+<sc-if value="{{canSkip}}" hint-placeholder-val="{{false}}"><button onClick="{{next}}" style="border:0;background:transparent;font-family:inherit;font-size:15px;font-weight:800;color:#5E6280;cursor:pointer;height:44px">Skip</button></sc-if>
 <button class="next" data-press="1" onClick="{{next}}" aria-label="Next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </div>
 </sc-if>
 </main>
 
 <aside class="paper" aria-label="Your resume, live" style="flex:1 1 400px;min-width:0;max-width:480px;position:relative">
-<div aria-hidden="true" style="position:absolute;inset:24px -16px -16px 24px;border-radius:24px;background:#F6F5F2"></div>
-<div style="position:relative;background:#FFFFFF;border:1px solid #ECEBE8;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:18px;min-height:520px;box-sizing:border-box">
-<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:800;color:#2F5BEA">Your resume</span><span style="font-size:13px;color:#5E5E66">Writing as you answer</span></div>
+<div aria-hidden="true" style="position:absolute;inset:24px -16px -16px 24px;border-radius:24px;background:#F4F5FC"></div>
+<div style="position:relative;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:18px;min-height:520px;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:800;color:#4A55A8">Your resume</span><span style="font-size:13px;color:#5E6280">Writing as you answer</span></div>
 <sc-if value="{{r.name}}" hint-placeholder-val="{{true}}"><span class="pop" style="font-size:30px;font-weight:800;letter-spacing:-0.035em">Bea Santos</span></sc-if>
-<sc-if value="{{r.noName}}" hint-placeholder-val="{{false}}"><span style="font-size:30px;font-weight:800;letter-spacing:-0.035em;color:#C9C6BF">Your name</span></sc-if>
+<sc-if value="{{r.noName}}" hint-placeholder-val="{{false}}"><span style="font-size:30px;font-weight:800;letter-spacing:-0.035em;color:#C3C7E0">Your name</span></sc-if>
 <span style="font-size:16px;font-weight:500">BS Information Technology · Bayview State University</span>
-<span style="height:2px;background:#16161A"></span>
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Projects</span>
-<sc-if value="{{r.cap}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:3px;border-radius:8px"><span style="font-weight:800">Canteen inventory system</span><span style="font-size:14px;color:#5E5E66">Designed the database for a 4-person capstone team.</span></div></sc-if>
+<span style="height:2px;background:#1E2140"></span>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Projects</span>
+<sc-if value="{{r.cap}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:3px;border-radius:8px"><span style="font-weight:800">Canteen inventory system</span><span style="font-size:14px;color:#5E6280">Designed the database for a 4-person capstone team.</span></div></sc-if>
 <sc-if value="{{r.noCap}}" hint-placeholder-val="{{true}}"><span class="sk" style="width:70%"></span><span class="sk" style="width:90%"></span></sc-if>
 </div>
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Experience</span>
-<sc-if value="{{r.tres}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:3px;border-radius:8px"><span style="font-weight:800">Treasurer, IT Society</span><span style="font-size:14px;color:#5E5E66">Ran fees and monthly reports for 120 members.</span></div></sc-if>
-<sc-if value="{{r.fam}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:3px;border-radius:8px"><span style="font-weight:800">Family store</span><span style="font-size:14px;color:#5E5E66">Restocking, cash count and supplier orders.</span></div></sc-if>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Experience</span>
+<sc-if value="{{r.tres}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:3px;border-radius:8px"><span style="font-weight:800">Treasurer, IT Society</span><span style="font-size:14px;color:#5E6280">Ran fees and monthly reports for 120 members.</span></div></sc-if>
+<sc-if value="{{r.fam}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:3px;border-radius:8px"><span style="font-weight:800">Family store</span><span style="font-size:14px;color:#5E6280">Restocking, cash count and supplier orders.</span></div></sc-if>
 <sc-if value="{{r.noExp}}" hint-placeholder-val="{{true}}"><span class="sk" style="width:60%"></span><span class="sk" style="width:84%"></span></sc-if>
 </div>
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Skills</span>
-<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{r.skills}}" as="k" hint-placeholder-count="3"><span class="pop" style="height:28px;padding:0 12px;border-radius:8px;background:#F5F7FE;color:#2F5BEA;font-size:13px;font-weight:800;display:inline-flex;align-items:center">{{k}}</span></sc-for></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Skills</span>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{r.skills}}" as="k" hint-placeholder-count="3"><span class="pop" style="height:28px;padding:0 12px;border-radius:8px;background:#F2F4FF;color:#4A55A8;font-size:13px;font-weight:800;display:inline-flex;align-items:center">{{k}}</span></sc-for></div>
 </div>
-<sc-if value="{{r.looking}}" hint-placeholder-val="{{false}}"><div class="pop" style="margin-top:auto;padding:14px 16px;border-radius:14px;background:#F6F5F2;font-size:14px;line-height:1.5"><span style="font-weight:800">Looking for:</span> {{r.lookLine}}</div></sc-if>
+<sc-if value="{{r.looking}}" hint-placeholder-val="{{false}}"><div class="pop" style="margin-top:auto;padding:14px 16px;border-radius:14px;background:#F4F5FC;font-size:14px;line-height:1.5"><span style="font-weight:800">Looking for:</span> {{r.lookLine}}</div></sc-if>
 </div>
 </aside>
 </div>
@@ -215,8 +215,8 @@ class Component extends DCLogic {
   toggle(key, v) { const a = this.state[key]; this.setState({ [key]: a.indexOf(v) > -1 ? a.filter((x) => x !== v) : a.concat([v]) }); }
   renderVals() {
     const s = this.state, n = s.step;
-    const on = 'background:#EEF2FE;border:2px solid #2F5BEA;color:#16161A';
-    const off = 'background:#FFFFFF;border:1px solid #E4E2DD;color:#16161A';
+    const on = 'background:#E8EBFF;border:2px solid #9AA5EE;color:#1E2140';
+    const off = 'background:#FFFFFF;border:1px solid #DCDEEE;color:#1E2140';
     const flags = {};
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((i) => { flags['s' + i] = n === i; });
     const answered = n === 0 ? s.last - 1 : n - 1;
@@ -234,7 +234,7 @@ class Component extends DCLogic {
       next: () => this.go(Math.min(n + 1, 9), 1), back: () => this.go(Math.max(n - 1, 1), -1),
       exit: () => this.go(0, -1), resume: () => this.go(s.last, 1), restart: () => this.go(1, 1),
       langs: ['English', 'Filipino', 'Taglish'].map((l) => ({ name: l, on: s.lang === l, pick: () => this.setState({ lang: l }),
-        style: s.lang === l ? on : off, dot: s.lang === l ? 'border:7px solid #2F5BEA' : 'border:2px solid #C9C6BF' })),
+        style: s.lang === l ? on : off, dot: s.lang === l ? 'border:7px solid #9AA5EE' : 'border:2px solid #C3C7E0' })),
       exps: ['Org officer', 'Part-time job', 'Family business', 'Freelance', 'Volunteer', 'Varsity', 'None yet'].map((e) => {
         const isOn = s.exps.indexOf(e) > -1; return { name: e, on: isOn, pick: () => this.toggle('exps', e), style: isOn ? on : off }; }),
       places: ['Pasig', 'Makati', 'Taguig', 'Calamba', 'Santa Rosa', 'Remote'].map((p) => {
