@@ -43,11 +43,11 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <main style="flex:999 1 680px;min-width:0;padding:40px 40px 48px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
-<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:500;color:#5E6280">18 applicants from 5 schools · 3 spots</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:400;letter-spacing:-0.03em">Data intern</h1></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:500;color:#5E6280">18 applicants from five schools, three openings</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:400;letter-spacing:-0.03em">Data intern</h1></div>
 <div style="display:flex;gap:8px"><button class="btn" data-press="1">Edit job</button><button class="btn btn-p" data-press="1">Post a job</button></div>
 </div>
 
-<div data-in="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:16px 20px;border-radius:12px;background:#F1EDFF"><span style="flex:1;font-size:16px;font-weight:500">Your 4 interns logged hours this week.</span><a href="#interns" class="btn" style="height:40px">Approve hours</a></div>
+<div data-in="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:16px 20px;border-radius:12px;background:#F1EDFF"><span style="flex:1;font-size:16px;font-weight:500">Four interns logged hours this week.</span><a href="#interns" class="btn" style="height:40px">Approve hours</a></div>
 
 <div data-in="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;align-items:start">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
@@ -76,16 +76,16 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <span style="width:64px;height:64px;border-radius:50%;background:{{d.avBg}};color:{{d.avFg}};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">{{d.ini}}</span>
 <button onClick="{{close}}" aria-label="Close" style="width:44px;height:44px;border-radius:50%;border:1px solid #E6E7F2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E2140" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 </div>
-<div style="display:flex;flex-direction:column;gap:4px"><h2 id="dr-h" style="margin:0;font-size:32px;font-weight:400;letter-spacing:-0.03em">{{d.name}}</h2><span style="font-size:16px;color:#5E6280">{{d.school}} · confirmed by school</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><h2 id="dr-h" style="margin:0;font-size:32px;font-weight:400;letter-spacing:-0.03em">{{d.name}}</h2><span style="font-size:16px;color:#5E6280">{{d.school}} · verified by school</span></div>
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:20px;border-radius:12px;background:#F4F5FC">
 <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Available</span><span style="font-weight:500">{{d.avail}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Lives in</span><span style="font-weight:500">{{d.city}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Hours needed</span><span style="font-weight:500">{{d.hours}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">School MOA</span><span style="font-weight:500">{{d.moa}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Location</span><span style="font-weight:500">{{d.city}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Required hours</span><span style="font-weight:500">{{d.hours}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">School partner</span><span style="font-weight:500">{{d.moa}}</span></div>
 </div>
-<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">Why Sync suggested them</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.why}}</p></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">Why Sync recommends them</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.why}}</p></section>
 <section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">Experience</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.exp}}" as="x" hint-placeholder-count="2"><li>{{x}}</li></sc-for></ul></section>
-<span style="font-size:14px;color:#5E6280">Sync suggests. You decide. Age, gender and photos are never used.</span>
+<span style="font-size:14px;color:#5E6280">Recommendations exclude age, gender and photos. You make the final decision.</span>
 </div>
 <div style="padding:16px 32px;border-top:1px solid #E6E7F2;display:flex;gap:8px"><button class="btn btn-p" style="flex:1;height:48px">Invite to interview</button><button class="btn" style="height:48px">Message</button></div>
 </aside>
@@ -99,12 +99,12 @@ class Component extends DCLogic {
     this.root = null;
     this.av = [['#E8EBFF', '#4A55A8'], ['#E8EBFF', '#4A55A8'], ['#F1EDFF', '#6A5DC2'], ['#F1EDFF', '#6A5DC2'], ['#EEF0FA', '#4A55A8'], ['#F1EDFF', '#6A5DC2']];
     this.cands = {
-      bea: { i: 0, rank: 1, name: 'Bea Santos', school: 'Bayview State · BSIT', city: 'Laguna', avail: 'Apr–Jul', hours: '486', moa: 'Yes', line: 'Built the database for a canteen inventory capstone.', why: 'She designed a real SQL database for her capstone and ran finance reports for a 120-member org. Her dates and commute fit this role.', exp: ['Capstone: canteen inventory system (database lead)', 'Treasurer, IT Society, 120 members', 'Family store: stock and cash'] },
-      ana: { i: 1, rank: 2, name: 'Ana Castillo', school: 'Laguna Tech · BSCS', city: 'Santa Rosa', avail: 'Apr–Jul', hours: '600', moa: 'Yes', line: 'Thesis on delivery route data.', why: 'Her thesis analyzed delivery routes, close to what your ops team does every day.', exp: ['Thesis: delivery route analysis in Python', 'Dean’s lister, 3 semesters'] },
-      leo: { i: 2, rank: 3, name: 'Leo Bautista', school: 'Rizal Polytechnic · BSIE', city: 'Pasig', avail: 'May–Jul', hours: '486', moa: 'No', line: 'Ran stock counts for a hardware store.', why: 'Strong on operations and lives 15 minutes away. Starts in May.', exp: ['Hardware store: weekly stock counts', 'Excel for inventory reports'] },
-      paolo: { i: 3, name: 'Paolo Dizon', school: 'Bayview State · BSIT', city: 'Cainta', avail: 'Apr–Jul', hours: '486', moa: 'Yes', line: 'Made a Power BI dashboard for the city tourism office.', why: 'He has already built a dashboard people used, which is most of this job.', exp: ['Power BI dashboard, city tourism office', 'Python and SQL coursework'] },
-      kim: { i: 4, name: 'Kim Navarro', school: 'Bayview State · BSIS', city: 'Marikina', avail: 'Apr–Jul', hours: '486', moa: 'Yes', line: 'Interviewed Mar 4. Strong on SQL.', why: 'Did well in the first interview and knows SQL joins well.', exp: ['Tableau class project', 'Part-time encoder'] },
-      ella: { i: 5, name: 'Ella Ramos', school: 'Laguna Tech · BSIT', city: 'Biñan', avail: 'Apr–Jul', hours: '600', moa: 'Yes', line: 'Offer sent Mar 6.', why: 'Strong interview and the earliest start date.', exp: ['Data mining elective, top of class'] }
+      bea: { i: 0, rank: 1, name: 'Bea Santos', school: 'Bayview State · BSIT', city: 'Laguna', avail: 'April to July', hours: '486', moa: 'Yes', line: 'Built the database for a canteen inventory capstone.', why: 'Designed a SQL database for her capstone and managed finances for a 120-member organization. Her dates and commute fit.', exp: ['Capstone: canteen inventory system (database lead)', 'Treasurer, IT Society (120 members)', 'Family store: stock and cash'] },
+      ana: { i: 1, rank: 2, name: 'Ana Castillo', school: 'Laguna Tech · BSCS', city: 'Santa Rosa', avail: 'April to July', hours: '600', moa: 'Yes', line: 'Thesis on delivery route data.', why: 'Her thesis analyzed delivery routes, similar to your operations work.', exp: ['Thesis: delivery route analysis in Python', 'Dean’s list, three semesters'] },
+      leo: { i: 2, rank: 3, name: 'Leo Bautista', school: 'Rizal Polytechnic · BSIE', city: 'Pasig', avail: 'May to July', hours: '486', moa: 'No', line: 'Ran stock counts for a hardware store.', why: 'Operations experience and lives 15 minutes away. Available in May.', exp: ['Hardware store: weekly inventory counts', 'Excel for inventory reports'] },
+      paolo: { i: 3, name: 'Paolo Dizon', school: 'Bayview State · BSIT', city: 'Cainta', avail: 'April to July', hours: '486', moa: 'Yes', line: 'Made a Power BI dashboard for the city tourism office.', why: 'Built a dashboard used by the city tourism office.', exp: ['Power BI dashboard, city tourism office', 'Python and SQL coursework'] },
+      kim: { i: 4, name: 'Kim Navarro', school: 'Bayview State · BSIS', city: 'Marikina', avail: 'April to July', hours: '486', moa: 'Yes', line: 'Interviewed March 4. Strong SQL skills.', why: 'Strong first interview and solid SQL skills.', exp: ['Tableau class project', 'Part-time encoder'] },
+      ella: { i: 5, name: 'Ella Ramos', school: 'Laguna Tech · BSIT', city: 'Biñan', avail: 'April to July', hours: '600', moa: 'Yes', line: 'Offer sent March 6.', why: 'Strong interview and the earliest start date.', exp: ['Data mining elective, top of class'] }
     };
     this.state = { stage: { bea: 0, ana: 0, leo: 0, paolo: 1, kim: 2, ella: 3 }, open: '' };
   }

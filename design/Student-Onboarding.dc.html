@@ -76,19 +76,19 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <sc-if value="{{s2}}" hint-placeholder-val="{{true}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
-<h1 class="q">What should we call you?</h1>
+<h1 class="q">What's your full name?</h1>
 <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your full name</span><input class="big" type="text" value="Bea Santos" readonly></label>
-<span style="font-size:15px;color:#5E6280">As it should appear on your resume.</span>
+<span style="font-size:15px;color:#5E6280">This goes on your resume.</span>
 </div>
 </sc-if>
 
 <sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
-<h1 class="q">Which language feels easiest?</h1>
+<h1 class="q">Which language do you prefer?</h1>
 <div role="radiogroup" aria-label="Language" style="display:flex;flex-direction:column;gap:8px">
 <sc-for list="{{langs}}" as="l" hint-placeholder-count="3"><button class="opt" role="radio" aria-checked="{{l.on}}" onClick="{{l.pick}}" style="display:flex;{{l.style}}">{{l.name}}<span style="width:24px;height:24px;border-radius:50%;box-sizing:border-box;{{l.dot}}"></span></button></sc-for>
 </div>
-<span style="font-size:15px;color:#5E6280">Your resume stays in English.</span>
+<span style="font-size:15px;color:#5E6280">Your resume will be in English.</span>
 </div>
 </sc-if>
 
@@ -96,14 +96,14 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
 <h1 class="q">What did you build for your capstone?</h1>
 <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Capstone</span><textarea class="area" readonly>Inventory system para sa school canteen. Ako yung gumawa ng database, 4 kami sa team.</textarea></label>
-<button class="btn" style="align-self:flex-start;height:46px;font-size:15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>Answer by voice</button>
+<button class="btn" style="align-self:flex-start;height:46px;font-size:15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>Record a voice note</button>
 </div>
 </sc-if>
 
 <sc-if value="{{s5}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
 <h1 class="q">What else have you done?</h1>
-<span style="font-size:16px;color:#5E6280">Pick all that apply. Small stuff counts.</span>
+<span style="font-size:16px;color:#5E6280">Select all that apply.</span>
 <div role="group" aria-label="Experience" style="display:flex;flex-wrap:wrap;gap:8px">
 <sc-for list="{{exps}}" as="e" hint-placeholder-count="7"><button class="chip" aria-pressed="{{e.on}}" onClick="{{e.pick}}" data-press="1" style="display:inline-flex;align-items:center;{{e.style}}">{{e.name}}</button></sc-for>
 </div>
@@ -112,7 +112,7 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <sc-if value="{{s6}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
-<h1 class="q">Tell me about being treasurer.</h1>
+<h1 class="q">What did you do as treasurer?</h1>
 <label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">About being treasurer</span><textarea class="area" readonly>Nag-collect ako ng fees from mga 120 members, tapos monthly report sa Google Sheets.</textarea></label>
 </div>
 </sc-if>
@@ -123,7 +123,7 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div role="group" aria-label="Places" style="display:flex;flex-wrap:wrap;gap:8px">
 <sc-for list="{{places}}" as="p" hint-placeholder-count="6"><button class="chip" aria-pressed="{{p.on}}" onClick="{{p.pick}}" data-press="1" style="display:inline-flex;align-items:center;{{p.style}}">{{p.name}}</button></sc-for>
 </div>
-<span style="font-size:16px;font-weight:600;padding-top:4px">Allowance you need</span>
+<span style="font-size:16px;font-weight:600;padding-top:4px">Minimum allowance</span>
 <div role="radiogroup" aria-label="Allowance" style="display:flex;flex-wrap:wrap;gap:8px">
 <sc-for list="{{pays}}" as="p" hint-placeholder-count="3"><button class="chip" role="radio" aria-checked="{{p.on}}" onClick="{{p.pick}}" style="display:inline-flex;align-items:center;{{p.style}}">{{p.name}}</button></sc-for>
 </div>
@@ -133,12 +133,12 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <sc-if value="{{s8}}" hint-placeholder-val="{{false}}">
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px">
 <h1 class="q">Save your resume.</h1>
-<p style="margin:0;font-size:18px;color:#5E6280;line-height:1.5">So it's here when you come back, and so companies can reply.</p>
+<p style="margin:0;font-size:18px;color:#5E6280;line-height:1.5">Add your number so you can come back and companies can reach you.</p>
 <label style="display:flex;flex-direction:column;gap:8px;font-size:15px;font-weight:600">Mobile number<span style="display:flex;gap:8px"><span class="field" style="display:flex;align-items:center;background:#F4F5FC;flex:none">+63</span><input class="field" type="tel" placeholder="917 123 4567" style="flex:1;min-width:0"></span></label>
 <button class="btn go" data-press="1" onClick="{{next}}">Text me a code</button>
 <div style="display:flex;align-items:center;gap:12px;color:#6E7290;font-size:14px"><span style="flex:1;height:1px;background:#E6E7F2"></span>or<span style="flex:1;height:1px;background:#E6E7F2"></span></div>
 <button class="btn" onClick="{{next}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Use my school email</button>
-<span style="font-size:14px;color:#5E6280;text-align:center">We never share your number. Never charges students.</span>
+<span style="font-size:14px;color:#5E6280;text-align:center">We don't share your number.</span>
 </div>
 </sc-if>
 
@@ -146,9 +146,9 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div data-s="1" style="display:flex;flex-direction:column;gap:20px;align-items:flex-start">
 <svg class="burst" width="88" height="88" viewBox="0 0 32 32" aria-hidden="true"><g fill="#7C88DC"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>
 <h1 class="q" style="font-size:clamp(40px,5.4vw,58px)">You're ready, Bea.</h1>
-<p style="margin:0;font-size:18px;color:#5E6280">6 internships fit you. Here's the best one.</p>
+<p style="margin:0;font-size:18px;color:#5E6280">Six internships match your resume. Here's the closest match.</p>
 <a href="Student-Jobs.dc.html" style="width:100%;box-sizing:border-box;display:flex;align-items:center;gap:16px;border:1px solid #E6E7F2;border-radius:12px;padding:16px;text-decoration:none;color:#1E2140"><span style="width:52px;height:52px;border-radius:10px;background:#F1EDFF;display:flex;align-items:center;justify-content:center;flex:none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:16px">Data intern</span><span style="font-size:15px;color:#5E6280">Kalye Logistics · Pasig · ₱6,000 a month</span></span><span aria-hidden="true" style="font-size:20px">→</span></a>
-<a href="Student-Jobs.dc.html" class="btn go" data-press="1">See all jobs</a>
+<a href="Student-Jobs.dc.html" class="btn go" data-press="1">View all internships</a>
 </div>
 </sc-if>
 
@@ -163,24 +163,24 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <aside class="paper" aria-label="Your resume, live" style="flex:1 1 400px;min-width:0;max-width:480px;position:relative">
 <div aria-hidden="true" style="position:absolute;inset:24px -16px -16px 24px;border-radius:12px;background:#F4F5FC"></div>
 <div style="position:relative;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:12px;padding:40px;display:flex;flex-direction:column;gap:16px;min-height:520px;box-sizing:border-box">
-<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:600;color:#4A55A8">Your resume</span><span style="font-size:13px;color:#5E6280">Writing as you answer</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:600;color:#4A55A8">Your resume</span><span style="font-size:13px;color:#5E6280">Updates as you answer</span></div>
 <sc-if value="{{r.name}}" hint-placeholder-val="{{true}}"><span class="pop" style="font-size:30px;font-weight:400;letter-spacing:-0.03em">Bea Santos</span></sc-if>
 <sc-if value="{{r.noName}}" hint-placeholder-val="{{false}}"><span style="font-size:30px;font-weight:400;letter-spacing:-0.03em;color:#C3C7E0">Your name</span></sc-if>
 <span style="font-size:16px;font-weight:500">BS Information Technology · Bayview State University</span>
 <span style="height:2px;background:#1E2140"></span>
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Projects</span>
-<sc-if value="{{r.cap}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:2px;border-radius:8px"><span style="font-weight:600">Canteen inventory system</span><span style="font-size:14px;color:#5E6280">Designed the database for a 4-person capstone team.</span></div></sc-if>
+<sc-if value="{{r.cap}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:2px;border-radius:8px"><span style="font-weight:600">Canteen inventory system</span><span style="font-size:14px;color:#5E6280">Designed the database for a four-person capstone team.</span></div></sc-if>
 <sc-if value="{{r.noCap}}" hint-placeholder-val="{{true}}"><span class="sk" style="width:70%"></span><span class="sk" style="width:90%"></span></sc-if>
 </div>
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Experience</span>
-<sc-if value="{{r.tres}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:2px;border-radius:8px"><span style="font-weight:600">Treasurer, IT Society</span><span style="font-size:14px;color:#5E6280">Ran fees and monthly reports for 120 members.</span></div></sc-if>
-<sc-if value="{{r.fam}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:2px;border-radius:8px"><span style="font-weight:600">Family store</span><span style="font-size:14px;color:#5E6280">Restocking, cash count and supplier orders.</span></div></sc-if>
+<sc-if value="{{r.tres}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:2px;border-radius:8px"><span style="font-weight:600">Treasurer, IT Society</span><span style="font-size:14px;color:#5E6280">Collected dues and wrote monthly reports for 120 members.</span></div></sc-if>
+<sc-if value="{{r.fam}}" hint-placeholder-val="{{false}}"><div class="pop" style="display:flex;flex-direction:column;gap:2px;border-radius:8px"><span style="font-weight:600">Family store</span><span style="font-size:14px;color:#5E6280">Handles restocking, cash counts and supplier orders.</span></div></sc-if>
 <sc-if value="{{r.noExp}}" hint-placeholder-val="{{true}}"><span class="sk" style="width:60%"></span><span class="sk" style="width:84%"></span></sc-if>
 </div>
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Skills</span>
 <div style="display:flex;flex-wrap:wrap;gap:4px"><sc-for list="{{r.skills}}" as="k" hint-placeholder-count="3"><span class="pop" style="height:28px;padding:0 12px;border-radius:8px;background:#F2F4FF;color:#4A55A8;font-size:13px;font-weight:600;display:inline-flex;align-items:center">{{k}}</span></sc-for></div>
 </div>
-<sc-if value="{{r.looking}}" hint-placeholder-val="{{false}}"><div class="pop" style="margin-top:auto;padding:12px 16px;border-radius:10px;background:#F4F5FC;font-size:14px;line-height:1.5"><span style="font-weight:600">Looking for:</span> {{r.lookLine}}</div></sc-if>
+<sc-if value="{{r.looking}}" hint-placeholder-val="{{false}}"><div class="pop" style="margin-top:auto;padding:12px 16px;border-radius:10px;background:#F4F5FC;font-size:14px;line-height:1.5"><span style="font-weight:600">Preferences:</span> {{r.lookLine}}</div></sc-if>
 </div>
 </aside>
 </div>
@@ -191,7 +191,7 @@ class Component extends DCLogic {
   constructor(p) {
     super(p);
     this.root = null; this.stage = null; this.dir = 1;
-    this.state = { step: 2, last: 2, lang: 'Taglish', exps: ['Org officer', 'Family business'], places: ['Pasig', 'Calamba', 'Remote'], pay: '₱3k+', saved: false };
+    this.state = { step: 2, last: 2, lang: 'Taglish', exps: ['Club officer', 'Family business'], places: ['Pasig', 'Calamba', 'Remote'], pay: '₱3,000+', saved: false };
   }
   componentDidMount() { this.enter(); }
   componentDidUpdate(pp, ps) { if (ps.step !== this.state.step) this.enter(); }
@@ -228,24 +228,24 @@ class Component extends DCLogic {
     return {
       rootRef: (el) => { this.root = el; }, stageRef: (el) => { this.stage = el; },
       ...flags,
-      step: n, pct: Math.round(n / 8 * 100), inFlow, left: 8 - s.last + 1,
+      step: n, pct: Math.round(n / 8 * 100), inFlow, left: ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight'].at(8 - s.last + 1),
       canBack: n > 1 && n <= 8, noBack: !(n > 1 && n <= 8), showNext: n >= 1 && n <= 7, canSkip: n === 4 || n === 6,
       showSaved: s.saved && inFlow,
       next: () => this.go(Math.min(n + 1, 9), 1), back: () => this.go(Math.max(n - 1, 1), -1),
       exit: () => this.go(0, -1), resume: () => this.go(s.last, 1), restart: () => this.go(1, 1),
       langs: ['English', 'Filipino', 'Taglish'].map((l) => ({ name: l, on: s.lang === l, pick: () => this.setState({ lang: l }),
         style: s.lang === l ? on : off, dot: s.lang === l ? 'border:7px solid #9AA5EE' : 'border:2px solid #C3C7E0' })),
-      exps: ['Org officer', 'Part-time job', 'Family business', 'Freelance', 'Volunteer', 'Varsity', 'None yet'].map((e) => {
+      exps: ['Club officer', 'Part-time job', 'Family business', 'Freelance', 'Volunteer', 'Varsity athlete', 'None yet'].map((e) => {
         const isOn = s.exps.indexOf(e) > -1; return { name: e, on: isOn, pick: () => this.toggle('exps', e), style: isOn ? on : off }; }),
       places: ['Pasig', 'Makati', 'Taguig', 'Calamba', 'Santa Rosa', 'Remote'].map((p) => {
         const isOn = s.places.indexOf(p) > -1; return { name: p, on: isOn, pick: () => this.toggle('places', p), style: isOn ? on : off }; }),
-      pays: ['Any', '₱3k+', '₱5k+'].map((p) => ({ name: p, on: s.pay === p, pick: () => this.setState({ pay: p }), style: s.pay === p ? on : off })),
+      pays: ['Any', '₱3,000+', '₱5,000+'].map((p) => ({ name: p, on: s.pay === p, pick: () => this.setState({ pay: p }), style: s.pay === p ? on : off })),
       r: {
         name: answered >= 2, noName: answered < 2,
         cap: answered >= 4, noCap: answered < 4,
         tres: answered >= 6, fam: answered >= 5 && s.exps.indexOf('Family business') > -1,
         noExp: !(answered >= 6) && !(answered >= 5 && s.exps.indexOf('Family business') > -1),
-        skills, looking: answered >= 7, lookLine: s.places.join(', ') + ' · ' + s.pay + ' allowance'
+        skills, looking: answered >= 7, lookLine: s.places.join(', ') + ' · ' + s.pay + ' allowance minimum'
       }
     };
   }

@@ -56,7 +56,7 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 <sc-if value="{{isPeople}}" hint-placeholder-val="{{true}}">
 <section class="in" aria-label="People list" style="border:1px solid #E6E7F2;border-radius:12px;overflow-x:auto">
 <table style="width:100%;border-collapse:collapse;min-width:820px">
-<thead><tr><th>Name</th><th>Role</th><th>Handles</th><th>Status</th><th>Last seen</th><th><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th></tr></thead>
+<thead><tr><th>Name</th><th>Role</th><th>Scope</th><th>Status</th><th>Last seen</th><th><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th></tr></thead>
 <tbody>
 <sc-for list="{{people}}" as="p" hint-placeholder-count="6">
 <tr>
@@ -90,7 +90,7 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 <div style="border:1px solid {{c.border}};border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px;transition:border-color .4s,background .4s;background:{{c.bg}}">
 <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:18px;font-weight:600">{{c.name}}</span><span style="font-size:14px;font-weight:500;color:{{c.stateColor}}">{{c.state}}</span></div>
 <div style="display:flex;flex-direction:column;gap:8px;font-size:15px"><sc-for list="{{c.checks}}" as="k" hint-placeholder-count="3"><span style="display:flex;justify-content:space-between"><span style="color:#5E6280">{{k.n}}</span><span style="font-weight:500;color:{{k.color}}">{{k.v}}</span></span></sc-for></div>
-<sc-if value="{{c.pending}}" hint-placeholder-val="{{true}}"><div style="display:flex;gap:8px"><button class="btn btn-p" onClick="{{c.approve}}">Approve</button><button class="btn">Ask for more</button></div></sc-if>
+<sc-if value="{{c.pending}}" hint-placeholder-val="{{true}}"><div style="display:flex;gap:8px"><button class="btn btn-p" onClick="{{c.approve}}">Approve</button><button class="btn">Request details</button></div></sc-if>
 </div>
 </sc-for>
 </section>
@@ -111,7 +111,7 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 <h2 id="inv-h" style="margin:0;font-size:24px;font-weight:400;letter-spacing:-0.03em">Invite people</h2>
 <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500">Emails<input type="text" placeholder="name@bsu.edu.ph" style="height:48px;border-radius:10px;border:1px solid #DCDEEE;padding:0 16px;font:inherit;font-size:15px;font-weight:500"></label>
 <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500">Role<select style="height:48px;border-radius:10px"><option>Coordinator</option><option>Supervisor</option><option>Admin</option></select></label>
-<div style="display:flex;justify-content:flex-end;gap:8px;padding-top:4px"><button class="btn" onClick="{{closeInvite}}">Cancel</button><button class="btn btn-p" onClick="{{closeInvite}}">Send</button></div>
+<div style="display:flex;justify-content:flex-end;gap:8px;padding-top:4px"><button class="btn" onClick="{{closeInvite}}">Cancel</button><button class="btn btn-p" onClick="{{closeInvite}}">Send invites</button></div>
 </div>
 </sc-if>
 </div>
@@ -124,11 +124,11 @@ class Component extends DCLogic {
     this.state = { tab: 0, invite: false, approved: [], ul: [70, 0],
       people: [
         { name: 'Maria Reyes', email: 'mreyes@bsu.edu.ph', role: 'Coordinator', scope: 'BSIT, BSCS', status: 'Active', last: 'Now' },
-        { name: 'Ramon Cruz', email: 'rcruz@bsu.edu.ph', role: 'Admin', scope: 'All programs', status: 'Active', last: '2 hours ago' },
+        { name: 'Ramon Cruz', email: 'rcruz@bsu.edu.ph', role: 'Admin', scope: 'All programs', status: 'Active', last: 'Two hours ago' },
         { name: 'Liza Ocampo', email: 'liza@kalyelogistics.ph', role: 'Supervisor', scope: 'Kalye Logistics', status: 'Active', last: 'Yesterday' },
         { name: 'Jun Mercado', email: 'jmercado@bsu.edu.ph', role: 'Coordinator', scope: 'BSBA', status: 'Invited', last: '—' },
-        { name: 'Bea Santos', email: 'bsantos@bsu.edu.ph', role: 'Student', scope: 'BSIT 4', status: 'Active', last: '2 hours ago' },
-        { name: 'Ryan Go', email: 'ryan@mabuhayfoods.ph', role: 'Supervisor', scope: 'Mabuhay Foods', status: 'Paused', last: 'A month ago' }
+        { name: 'Bea Santos', email: 'bsantos@bsu.edu.ph', role: 'Student', scope: 'BSIT 4', status: 'Active', last: 'Two hours ago' },
+        { name: 'Ryan Go', email: 'ryan@mabuhayfoods.ph', role: 'Supervisor', scope: 'Mabuhay Foods', status: 'Paused', last: 'One month ago' }
       ] };
   }
   componentDidMount() {
@@ -153,12 +153,12 @@ class Component extends DCLogic {
   }
   renderVals() {
     const s = this.state;
-    const labels = ['People', 'Roles', 'Company checks', 'Activity'];
+    const labels = ['People', 'Roles', 'Company verification', 'Activity'];
     const statusColor = { Active: '#4A55A8', Invited: '#4A55A8', Paused: '#6A5DC2' };
     const av = { Student: ['#E8EBFF', '#4A55A8'], Coordinator: ['#F1EDFF', '#6A5DC2'], Supervisor: ['#E8EBFF', '#4A55A8'], Admin: ['#F1EDFF', '#6A5DC2'] };
     const companies = [
-      { id: 'pulo', name: 'Pulo Telecom', checks: [['SEC record', 'Matches', '#4A55A8'], ['Work email', 'Confirmed', '#4A55A8'], ['Phone check', 'Not yet', '#6A5DC2']] },
-      { id: 'halo', name: 'Halo-Halo Labs', checks: [['DTI record', 'Matches', '#4A55A8'], ['Work email', 'Uses Gmail', '#6A5DC2'], ['Phone check', 'Done', '#4A55A8']] },
+      { id: 'pulo', name: 'Pulo Telecom', checks: [['SEC record', 'Matches', '#4A55A8'], ['Work email', 'Confirmed', '#4A55A8'], ['Phone check', 'Pending', '#6A5DC2']] },
+      { id: 'halo', name: 'Halo-Halo Labs', checks: [['DTI record', 'Matches', '#4A55A8'], ['Work email', 'Personal email', '#6A5DC2'], ['Phone check', 'Done', '#4A55A8']] },
       { id: 'kalye', name: 'Kalye Logistics', done: true, checks: [['SEC record', 'Matches', '#4A55A8'], ['Work email', 'Confirmed', '#4A55A8'], ['Phone check', 'Done', '#4A55A8']] }
     ].map((c) => { const ok = c.done || s.approved.indexOf(c.id) > -1;
       return { name: c.name, pending: !ok, state: ok ? 'Verified' : 'Needs review', stateColor: ok ? '#4A55A8' : '#6A5DC2', border: ok ? '#DCDEEE' : '#E6E7F2', bg: ok ? '#F7F8FD' : '#FFFFFF',
@@ -175,15 +175,15 @@ class Component extends DCLogic {
         { name: 'Student', can: ['Build and edit their resume', 'Apply to verified companies', 'Sign their own forms'] },
         { name: 'Coordinator', can: ['See their programs’ students', 'Approve placements', 'Export CHED reports'] },
         { name: 'Supervisor', can: ['Approve intern hours', 'Send evaluations', 'Sign MOAs for their company'] },
-        { name: 'Admin', can: ['Everything coordinators can', 'Manage people and roles', 'Approve companies'] }
+        { name: 'Admin', can: ['All coordinator permissions', 'Manage people and roles', 'Approve companies'] }
       ],
       companies,
       audit: [
-        { t: 'Today, 9:12', who: 'Maria Reyes', what: 'placed Paolo Dizon at Kalye Logistics' },
-        { t: 'Today, 8:40', who: 'Ramon Cruz', what: 'made Jun Mercado a coordinator' },
+        { t: 'Today, 9:12 a.m.', who: 'Maria Reyes', what: 'placed Paolo Dizon at Kalye Logistics' },
+        { t: 'Today, 8:40 a.m.', who: 'Ramon Cruz', what: 'made Jun Mercado a coordinator' },
         { t: 'Yesterday', who: 'Unisync', what: 'blocked a message from Halo-Halo Labs asking for a deposit' },
-        { t: 'Yesterday', who: 'Liza Ocampo', what: 'approved 4 weeks of hours' },
-        { t: 'Mar 1', who: 'Maria Reyes', what: 'exported the CHED report' }
+        { t: 'Yesterday', who: 'Liza Ocampo', what: 'approved four weeks of hours' },
+        { t: 'March 1', who: 'Maria Reyes', what: 'exported the CHED report' }
       ],
       invite: s.invite, openInvite: () => this.setState({ invite: true }), closeInvite: () => this.setState({ invite: false })
     };

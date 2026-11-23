@@ -41,7 +41,7 @@ tr.r{transition:background .2s}tr.r:hover{background:#FAFAFE}
 
 <main style="flex:999 1 640px;min-width:0;padding:40px 40px 96px;display:flex;flex-direction:column;gap:32px;box-sizing:border-box">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
-<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:500;color:#5E6280">Midyear OJT 2027</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:400;letter-spacing:-0.03em">BSIT 4th year</h1></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:500;color:#5E6280">Midyear OJT 2027</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:400;letter-spacing:-0.03em">BSIT, fourth year</h1></div>
 <div style="display:flex;gap:8px"><button class="btn" data-press="1">Add students</button><button class="btn btn-p" data-press="1">CHED report</button></div>
 </div>
 
@@ -52,7 +52,7 @@ tr.r{transition:background .2s}tr.r:hover{background:#FAFAFE}
 </div>
 
 <section data-in="1" aria-labelledby="needs-h" style="display:flex;flex-direction:column;gap:12px">
-<h2 id="needs-h" style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.005em">Needs you</h2>
+<h2 id="needs-h" style="margin:0;font-size:20px;font-weight:600;letter-spacing:-0.005em">Needs attention</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px">
 <sc-for list="{{issues}}" as="i" hint-placeholder-count="3">
 <div style="border-radius:12px;background:{{i.bg}};padding:20px;display:flex;flex-direction:column;gap:16px;transition:background .4s,opacity .4s;opacity:{{i.op}}">
@@ -74,7 +74,7 @@ tr.r{transition:background .2s}tr.r:hover{background:#FAFAFE}
 </div>
 <div style="overflow-x:auto">
 <table style="width:100%;border-collapse:collapse;min-width:820px">
-<thead><tr><th style="width:40px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Select</span></th><th>Name</th><th>Where they are</th><th>Forms</th><th>Hours</th><th>Company</th><th>Last seen</th></tr></thead>
+<thead><tr><th style="width:40px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Select</span></th><th>Name</th><th>Status</th><th>Forms</th><th>Hours</th><th>Company</th><th>Last active</th></tr></thead>
 <tbody>
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
 <tr class="r" style="background:{{r.bg}}">
@@ -109,12 +109,12 @@ class Component extends DCLogic {
     super(p);
     this.root = null;
     this.students = [
-      ['Bea Santos', 'Applying', 4, 0, '—', '2 hours ago'],
+      ['Bea Santos', 'Applying', 4, 0, '—', 'Two hours ago'],
       ['Paolo Dizon', 'Interning', 6, 212, 'Kalye Logistics', 'Yesterday'],
-      ['Jasmine Uy', 'Interning', 6, 340, 'Banaba Bank', '3 hours ago'],
+      ['Jasmine Uy', 'Interning', 6, 340, 'Banaba Bank', 'Three hours ago'],
       ['Mark Villanueva', 'Signing up', 1, 0, '—', '16 days ago'],
-      ['Andrea Lim', 'Applying', 5, 0, '—', '5 hours ago'],
-      ['Carlo Ramos', 'Interning', 5, 96, 'Mabuhay Foods', '2 days ago'],
+      ['Andrea Lim', 'Applying', 5, 0, '—', 'Five hours ago'],
+      ['Carlo Ramos', 'Interning', 5, 96, 'Mabuhay Foods', 'Two days ago'],
       ['Nica Fernandez', 'Signing up', 2, 0, '—', '14 days ago'],
       ['Joshua Tan', 'Applying', 3, 0, '—', 'Yesterday']
     ];
@@ -142,17 +142,17 @@ class Component extends DCLogic {
     const off = (i) => widths.slice(0, i).reduce((a, b) => a + b, 0);
     const list = this.students.filter((st) => s.tab === 0 || st.at(1) === names.at(s.tab));
     const defs = [
-      { id: 'idle', text: '12 students haven’t logged in for 2 weeks', action: 'Send reminder', bg: '#F1EDFF' },
-      { id: 'moa', text: '3 companies still need a signed MOA', action: 'Send MOAs', bg: '#F1EDFF' },
-      { id: 'dtr', text: '9 time logs are waiting on supervisors', action: 'Nudge supervisors', bg: '#E8EBFF' }
+      { id: 'idle', text: '12 students inactive for two weeks', action: 'Send reminder', bg: '#F1EDFF' },
+      { id: 'moa', text: 'Three companies need a signed MOA', action: 'Send MOAs', bg: '#F1EDFF' },
+      { id: 'dtr', text: 'Nine time logs await supervisor approval', action: 'Remind supervisors', bg: '#E8EBFF' }
     ];
     return {
       rootRef: (el) => { this.root = el; },
       kpis: [
         { label: 'Signed up', val: Math.round(142 * k), sub: 'of 180 students', color: '#1E2140' },
         { label: 'Applied', val: Math.round(96 * k), sub: 'at least once', color: '#1E2140' },
-        { label: 'Interning', val: Math.round(41 * k), sub: 'placed so far', color: '#4A55A8' },
-        { label: 'Forms done', val: Math.round(58 * k) + '%', sub: 'across the class', color: '#4A55A8' }
+        { label: 'Interning', val: Math.round(41 * k), sub: 'placed', color: '#4A55A8' },
+        { label: 'Forms complete', val: Math.round(58 * k) + '%', sub: 'class average', color: '#4A55A8' }
       ],
       issues: defs.map((d) => { const done = s.fixed.indexOf(d.id) > -1;
         return { ...d, done, open: !done, bg: done ? '#EEF0FA' : d.bg, op: done ? 0.6 : 1, fix: () => this.setState({ fixed: s.fixed.concat([d.id]) }) }; }),

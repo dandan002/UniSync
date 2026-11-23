@@ -48,8 +48,8 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div style="max-width:1200px;margin:0 auto;padding:48px 24px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:48px;align-items:center">
 
 <div style="display:flex;flex-direction:column;gap:24px">
-<h1 id="hero-h" data-hero="1" style="margin:0;font-size:clamp(44px,6vw,80px);line-height:1.04;letter-spacing:-0.03em;font-weight:400">Your first resume.<br><span style="color:#4A55A8">One conversation.</span></h1>
-<p data-hero="1" style="margin:0;font-size:18px;line-height:1.5;color:#5E6280;max-width:470px">Real internships from checked companies. No deposits. No Telegram. No scams.</p>
+<h1 id="hero-h" data-hero="1" style="margin:0;font-size:clamp(44px,6vw,80px);line-height:1.04;letter-spacing:-0.03em;font-weight:400">Build your first resume<br><span style="color:#4A55A8">in one chat.</span></h1>
+<p data-hero="1" style="margin:0;font-size:18px;line-height:1.5;color:#5E6280;max-width:470px">Then apply to internships at verified companies.</p>
 
 <div data-hero="1" style="border:1px solid #E6E7F2;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);max-width:520px">
 <div style="display:flex;align-items:center;gap:8px"><span style="width:32px;height:32px;border-radius:50%;background:#1E2140;display:flex;align-items:center;justify-content:center;flex:none"><svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="8" fill="#A99BF0"/></svg></span><span style="font-size:18px;font-weight:600;letter-spacing:-0.005em">What's your course?</span></div>
@@ -57,9 +57,9 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div role="group" aria-label="Common courses" style="display:flex;flex-wrap:wrap;gap:8px">
 <sc-for list="{{picks}}" as="p" hint-placeholder-count="4"><button class="chip" onClick="{{p.pick}}">{{p.name}}</button></sc-for>
 </div>
-<sc-if value="{{ready}}" hint-placeholder-val="{{false}}"><a href="Student-Onboarding.dc.html" class="btn go pop" data-press="1">Build my resume, free <span aria-hidden="true">→</span></a></sc-if>
-<sc-if value="{{notReady}}" hint-placeholder-val="{{true}}"><button class="btn off" disabled>Build my resume, free <span aria-hidden="true">→</span></button></sc-if>
-<span style="font-size:14px;color:#5E6280;text-align:center">No sign-up yet · Never charges students</span>
+<sc-if value="{{ready}}" hint-placeholder-val="{{false}}"><a href="Student-Onboarding.dc.html" class="btn go pop" data-press="1">Build my resume <span aria-hidden="true">→</span></a></sc-if>
+<sc-if value="{{notReady}}" hint-placeholder-val="{{true}}"><button class="btn off" disabled>Build my resume <span aria-hidden="true">→</span></button></sc-if>
+<span style="font-size:14px;color:#5E6280;text-align:center">Free for students. No account needed to start.</span>
 </div>
 </div>
 
@@ -82,16 +82,16 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <section data-reveal="1" aria-labelledby="how" style="background:#F4F5FC">
 <div style="max-width:1200px;margin:0 auto;padding:96px 24px;display:flex;flex-direction:column;gap:48px">
-<h2 id="how" data-item="1" style="margin:0;font-size:clamp(32px,4vw,52px);letter-spacing:-0.03em;font-weight:400;line-height:1">Answer. Get a resume. Apply.</h2>
+<h2 id="how" data-item="1" style="margin:0;font-size:clamp(32px,4vw,52px);letter-spacing:-0.03em;font-weight:400;line-height:1">How it works</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px;align-items:stretch">
 
 <figure data-item="1" style="margin:0;display:flex;flex-direction:column;gap:16px">
 <div style="background:#FFFFFF;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px;min-height:240px;box-sizing:border-box">
 <div style="align-self:flex-start;max-width:88%;background:#F4F5FC;border-radius:6px 18px 18px 18px;padding:12px 12px;font-size:15px;line-height:1.45">What did you build for your capstone?</div>
 <div style="align-self:flex-end;max-width:88%;background:#D4DAFF;color:#1E2140;border-radius:12px 6px 18px 18px;padding:12px 12px;font-size:15px;line-height:1.45">Inventory system para sa canteen. Ako sa database.</div>
-<div style="align-self:flex-start;max-width:88%;background:#F4F5FC;border-radius:6px 18px 18px 18px;padding:12px 12px;font-size:15px;line-height:1.45">Galing. Added to your resume.</div>
+<div style="align-self:flex-start;max-width:88%;background:#F4F5FC;border-radius:6px 18px 18px 18px;padding:12px 12px;font-size:15px;line-height:1.45">Added to your resume.</div>
 </div>
-<figcaption style="font-size:16px;font-weight:600">Answer in Taglish.</figcaption>
+<figcaption style="font-size:16px;font-weight:600">Answer questions in English or Filipino.</figcaption>
 </figure>
 
 <figure data-item="1" style="margin:0;display:flex;flex-direction:column;gap:16px">
@@ -100,20 +100,20 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <span style="font-size:13px;color:#5E6280">BS Information Technology</span>
 <span style="height:2px;background:#1E2140;margin:4px 0"></span>
 <span style="font-size:15px;font-weight:600">Canteen inventory system</span>
-<span style="font-size:14px;color:#5E6280">Designed the database for a 4-person team.</span>
+<span style="font-size:14px;color:#5E6280">Designed the database for a four-person team.</span>
 <span style="font-size:15px;font-weight:600">Treasurer, IT Society</span>
-<span style="font-size:14px;color:#5E6280">Fees and reports for 120 members.</span>
+<span style="font-size:14px;color:#5E6280">Managed dues for 120 members.</span>
 </div>
-<figcaption style="font-size:16px;font-weight:600">Get a resume that sounds like you.</figcaption>
+<figcaption style="font-size:16px;font-weight:600">Sync turns your answers into a resume.</figcaption>
 </figure>
 
 <figure data-item="1" style="margin:0;display:flex;flex-direction:column;gap:16px">
 <div style="background:#FFFFFF;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px;min-height:240px;box-sizing:border-box">
-<div style="display:flex;align-items:center;gap:12px"><span style="width:44px;height:44px;border-radius:8px;background:#E8EBFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C88DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Data intern</span><span style="font-size:14px;color:#4A55A8;font-weight:600">Company checked</span></span></div>
-<span style="font-size:15px;color:#5E6280;line-height:1.5">Allowance, hours and commute shown before you apply.</span>
-<span class="btn go" style="height:46px;font-size:15px;margin-top:auto" aria-hidden="true">Apply with my resume</span>
+<div style="display:flex;align-items:center;gap:12px"><span style="width:44px;height:44px;border-radius:8px;background:#E8EBFF;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#7C88DC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Data intern</span><span style="font-size:14px;color:#4A55A8;font-weight:600">Verified company</span></span></div>
+<span style="font-size:15px;color:#5E6280;line-height:1.5">See the allowance, hours and location before you apply.</span>
+<span class="btn go" style="height:46px;font-size:15px;margin-top:auto" aria-hidden="true">Apply</span>
 </div>
-<figcaption style="font-size:16px;font-weight:600">Apply in one tap.</figcaption>
+<figcaption style="font-size:16px;font-weight:600">Apply to verified companies.</figcaption>
 </figure>
 </div>
 </div>
@@ -121,26 +121,26 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <section data-reveal="1" aria-labelledby="safety-h">
 <div style="max-width:1200px;margin:0 auto;padding:120px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px;align-items:end">
-<h2 id="safety-h" data-item="1" style="margin:0;font-size:clamp(44px,6vw,84px);line-height:1.04;letter-spacing:-0.03em;font-weight:400">Every company,<br>checked.</h2>
+<h2 id="safety-h" data-item="1" style="margin:0;font-size:clamp(44px,6vw,84px);line-height:1.04;letter-spacing:-0.03em;font-weight:400">We verify<br>every company.</h2>
 <div data-item="1" style="display:flex;flex-direction:column;gap:16px;font-size:16px;line-height:1.5;color:#5E6280;max-width:440px">
-<p style="margin:0">SEC or DTI record, a work email and a phone call before anyone can post.</p>
-<p style="margin:0">Chats stay here. Ask for money, get blocked.</p>
-<p style="margin:0">No age, gender or photo filters.</p>
+<p style="margin:0">Companies must show SEC or DTI registration, a work email and a phone number before they can post.</p>
+<p style="margin:0">Messages stay on Unisync. We block anyone who asks for money.</p>
+<p style="margin:0">We don't filter by age, gender or photo.</p>
 </div>
 </div>
 </section>
 
 <section data-reveal="1" aria-labelledby="cta" style="padding:0 24px 96px">
 <div data-item="1" style="max-width:1144px;margin:0 auto;border-radius:12px;background:#F1EDFF;color:#1E2140;padding:80px 48px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
-<h2 id="cta" style="margin:0;font-size:clamp(36px,4.8vw,64px);letter-spacing:-0.03em;font-weight:400;line-height:1">Start with one answer.</h2>
-<a href="Student-Onboarding.dc.html" class="btn go" data-press="1">Build my resume, free <span aria-hidden="true">→</span></a>
-<span style="font-size:14px;color:#5E6280">No sign-up yet · Never charges students</span>
+<h2 id="cta" style="margin:0;font-size:clamp(36px,4.8vw,64px);letter-spacing:-0.03em;font-weight:400;line-height:1">Start your resume.</h2>
+<a href="Student-Onboarding.dc.html" class="btn go" data-press="1">Build my resume <span aria-hidden="true">→</span></a>
+<span style="font-size:14px;color:#5E6280">Free for students. No account needed to start.</span>
 </div>
 </section>
 
 <footer style="border-top:1px solid #E6E7F2">
 <div style="max-width:1200px;margin:0 auto;padding:24px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:14px;color:#5E6280">
-<span>Unisync, made for Filipino students.</span>
+<span>Made for students in the Philippines.</span>
 <nav class="nav" aria-label="Footer" style="display:flex;gap:24px"><a href="Coordinator.dc.html">Schools</a><a href="Employer.dc.html">Employers</a><a href="#safety-h">Safety</a></nav>
 </div>
 </footer>

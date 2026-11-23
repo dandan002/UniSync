@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Jobs for you</title>
+<title>Internships for you</title>
 <script src="./support.js"></script>
 <script src="/_blob/5a4da31561d74fe775b9d84423f4c9e4"></script>
 </head>
@@ -47,7 +47,7 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <div style="max-width:1240px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:24px">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
-<div style="display:flex;flex-direction:column;gap:8px"><h1 style="margin:0;font-size:clamp(34px,4vw,48px);font-weight:400;letter-spacing:-0.03em;line-height:1">Jobs for you</h1><span style="font-size:16px;color:#5E6280">{{count}} internships match your resume.</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><h1 style="margin:0;font-size:clamp(34px,4vw,48px);font-weight:400;letter-spacing:-0.03em;line-height:1">Internships for you</h1><span style="font-size:16px;color:#5E6280">{{count}} internships match your resume.</span></div>
 <label style="position:relative;flex:0 1 360px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search jobs</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E6280" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:16px;top:15px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" placeholder="Search role or company" style="width:100%;height:48px;box-sizing:border-box;border-radius:10px;border:1px solid #DCDEEE;background:#FFFFFF;padding:0 16px 0 48px;font:inherit;font-size:15px;color:#1E2140"></label>
 </div>
 
@@ -106,15 +106,15 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <section style="display:flex;flex-direction:column;gap:8px;padding-top:4px;border-top:1px solid #E6E7F2"><h3 style="margin:16px 0 0;font-size:18px;font-weight:600">About {{d.co}}</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.coAbout}}</p></section>
 </div>
 <div style="padding:16px 32px;border-top:1px solid #E6E7F2;display:flex;align-items:center;gap:12px">
-<sc-if value="{{dNotApplied}}" hint-placeholder-val="{{true}}"><button class="btn btn-p" data-press="1" onClick="{{apply}}" style="flex:1">Apply with my resume</button></sc-if>
-<sc-if value="{{dApplied}}" hint-placeholder-val="{{false}}"><a href="Student-Home.dc.html" class="btn" style="flex:1;color:#4A55A8;border-color:#C3C7E0">Applied. Track it →</a></sc-if>
+<sc-if value="{{dNotApplied}}" hint-placeholder-val="{{true}}"><button class="btn btn-p" data-press="1" onClick="{{apply}}" style="flex:1">Apply</button></sc-if>
+<sc-if value="{{dApplied}}" hint-placeholder-val="{{false}}"><a href="Student-Home.dc.html" class="btn" style="flex:1;color:#4A55A8;border-color:#C3C7E0">Applied. View status</a></sc-if>
 <button class="btn" aria-label="Save job">Save</button>
 </div>
 </article>
 </sc-if>
 
 <sc-if value="{{toast}}" hint-placeholder-val="{{false}}">
-<div role="status" class="toast" style="position:fixed;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:10px;background:#1E2140;color:#FFFFFF;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);font-size:15px;font-weight:500">Sent to {{toast}}. Sync wrote your cover note.</div>
+<div role="status" class="toast" style="position:fixed;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:10px;background:#1E2140;color:#FFFFFF;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);font-size:15px;font-weight:500">Application sent to {{toast}}.</div>
 </sc-if>
 </div>
 </x-dc>
@@ -124,44 +124,44 @@ class Component extends DCLogic {
     super(p);
     this.root = null;
     this.data = [
-      { key: 'kalye', role: 'Data intern', co: 'Kalye Logistics', place: 'Pasig · On-site', pay: '₱6,000 a month', allowance: 6000, near: true, remote: false, moa: true, bg: '#F1EDFF', posted: '2d ago',
-        teaser: 'Turn delivery data into the dashboards our ops team runs on.', sched: 'Mon–Fri, 8 to 5', dates: 'Apr–Jul 2027 · 600 hrs',
-        about: 'You’ll join a 6-person ops analytics team that tracks 3,000 deliveries a day across Metro Manila.',
+      { key: 'kalye', role: 'Data intern', co: 'Kalye Logistics', place: 'Pasig · On-site', pay: '₱6,000 a month', allowance: 6000, near: true, remote: false, moa: true, bg: '#F1EDFF', posted: 'two days ago',
+        teaser: 'Build delivery dashboards for the operations team.', sched: 'Weekdays, 8 a.m. to 5 p.m.', dates: 'April to July 2027, 600 hours',
+        about: 'Join a six-person analytics team that tracks 3,000 daily deliveries in Metro Manila.',
         doList: ['Clean and join delivery data in SQL', 'Build weekly dashboards for route managers', 'Present one improvement idea at the end'],
-        need: ['BSIT, BSCS, BSIS or BS Statistics', 'Basic SQL and spreadsheets', 'Available Apr–Jul for 600 hours'],
-        perks: ['Free lunch on-site', 'Mentor from the data team', 'Return offer for top interns'],
+        need: ['BSIT, BSCS, BSIS or BS Statistics', 'Basic SQL and spreadsheets', 'Available April to July for 600 hours'],
+        perks: ['Free lunch on-site', 'A mentor from the data team', 'Return offer for top interns'],
         coAbout: 'A same-day delivery company serving online sellers in Metro Manila and Calabarzon.' },
-      { key: 'mabuhay', role: 'Inventory systems intern', co: 'Mabuhay Foods', place: 'Calamba · On-site', pay: '₱3,500 a month', allowance: 3500, near: true, remote: false, moa: true, bg: '#E8EBFF', posted: '1d ago',
-        teaser: 'Keep stock counts right across four branches.', sched: 'Mon–Fri, 8 to 5', dates: 'Apr–Jul 2027 · 486 hrs',
-        about: 'Help the supply team fix stock mismatches between the warehouse and four branches.',
+      { key: 'mabuhay', role: 'Inventory systems intern', co: 'Mabuhay Foods', place: 'Calamba · On-site', pay: '₱3,500 a month', allowance: 3500, near: true, remote: false, moa: true, bg: '#E8EBFF', posted: 'yesterday',
+        teaser: 'Track inventory across four branches.', sched: 'Weekdays, 8 a.m. to 5 p.m.', dates: 'April to July 2027, 486 hours',
+        about: 'Help the supply team fix stock errors between the warehouse and four branches.',
         doList: ['Update the stock database daily', 'Find and fix count mismatches', 'Document how the system works'],
-        need: ['Any IT or business program', 'Comfortable with spreadsheets', 'Lives near Calamba'],
-        perks: ['Transport allowance on top', 'Merienda daily'],
+        need: ['Any IT or business program', 'Spreadsheet skills', 'Lives near Calamba'],
+        perks: ['Separate transportation allowance', 'Daily snacks'],
         coAbout: 'A family-owned food manufacturer in Laguna since 1987.' },
-      { key: 'banaba', role: 'IT support intern', co: 'Banaba Bank', place: 'Makati · On-site', pay: '₱5,000 a month', allowance: 5000, near: false, remote: false, moa: true, bg: '#F1EDFF', posted: '4d ago',
-        teaser: 'Be the first person branches call when tech breaks.', sched: 'Mon–Fri, 9 to 6', dates: 'May–Jul 2027 · 486 hrs',
-        about: 'Work with the IT service desk that supports 40 branches.',
-        doList: ['Answer helpdesk tickets', 'Set up laptops for new hires', 'Write simple how-to guides'],
-        need: ['BSIT or BSCS', 'Patience on the phone', 'NBI clearance before start'],
+      { key: 'banaba', role: 'IT support intern', co: 'Banaba Bank', place: 'Makati · On-site', pay: '₱5,000 a month', allowance: 5000, near: false, remote: false, moa: true, bg: '#F1EDFF', posted: 'four days ago',
+        teaser: 'Provide IT support to 40 branches.', sched: 'Weekdays, 9 a.m. to 6 p.m.', dates: 'May to July 2027, 486 hours',
+        about: 'Join the IT service desk that supports 40 branches.',
+        doList: ['Answer help desk tickets', 'Set up laptops for new hires', 'Write simple how-to guides'],
+        need: ['BSIT or BSCS', 'Patience on phone calls', 'NBI clearance before start'],
         perks: ['HMO for interns', 'Certificate and reference letter'],
         coAbout: 'A rural bank with branches across Luzon.' },
-      { key: 'tanglaw', role: 'QA intern', co: 'Tanglaw Software', place: 'Remote', pay: '₱4,000 a month', allowance: 4000, near: true, remote: true, moa: false, bg: '#E8EBFF', posted: '3d ago',
-        teaser: 'Break our payroll app before customers do.', sched: 'Flexible, 30 hrs a week', dates: 'Apr–Aug 2027 · 486 hrs',
+      { key: 'tanglaw', role: 'QA intern', co: 'Tanglaw Software', place: 'Remote', pay: '₱4,000 a month', allowance: 4000, near: true, remote: true, moa: false, bg: '#E8EBFF', posted: 'three days ago',
+        teaser: 'Test a payroll app used by 200 businesses.', sched: 'Flexible, 30 hours a week', dates: 'April to August 2027, 486 hours',
         about: 'Test a payroll web app used by 200 small businesses.',
         doList: ['Write test cases for new features', 'Run regression tests before each release', 'Log clear bug reports'],
-        need: ['Any computing program', 'Stable internet at home', 'Careful, detail-minded'],
+        need: ['Any computing program', 'Stable internet at home', 'Attention to detail'],
         perks: ['Fully remote', 'Internet subsidy'],
         coAbout: 'A 25-person software company in Cebu building tools for small businesses.' },
-      { key: 'halo', role: 'Web dev intern', co: 'Halo-Halo Labs', place: 'Taguig · Hybrid', pay: 'No allowance', allowance: 0, near: false, remote: false, moa: false, bg: '#EEF0FA', posted: '6d ago',
-        teaser: 'Ship real landing pages with our design team.', sched: '3 days on-site', dates: 'Apr–Jul 2027 · 486 hrs',
-        about: 'Build marketing pages for clients alongside two designers and a lead developer.',
+      { key: 'halo', role: 'Web dev intern', co: 'Halo-Halo Labs', place: 'Taguig · Hybrid', pay: 'Unpaid', allowance: 0, near: false, remote: false, moa: false, bg: '#EEF0FA', posted: 'six days ago',
+        teaser: 'Build landing pages with the design team.', sched: 'Three days a week on-site', dates: 'April to July 2027, 486 hours',
+        about: 'Build marketing pages for clients with two designers and a lead developer.',
         doList: ['Code pages in React', 'Fix layout bugs on mobile', 'Join weekly design reviews'],
         need: ['HTML, CSS and some React', 'A portfolio or GitHub link'],
-        perks: ['Portfolio-ready work', 'Hybrid schedule'],
+        perks: ['Work for your portfolio', 'Hybrid schedule'],
         coAbout: 'A small digital studio working with Philippine consumer brands.' },
-      { key: 'pulo', role: 'Analyst trainee', co: 'Pulo Telecom', place: 'Remote', pay: '₱8,000 a month', allowance: 8000, near: true, remote: true, moa: false, bg: '#F1EDFF', posted: '5d ago',
-        teaser: 'Find out why customers leave, then help them stay.', sched: 'Mon–Fri, 9 to 5', dates: 'Apr–Jul 2027 · 600 hrs',
-        about: 'Join the retention team studying why prepaid customers switch networks.',
+      { key: 'pulo', role: 'Analyst trainee', co: 'Pulo Telecom', place: 'Remote', pay: '₱8,000 a month', allowance: 8000, near: true, remote: true, moa: false, bg: '#F1EDFF', posted: 'five days ago',
+        teaser: 'Analyze why customers switch networks.', sched: 'Weekdays, 9 a.m. to 5 p.m.', dates: 'April to July 2027, 600 hours',
+        about: 'Join the retention team studying why prepaid customers leave.',
         doList: ['Pull churn reports', 'Spot patterns in customer data', 'Present findings to the team'],
         need: ['IT, Statistics or Business Analytics', 'Excel or SQL', 'Clear writing'],
         perks: ['Laptop provided', 'Mentor from the retention team'],
@@ -194,18 +194,18 @@ class Component extends DCLogic {
   flags(j) { return { isKalye: j.key === 'kalye', isMabuhay: j.key === 'mabuhay', isBanaba: j.key === 'banaba', isTanglaw: j.key === 'tanglaw', isHalo: j.key === 'halo', isPulo: j.key === 'pulo' }; }
   renderVals() {
     const s = this.state;
-    const names = ['All', 'With allowance', 'Near me', 'Remote', 'MOA with my school'];
-    const tests = { 'All': () => true, 'With allowance': (j) => j.allowance > 0, 'Near me': (j) => j.near, 'Remote': (j) => j.remote, 'MOA with my school': (j) => j.moa };
+    const names = ['All', 'Paid', 'Near me', 'Remote', 'School partner'];
+    const tests = { 'All': () => true, 'Paid': (j) => j.allowance > 0, 'Near me': (j) => j.near, 'Remote': (j) => j.remote, 'School partner': (j) => j.moa };
     const list = this.data.filter(tests[s.f]);
     const applied = (k) => s.applied.indexOf(k) > -1;
     const d = this.data.find((j) => j.key === s.open);
     return {
       rootRef: (el) => { this.root = el; },
-      count: list.length,
+      count: ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six'].at(list.length),
       filters: names.map((n) => ({ name: n, on: s.f === n, pick: () => this.setState({ f: n }),
         style: s.f === n ? 'background:#E8EBFF;color:#1E2140;border:1px solid #B8C1FA' : 'background:#FFFFFF;color:#1E2140;border:1px solid #DCDEEE' })),
       jobs: list.map((j) => ({ ...j, ...this.flags(j),
-        note: applied(j.key) ? 'Applied' : (j.moa ? 'Partners with your school' : 'Posted ' + j.posted),
+        note: applied(j.key) ? 'Applied' : (j.moa ? 'School partner' : 'Posted ' + j.posted),
         noteColor: applied(j.key) ? '#4A55A8' : (j.moa ? '#4A55A8' : '#5E6280'),
         open: () => this.setState({ open: j.key }) })),
       hasOpen: !!d,
