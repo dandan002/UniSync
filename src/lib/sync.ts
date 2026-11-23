@@ -103,8 +103,9 @@ function clean(o: RewriteOutput): RewriteOutput {
 
 // Common Taglish words, mapped so the fallback still reads as English.
 const TAGLISH: Array<[RegExp, string]> = [
+  [/,?\s*(\d+) kami sa team/gi, " for a $1-person team"],
   [/\bpara sa\b/gi, "for the"],
-  [/\bako (yung|ang) (gumawa|nag)\b/gi, "I built"],
+  [/\bako (yung|ang) (gumawa ng|gumawa|nag)\b/gi, "I built the"],
   [/\bkami\b/gi, "we"],
   [/\bat\b/gi, "and"],
   [/\bsa\b/gi, "in"],

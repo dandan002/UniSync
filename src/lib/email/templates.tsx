@@ -237,7 +237,7 @@ export function InterviewEmail(props: { name: string; company: string; job: stri
         { label: "Where", value: props.where },
       ]}
     >
-      <Text style={p}>Congratulations, {props.name}. Bring your resume and a short story about your capstone. You can practice with Sync before the day.</Text>
+      <Text style={p}>Congratulations, {props.name}. Bring your resume and be ready to talk through your capstone. Reply on Unisync if you need to move the time.</Text>
     </Layout>
   );
 }
