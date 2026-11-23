@@ -1,25 +1,26 @@
 -- Demo data that mirrors the design mockups. Company names are placeholders.
--- Demo sign-ins use the reserved .test domain so no real inbox gets mail.
--- Every demo account shares the password below (see README).
+-- Emails use subdomains of the reserved example.com domain, so no real inbox
+-- gets mail. Six personas are linked to Clerk demo users by clerk_id; the
+-- app signs them in with one-time sign-in tokens (see README). Inserts only.
 
 begin;
 
 -- Schools
 insert into public.schools (id, name, short_name, email_domain, term_label, required_hours) values
-  ('10000000-0000-4000-8000-000000000001', 'Bayview State University', 'Bayview State', 'bayview.test', 'Midyear OJT 2027', 486),
-  ('10000000-0000-4000-8000-000000000002', 'Laguna Tech', 'Laguna Tech', 'lagunatech.test', 'Midyear OJT 2027', 600),
-  ('10000000-0000-4000-8000-000000000003', 'Rizal Polytechnic', 'Rizal Polytechnic', 'rizalpoly.test', 'Midyear OJT 2027', 486)
+  ('10000000-0000-4000-8000-000000000001', 'Bayview State University', 'Bayview State', 'bayview.example.com', 'Midyear OJT 2027', 486),
+  ('10000000-0000-4000-8000-000000000002', 'Laguna Tech', 'Laguna Tech', 'lagunatech.example.com', 'Midyear OJT 2027', 600),
+  ('10000000-0000-4000-8000-000000000003', 'Rizal Polytechnic', 'Rizal Polytechnic', 'rizalpoly.example.com', 'Midyear OJT 2027', 486)
 on conflict (id) do nothing;
 
 -- Companies (two still need review)
 insert into public.companies (id, name, city, about, logo, logo_bg, registration_type, registration_no, work_email, phone,
   registration_check, email_check, phone_check, verified_at) values
-  ('20000000-0000-4000-8000-000000000001', 'Kalye Logistics', 'Pasig', 'A same-day delivery company serving online sellers in Metro Manila and Calabarzon.', 'kalye', '#F1EDFF', 'SEC', 'CS201912345', 'hr@kalye.test', '+63 2 8123 4567', 'confirmed', 'confirmed', 'confirmed', now() - interval '60 days'),
-  ('20000000-0000-4000-8000-000000000002', 'Mabuhay Foods', 'Calamba', 'A family-owned food manufacturer in Laguna since 1987.', 'mabuhay', '#E8EBFF', 'SEC', 'CS198700112', 'people@mabuhay.test', '+63 49 545 1100', 'confirmed', 'confirmed', 'confirmed', now() - interval '90 days'),
-  ('20000000-0000-4000-8000-000000000003', 'Banaba Bank', 'Makati', 'A rural bank with branches across Luzon.', 'banaba', '#F1EDFF', 'SEC', 'CS199500877', 'careers@banaba.test', '+63 2 8888 2200', 'confirmed', 'confirmed', 'confirmed', now() - interval '120 days'),
-  ('20000000-0000-4000-8000-000000000004', 'Tanglaw Software', 'Cebu', 'A 25-person software company in Cebu building tools for small businesses.', 'tanglaw', '#E8EBFF', 'SEC', 'CS202100456', 'jobs@tanglaw.test', '+63 32 234 5678', 'confirmed', 'confirmed', 'confirmed', now() - interval '30 days'),
+  ('20000000-0000-4000-8000-000000000001', 'Kalye Logistics', 'Pasig', 'A same-day delivery company serving online sellers in Metro Manila and Calabarzon.', 'kalye', '#F1EDFF', 'SEC', 'CS201912345', 'hr@kalye.example.com', '+63 2 8123 4567', 'confirmed', 'confirmed', 'confirmed', now() - interval '60 days'),
+  ('20000000-0000-4000-8000-000000000002', 'Mabuhay Foods', 'Calamba', 'A family-owned food manufacturer in Laguna since 1987.', 'mabuhay', '#E8EBFF', 'SEC', 'CS198700112', 'people@mabuhay.example.com', '+63 49 545 1100', 'confirmed', 'confirmed', 'confirmed', now() - interval '90 days'),
+  ('20000000-0000-4000-8000-000000000003', 'Banaba Bank', 'Makati', 'A rural bank with branches across Luzon.', 'banaba', '#F1EDFF', 'SEC', 'CS199500877', 'careers@banaba.example.com', '+63 2 8888 2200', 'confirmed', 'confirmed', 'confirmed', now() - interval '120 days'),
+  ('20000000-0000-4000-8000-000000000004', 'Tanglaw Software', 'Cebu', 'A 25-person software company in Cebu building tools for small businesses.', 'tanglaw', '#E8EBFF', 'SEC', 'CS202100456', 'jobs@tanglaw.example.com', '+63 32 234 5678', 'confirmed', 'confirmed', 'confirmed', now() - interval '30 days'),
   ('20000000-0000-4000-8000-000000000005', 'Halo-Halo Labs', 'Taguig', 'A small digital studio working with Philippine consumer brands.', 'halo', '#EEF0FA', 'DTI', 'DTI-3345521', 'halohalolabs@gmail.com', '+63 917 555 0142', 'confirmed', 'failed', 'confirmed', null),
-  ('20000000-0000-4000-8000-000000000006', 'Pulo Telecom', 'Iloilo', 'A regional telecom provider serving the Visayas and Mindanao.', 'pulo', '#F1EDFF', 'SEC', 'CS201500998', 'talent@pulotelecom.test', '+63 33 320 7000', 'confirmed', 'confirmed', 'pending', null)
+  ('20000000-0000-4000-8000-000000000006', 'Pulo Telecom', 'Iloilo', 'A regional telecom provider serving the Visayas and Mindanao.', 'pulo', '#F1EDFF', 'SEC', 'CS201500998', 'talent@pulotelecom.example.com', '+63 33 320 7000', 'confirmed', 'confirmed', 'pending', null)
 on conflict (id) do nothing;
 
 insert into public.school_partners (school_id, company_id, moa_status) values
@@ -30,68 +31,38 @@ insert into public.school_partners (school_id, company_id, moa_status) values
   ('10000000-0000-4000-8000-000000000002', '20000000-0000-4000-8000-000000000001', 'signed')
 on conflict do nothing;
 
--- Auth users. The on_auth_user_created trigger builds each profile.
-create temporary table demo_users (id uuid, email text, full_name text, meta jsonb) on commit drop;
-insert into demo_users values
-  ('30000000-0000-4000-8000-000000000001', 'bea.santos@bayview.test', 'Bea Santos', '{}'),
-  ('30000000-0000-4000-8000-000000000002', 'paolo.dizon@bayview.test', 'Paolo Dizon', '{}'),
-  ('30000000-0000-4000-8000-000000000003', 'jasmine.uy@bayview.test', 'Jasmine Uy', '{}'),
-  ('30000000-0000-4000-8000-000000000004', 'mark.villanueva@bayview.test', 'Mark Villanueva', '{}'),
-  ('30000000-0000-4000-8000-000000000005', 'andrea.lim@bayview.test', 'Andrea Lim', '{}'),
-  ('30000000-0000-4000-8000-000000000006', 'carlo.ramos@bayview.test', 'Carlo Ramos', '{}'),
-  ('30000000-0000-4000-8000-000000000007', 'nica.fernandez@bayview.test', 'Nica Fernandez', '{}'),
-  ('30000000-0000-4000-8000-000000000008', 'joshua.tan@bayview.test', 'Joshua Tan', '{}'),
-  ('30000000-0000-4000-8000-000000000009', 'kim.navarro@bayview.test', 'Kim Navarro', '{}'),
-  ('30000000-0000-4000-8000-000000000010', 'ana.castillo@lagunatech.test', 'Ana Castillo', '{}'),
-  ('30000000-0000-4000-8000-000000000011', 'ella.ramos@lagunatech.test', 'Ella Ramos', '{}'),
-  ('30000000-0000-4000-8000-000000000012', 'leo.bautista@rizalpoly.test', 'Leo Bautista', '{}'),
-  ('30000000-0000-4000-8000-000000000013', 'nina.garcia@bayview.test', 'Nina Garcia', '{}'),
-  ('30000000-0000-4000-8000-000000000020', 'maria.reyes@bayview.test', 'Maria Reyes', '{}'),
-  ('30000000-0000-4000-8000-000000000021', 'ramon.cruz@bayview.test', 'Ramon Cruz', '{}'),
-  ('30000000-0000-4000-8000-000000000030', 'liza@kalye.test', 'Liza Ocampo', '{"account_type":"employer"}'),
-  ('30000000-0000-4000-8000-000000000031', 'ryan@mabuhay.test', 'Ryan Go', '{"account_type":"employer"}'),
-  ('30000000-0000-4000-8000-000000000032', 'tess@pulotelecom.test', 'Tess Navarro', '{"account_type":"employer"}');
+-- People. Personas you can sign in as carry their Clerk user id.
+insert into public.profiles (id, clerk_id, role, full_name, email, school_id, company_id, scope, status, last_active_at) values
+  ('30000000-0000-4000-8000-000000000001', 'user_3MVSMKZbZ449lY6uXBsDuI9vomf', 'student', 'Bea Santos', 'bea.santos@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000002', null, 'student', 'Paolo Dizon', 'paolo.dizon@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000003', null, 'student', 'Jasmine Uy', 'jasmine.uy@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000004', null, 'student', 'Mark Villanueva', 'mark.villanueva@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000005', null, 'student', 'Andrea Lim', 'andrea.lim@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000006', null, 'student', 'Carlo Ramos', 'carlo.ramos@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000007', null, 'student', 'Nica Fernandez', 'nica.fernandez@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000008', null, 'student', 'Joshua Tan', 'joshua.tan@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000009', null, 'student', 'Kim Navarro', 'kim.navarro@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIS 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000010', null, 'student', 'Ana Castillo', 'ana.castillo@lagunatech.example.com', '10000000-0000-4000-8000-000000000002', null, 'BSCS 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000011', null, 'student', 'Ella Ramos', 'ella.ramos@lagunatech.example.com', '10000000-0000-4000-8000-000000000002', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000012', null, 'student', 'Leo Bautista', 'leo.bautista@rizalpoly.example.com', '10000000-0000-4000-8000-000000000003', null, 'BSIE 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000013', 'user_3MVSNuiWbjNwUswwjv1yMPUPhcW', 'student', 'Nina Garcia', 'nina.garcia@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT 4', 'active', now()),
+  ('30000000-0000-4000-8000-000000000020', 'user_3MVSNsyuu2yfPml7ELhDZtOh3NF', 'coordinator', 'Maria Reyes', 'maria.reyes@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'BSIT, BSCS', 'active', now()),
+  ('30000000-0000-4000-8000-000000000021', 'user_3MVSNy1fQBaoptoWZT37PoZC2Jd', 'admin', 'Ramon Cruz', 'ramon.cruz@bayview.example.com', '10000000-0000-4000-8000-000000000001', null, 'All programs', 'active', now() - interval '2 hours'),
+  ('30000000-0000-4000-8000-000000000030', 'user_3MVSNzoCiXMnStdhU1KVMnzMxlW', 'supervisor', 'Liza Ocampo', 'liza@kalye.example.com', null, '20000000-0000-4000-8000-000000000001', 'Kalye Logistics', 'active', now() - interval '1 day'),
+  ('30000000-0000-4000-8000-000000000031', null, 'supervisor', 'Ryan Go', 'ryan@mabuhay.example.com', null, '20000000-0000-4000-8000-000000000002', 'Mabuhay Foods', 'paused', now() - interval '32 days'),
+  ('30000000-0000-4000-8000-000000000032', 'user_3MVSO4unfJefiwGFUng3tQfl7jD', 'supervisor', 'Tess Navarro', 'tess@pulotelecom.example.com', null, '20000000-0000-4000-8000-000000000006', 'Pulo Telecom', 'active', now())
+on conflict (id) do nothing;
 
-insert into auth.users (
-  instance_id, id, aud, role, email, encrypted_password, email_confirmed_at,
-  raw_app_meta_data, raw_user_meta_data, created_at, updated_at,
-  confirmation_token, recovery_token, email_change_token_new, email_change,
-  email_change_token_current, phone_change, phone_change_token, reauthentication_token
-)
-select
-  '00000000-0000-0000-0000-000000000000', d.id, 'authenticated', 'authenticated', d.email,
-  extensions.crypt('unisync-demo-2027', extensions.gen_salt('bf')), now(),
-  '{"provider":"email","providers":["email"]}'::jsonb,
-  jsonb_build_object('full_name', d.full_name) || d.meta,
-  now() - interval '45 days', now(),
-  '', '', '', '', '', '', '', ''
-from demo_users d
-where not exists (select 1 from auth.users u where u.id = d.id);
-
-insert into auth.identities (provider_id, user_id, identity_data, provider, last_sign_in_at, created_at, updated_at)
-select d.id::text, d.id,
-  jsonb_build_object('sub', d.id::text, 'email', d.email, 'email_verified', true),
-  'email', now(), now(), now()
-from demo_users d
-where not exists (select 1 from auth.identities i where i.user_id = d.id and i.provider = 'email');
-
--- Staff and supervisors
-update public.profiles set role = 'coordinator', school_id = '10000000-0000-4000-8000-000000000001', scope = 'BSIT, BSCS'
-  where id = '30000000-0000-4000-8000-000000000020';
-update public.profiles set role = 'admin', school_id = '10000000-0000-4000-8000-000000000001', scope = 'All programs', last_active_at = now() - interval '2 hours'
-  where id = '30000000-0000-4000-8000-000000000021';
-update public.profiles set company_id = '20000000-0000-4000-8000-000000000001', scope = 'Kalye Logistics', last_active_at = now() - interval '1 day'
-  where id = '30000000-0000-4000-8000-000000000030';
-update public.profiles set company_id = '20000000-0000-4000-8000-000000000002', scope = 'Mabuhay Foods', status = 'paused', last_active_at = now() - interval '32 days'
-  where id = '30000000-0000-4000-8000-000000000031';
-update public.profiles set company_id = '20000000-0000-4000-8000-000000000006', scope = 'Pulo Telecom'
-  where id = '30000000-0000-4000-8000-000000000032';
-delete from public.student_forms where student_id in (
-  '30000000-0000-4000-8000-000000000020', '30000000-0000-4000-8000-000000000021');
+insert into public.student_forms (student_id, form_key)
+select p.id, k
+from public.profiles p
+cross join unnest(array['resume', 'consent', 'medical', 'orientation', 'endorsement', 'training_plan']) as k
+where p.role = 'student'
+on conflict do nothing;
 
 insert into public.invites (email, role, school_id, scope, invited_by)
-values ('jun.mercado@bayview.test', 'coordinator', '10000000-0000-4000-8000-000000000001', 'BSBA', '30000000-0000-4000-8000-000000000021')
-on conflict do nothing;
+select 'jun.mercado@bayview.example.com', 'coordinator', '10000000-0000-4000-8000-000000000001', 'BSBA', '30000000-0000-4000-8000-000000000021'
+where not exists (select 1 from public.invites where lower(email) = 'jun.mercado@bayview.example.com');
 
 -- Students
 update public.profiles p set course = v.course, year_level = '4th year', city = v.city, last_active_at = now() - v.idle
@@ -115,7 +86,7 @@ where p.id = v.id;
 insert into public.resumes (student_id, data, template, approved_at) values
   ('30000000-0000-4000-8000-000000000001', '{
     "name": "Bea Santos", "course": "BS Information Technology", "school": "Bayview State University",
-    "email": "bea.santos@bayview.test", "city": "Laguna", "language": "Taglish", "availability": "April to July",
+    "email": "bea.santos@bayview.example.com", "city": "Laguna", "language": "Taglish", "availability": "April to July",
     "projects": [{"title": "Canteen inventory system, capstone", "line": "Designed the SQL database for a four-person team''s inventory and sales tracker.", "when": "2026"}],
     "experience": [
       {"section": "Leadership", "title": "Treasurer, IT Society", "line": "Collected dues and wrote monthly finance reports for 120 members.", "when": "2025-26"},
@@ -319,8 +290,7 @@ from (values
 ) as v(student_id, company_id, d, h, note)
 where not exists (select 1 from public.time_logs t where t.student_id = v.student_id and t.status = 'pending');
 
--- Updates: replace trigger noise with the mockup feed
-delete from public.notifications;
+-- Updates for the personas (the application trigger also adds applicant alerts)
 insert into public.notifications (user_id, title, kind, created_at) values
   ('30000000-0000-4000-8000-000000000001', 'Kalye Logistics wants to interview you', 'interview', now() - interval '2 hours'),
   ('30000000-0000-4000-8000-000000000001', 'Your parent signed the consent form', 'form', now() - interval '1 day'),
@@ -330,7 +300,6 @@ insert into public.notifications (user_id, title, kind, created_at) values
   ('30000000-0000-4000-8000-000000000030', 'Leo Bautista applied to Data intern', 'applicant', now() - interval '3 days');
 
 -- Activity log
-delete from public.audit_log where school_id = '10000000-0000-4000-8000-000000000001';
 insert into public.audit_log (school_id, actor_id, actor_name, action, created_at) values
   ('10000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000020', 'Maria Reyes', 'placed Paolo Dizon at Kalye Logistics', now() - interval '3 hours'),
   ('10000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000021', 'Ramon Cruz', 'invited Jun Mercado as a coordinator', now() - interval '4 hours'),
