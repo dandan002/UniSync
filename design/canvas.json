@@ -1,0 +1,32 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-11-23T09:00:00Z"},
+  "title": "Unisync UI",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 0, "w": 1440, "h": 3500, "title": "Landing", "expand": "fill", "is_interactive": true},
+    "Student-Onboarding.dc.html": {"x": 1640, "y": 0, "w": 1440, "h": 960, "title": "Onboarding with Sync", "expand": "fill", "is_interactive": true},
+    "Student-Ready.dc.html": {"x": 3160, "y": 0, "w": 1440, "h": 960, "title": "Resume", "expand": "fill", "is_interactive": true},
+    "Student-Jobs.dc.html": {"x": 4680, "y": 0, "w": 1440, "h": 960, "title": "Jobs", "expand": "fill", "is_interactive": true},
+    "Student-Home.dc.html": {"x": 6200, "y": 0, "w": 1440, "h": 960, "title": "Student home", "expand": "fill", "is_interactive": true},
+    "Coordinator.dc.html": {"x": 1640, "y": 1380, "w": 1440, "h": 1000, "title": "Coordinator", "expand": "fill", "is_interactive": true},
+    "Users.dc.html": {"x": 3160, "y": 1380, "w": 1440, "h": 960, "title": "People", "expand": "fill", "is_interactive": true},
+    "Employer.dc.html": {"x": 4680, "y": 1380, "w": 1440, "h": 1000, "title": "Employer applicants", "expand": "fill", "is_interactive": true}
+  },
+  "order": [
+    "Main.dc.html",
+    "Student-Onboarding.dc.html",
+    "Student-Ready.dc.html",
+    "Student-Jobs.dc.html",
+    "Student-Home.dc.html",
+    "Coordinator.dc.html",
+    "Users.dc.html",
+    "Employer.dc.html"
+  ],
+  "notes": {
+    "studentapp": {"x": 1640, "y": -300, "text": "Student web app", "kind": "title1", "maxW": 6000},
+    "consoles": {"x": 1640, "y": 1080, "text": "School and employer consoles", "kind": "title1", "maxW": 4480}
+  },
+  "designSystems": []
+}

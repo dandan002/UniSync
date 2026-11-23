@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Onboarding with Sync</title>
+<script src="./support.js"></script>
+<script src="/_blob/5a4da31561d74fe775b9d84423f4c9e4"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#2F5BEA}a:hover{color:#1E40AF}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 26px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:16px;text-decoration:none;border:1px solid #E4E2DD;background:#FFFFFF;color:#16161A;cursor:pointer;transition:border-color .2s,background .2s}
+.btn:hover{border-color:#C9C6BF;color:#16161A}
+.btn-p{background:#16161A;color:#FFFFFF;border-color:#16161A}.btn-p:hover{background:#2A2A30;color:#FFFFFF}
+.next{width:60px;height:60px;border-radius:50%;border:0;background:#2F5BEA;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 14px 30px -12px rgba(47,91,234,.7);transition:background .2s}
+.next:hover{background:#2449C4}
+.icon{width:44px;height:44px;border-radius:50%;border:1px solid #ECEBE8;background:#FFFFFF;color:#16161A;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.opt{width:100%;min-height:64px;border-radius:18px;padding:0 20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:600;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:border-color .2s,background .2s}
+.chip{height:48px;padding:0 20px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;transition:border-color .2s,background .2s,color .2s}
+.big{width:100%;box-sizing:border-box;border:0;border-bottom:2px solid #16161A;padding:8px 0;font-family:'Plus Jakarta Sans',sans-serif;font-size:34px;font-weight:700;letter-spacing:-0.03em;color:#16161A;background:transparent;outline:none}
+.area{width:100%;box-sizing:border-box;min-height:140px;border:1px solid #E4E2DD;border-radius:18px;padding:18px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;line-height:1.5;color:#16161A;resize:none;outline-color:#2F5BEA}
+.saved{animation:saved 1.6s ease both}
+@keyframes saved{0%{opacity:0;transform:translateY(-4px)}15%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0}}
+.burst{transform-origin:50% 50%;animation:burst 1.2s cubic-bezier(.34,1.4,.5,1) both}
+@keyframes burst{from{transform:scale(.3) rotate(-90deg);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#16161A;min-height:100vh;display:flex;flex-direction:column">
+
+<header style="padding:20px 28px 0;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;align-items:center;gap:16px">
+<sc-if value="{{canBack}}" hint-placeholder-val="{{true}}"><button class="icon" aria-label="Back" onClick="{{back}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button></sc-if>
+<sc-if value="{{noBack}}" hint-placeholder-val="{{false}}"><a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#16161A;font-weight:800;letter-spacing:-0.04em;font-size:19px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#16161A"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>unisync</a></sc-if>
+<div style="flex:1"></div>
+<sc-if value="{{showSaved}}" hint-placeholder-val="{{false}}"><span class="saved" role="status" style="font-size:14px;color:#1A7F45;font-weight:600">Saved</span></sc-if>
+<a href="Student-Home.dc.html" style="font-size:15px;font-weight:600;color:#5E5E66;text-decoration:none">Save and exit</a>
+</div>
+<sc-if value="{{hasProgress}}" hint-placeholder-val="{{true}}">
+<div style="display:flex;align-items:center;gap:14px">
+<div role="progressbar" aria-label="Onboarding progress" aria-valuemin="1" aria-valuemax="8" aria-valuenow="{{step}}" style="flex:1;height:6px;border-radius:3px;background:#F0EFEC;overflow:hidden"><span style="display:block;height:100%;border-radius:3px;background:#2F5BEA;transition:width .6s cubic-bezier(.34,1.2,.5,1);width:{{pct}}%"></span></div>
+<span style="font-size:14px;font-weight:600;color:#5E5E66;white-space:nowrap">{{step}} of 8</span>
+</div>
+</sc-if>
+</header>
+
+<main ref="{{stageRef}}" style="flex:1;width:100%;max-width:600px;margin:0 auto;padding:9vh 28px 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+
+<sc-if value="{{s0}}" hint-placeholder-val="{{true}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:18px;align-items:flex-start">
+<svg width="72" height="72" viewBox="0 0 32 32" role="img" aria-label="3 of 8 done"><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#2F5BEA"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#2F5BEA" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#2F5BEA" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#E4E2DD" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#E4E2DD" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#E4E2DD" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#E4E2DD" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" fill="#E4E2DD" transform="rotate(315 16 16)"/><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>
+<h1 style="margin:0;font-size:clamp(40px,6vw,60px);font-weight:800;letter-spacing:-0.05em;line-height:1">Welcome back, Bea.</h1>
+<p style="margin:0;font-size:19px;color:#5E5E66;line-height:1.5">You're 3 of 8 in. Everything's saved.</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:8px"><button class="btn btn-p" data-press="1" onClick="{{resume}}">Continue</button><button class="btn" onClick="{{restart}}">Start over</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{s1}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">First, what should we call you?</h1>
+<label style="display:flex;flex-direction:column;gap:8px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your name</span><input class="big" type="text" value="Bea" readonly></label>
+<span style="font-size:15px;color:#5E5E66">From Bayview State's class list.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{s2}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">Which language feels easiest?</h1>
+<div role="radiogroup" aria-label="Language" style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{langs}}" as="l" hint-placeholder-count="3"><button class="opt" role="radio" aria-checked="{{l.on}}" onClick="{{l.pick}}" style="display:flex;{{l.style}}">{{l.name}}<span style="width:24px;height:24px;border-radius:50%;box-sizing:border-box;{{l.dot}}"></span></button></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">What did you build for your capstone?</h1>
+<label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your capstone</span><textarea class="area" readonly>Inventory system para sa school canteen. Ako yung gumawa ng database, 4 kami sa team.</textarea></label>
+<button class="btn" style="align-self:flex-start;height:44px;font-size:15px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>Answer by voice</button>
+</div>
+</sc-if>
+
+<sc-if value="{{s4}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">What else have you done?</h1>
+<span style="font-size:16px;color:#5E5E66">Pick all that apply. Small stuff counts.</span>
+<div role="group" aria-label="Experience" style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for list="{{exps}}" as="e" hint-placeholder-count="7"><button class="chip" aria-pressed="{{e.on}}" onClick="{{e.pick}}" data-press="1" style="display:inline-flex;align-items:center;{{e.style}}">{{e.name}}</button></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s5}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">Tell me about being treasurer.</h1>
+<label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">About being treasurer</span><textarea class="area" readonly>Nag-collect ako ng fees from mga 120 members, tapos monthly report sa Google Sheets.</textarea></label>
+<div style="border-radius:18px;background:#F6F5F2;padding:18px 20px;display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600;color:#5E5E66">On your resume</span><span style="font-size:17px;font-weight:600;line-height:1.45">Ran fees and monthly finance reports for a 120-member org.</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{s6}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">Where can you intern?</h1>
+<div role="group" aria-label="Places" style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for list="{{places}}" as="p" hint-placeholder-count="6"><button class="chip" aria-pressed="{{p.on}}" onClick="{{p.pick}}" data-press="1" style="display:inline-flex;align-items:center;{{p.style}}">{{p.name}}</button></sc-for>
+</div>
+<span style="font-size:16px;font-weight:600;padding-top:6px">Allowance you need</span>
+<div role="radiogroup" aria-label="Allowance" style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for list="{{pays}}" as="p" hint-placeholder-count="3"><button class="chip" role="radio" aria-checked="{{p.on}}" onClick="{{p.pick}}" style="display:inline-flex;align-items:center;{{p.style}}">{{p.name}}</button></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s7}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px">
+<span style="font-size:15px;font-weight:600;color:#2F5BEA">Sync</span>
+<h1 style="margin:0;font-size:clamp(34px,4.6vw,46px);font-weight:800;letter-spacing:-0.045em;line-height:1.05">Here's your resume.</h1>
+<div style="border:1px solid #ECEBE8;border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px;box-shadow:0 30px 60px -40px rgba(22,22,26,.35)">
+<span style="font-size:24px;font-weight:800;letter-spacing:-0.03em">Bea Santos</span>
+<span style="font-size:14px;color:#5E5E66">BS Information Technology · Bayview State University</span>
+<span style="height:1px;background:#ECEBE8;margin:4px 0"></span>
+<span style="font-weight:700">Canteen inventory system</span><span style="font-size:15px;color:#5E5E66">Designed the database for a 4-person capstone team.</span>
+<span style="font-weight:700">Treasurer, IT Society</span><span style="font-size:15px;color:#5E5E66">Ran fees and monthly finance reports for 120 members.</span>
+<span style="font-weight:700">Family store</span><span style="font-size:15px;color:#5E5E66">Restocking, cash count and supplier orders.</span>
+</div>
+<a href="Student-Ready.dc.html" style="font-size:15px;font-weight:600">Edit the full resume</a>
+</div>
+</sc-if>
+
+<sc-if value="{{s8}}" hint-placeholder-val="{{false}}">
+<div data-s="1" style="display:flex;flex-direction:column;gap:22px;align-items:flex-start">
+<svg class="burst" width="96" height="96" viewBox="0 0 32 32" aria-hidden="true"><g fill="#2F5BEA"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>
+<h1 style="margin:0;font-size:clamp(40px,6vw,60px);font-weight:800;letter-spacing:-0.05em;line-height:1">You're ready, Bea.</h1>
+<p style="margin:0;font-size:19px;color:#5E5E66">12 internships fit you. Here's the best one.</p>
+<a href="Student-Jobs.dc.html" data-lift="1" style="width:100%;box-sizing:border-box;display:flex;align-items:center;gap:16px;border:1px solid #ECEBE8;border-radius:20px;padding:18px;text-decoration:none;color:#16161A"><span style="width:52px;height:52px;border-radius:14px;background:#FFF4E0;display:flex;align-items:center;justify-content:center;flex:none"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E07B00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="flex:1;display:flex;flex-direction:column;gap:3px"><span style="font-weight:700;font-size:17px">Data intern</span><span style="font-size:15px;color:#5E5E66">Kalye Logistics · Pasig · ₱6,000 a month</span></span><span aria-hidden="true" style="font-size:20px">→</span></a>
+<a href="Student-Jobs.dc.html" class="btn btn-p" data-press="1">See all jobs</a>
+</div>
+</sc-if>
+
+<sc-if value="{{showNext}}" hint-placeholder-val="{{false}}">
+<div style="display:flex;justify-content:flex-end;align-items:center;gap:16px;padding-top:8px">
+<sc-if value="{{canSkip}}" hint-placeholder-val="{{false}}"><button onClick="{{next}}" style="border:0;background:transparent;font-family:inherit;font-size:15px;font-weight:600;color:#5E5E66;cursor:pointer;height:44px">Skip</button></sc-if>
+<button class="next" data-press="1" onClick="{{next}}" aria-label="Next"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+</div>
+</sc-if>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.root = null; this.stage = null; this.dir = 1;
+    this.state = { step: 0, lang: 'Taglish', exps: ['Org officer', 'Family business'], places: ['Pasig', 'Calamba', 'Remote'], pay: '₱3k+', saved: false };
+  }
+  componentDidMount() { this.enter(); }
+  componentDidUpdate(pp, ps) { if (ps.step !== this.state.step) this.enter(); }
+  componentWillUnmount() { clearTimeout(this.st); }
+  enter() {
+    const M = window.Motion, st = this.stage;
+    if (!M || !st || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    const { animate, stagger, press } = M;
+    const block = st.querySelector('[data-s]');
+    if (block) animate(block.children, { opacity: [0, 1], x: [this.dir * 36, 0], filter: ['blur(6px)', 'blur(0px)'] }, { delay: stagger(0.06), type: 'spring', stiffness: 260, damping: 28 });
+    st.querySelectorAll('[data-press]').forEach((el) => {
+      if (el.dataset.bound) return; el.dataset.bound = '1';
+      press(el, () => { animate(el, { scale: 0.92 }, { type: 'spring', stiffness: 700, damping: 30 }); return () => animate(el, { scale: 1 }, { type: 'spring', stiffness: 500, damping: 14 }); });
+    });
+  }
+  go(step, dir) {
+    this.dir = dir;
+    this.setState({ step, saved: true });
+    clearTimeout(this.st); this.st = setTimeout(() => this.setState({ saved: false }), 1600);
+  }
+  toggle(key, v) { const a = this.state[key]; this.setState({ [key]: a.indexOf(v) > -1 ? a.filter((x) => x !== v) : a.concat([v]) }); }
+  renderVals() {
+    const s = this.state, n = s.step;
+    const on = 'background:#EEF2FE;border:2px solid #2F5BEA;color:#16161A';
+    const off = 'background:#FFFFFF;border:1px solid #E4E2DD;color:#16161A';
+    const flags = {};
+    [0, 1, 2, 3, 4, 5, 6, 7, 8].forEach((i) => { flags['s' + i] = n === i; });
+    return {
+      rootRef: (el) => { this.root = el; }, stageRef: (el) => { this.stage = el; },
+      ...flags,
+      step: n, pct: Math.round(n / 8 * 100), hasProgress: n > 0,
+      canBack: n > 1, noBack: n <= 1, showNext: n > 0 && n < 8, canSkip: n === 3 || n === 5,
+      showSaved: s.saved && n > 0,
+      next: () => this.go(Math.min(n + 1, 8), 1), back: () => this.go(Math.max(n - 1, 1), -1),
+      resume: () => this.go(4, 1), restart: () => this.go(1, 1),
+      langs: ['English', 'Filipino', 'Taglish'].map((l) => ({ name: l, on: s.lang === l, pick: () => this.setState({ lang: l }),
+        style: s.lang === l ? on : off, dot: s.lang === l ? 'border:7px solid #2F5BEA' : 'border:2px solid #C9C6BF' })),
+      exps: ['Org officer', 'Part-time job', 'Family business', 'Freelance', 'Volunteer', 'Varsity', 'None yet'].map((e) => {
+        const isOn = s.exps.indexOf(e) > -1;
+        return { name: e, on: isOn, pick: () => this.toggle('exps', e), style: isOn ? on : off };
+      }),
+      places: ['Pasig', 'Makati', 'Taguig', 'Calamba', 'Santa Rosa', 'Remote'].map((p) => {
+        const isOn = s.places.indexOf(p) > -1;
+        return { name: p, on: isOn, pick: () => this.toggle('places', p), style: isOn ? on : off };
+      }),
+      pays: ['Any', '₱3k+', '₱5k+'].map((p) => ({ name: p, on: s.pay === p, pick: () => this.setState({ pay: p }), style: s.pay === p ? on : off }))
+    };
+  }
+}
+</script>
+</body>
+</html>

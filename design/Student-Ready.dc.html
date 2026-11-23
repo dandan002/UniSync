@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your resume</title>
+<script src="./support.js"></script>
+<script src="/_blob/5a4da31561d74fe775b9d84423f4c9e4"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#2F5BEA}a:hover{color:#1E40AF}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;text-decoration:none;border:1px solid #E4E2DD;background:#FFFFFF;color:#16161A;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+.btn:hover{border-color:#C9C6BF;color:#16161A}
+.btn-p{background:#16161A;color:#FFFFFF;border-color:#16161A}.btn-p:hover{color:#FFFFFF}
+.tab{color:#5E5E66;text-decoration:none;font-size:15px;font-weight:600;height:72px;display:flex;align-items:center;border-bottom:2px solid transparent}
+.tab:hover{color:#16161A}
+.seg{position:relative;z-index:1;flex:1;height:38px;border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:color .3s}
+.in{animation:rise .5s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#16161A;min-height:100vh">
+
+<header style="border-bottom:1px solid #ECEBE8">
+<div style="max-width:1240px;margin:0 auto;padding:0 28px;display:flex;flex-wrap:wrap;align-items:center;gap:0 32px">
+<a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:#16161A;height:72px;font-weight:800;letter-spacing:-0.04em;font-size:19px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#16161A"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>unisync</a>
+<nav aria-label="Student" style="display:flex;gap:28px;flex:1">
+<a class="tab" href="Student-Home.dc.html">Home</a>
+<a class="tab" href="Student-Jobs.dc.html">Jobs</a>
+<a class="tab" href="Student-Ready.dc.html" aria-current="page" style="color:#16161A;border-bottom-color:#2F5BEA">Resume</a>
+</nav>
+<span style="width:38px;height:38px;border-radius:50%;background:#EEF2FE;color:#2F5BEA;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700" aria-label="Bea Santos">BS</span>
+</div>
+</header>
+
+<div data-in="1" style="border-bottom:1px solid #ECEBE8;background:#FBFAF8">
+<div style="max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+<span style="font-size:15px;font-weight:700">School forms</span>
+<div role="progressbar" aria-label="School forms" aria-valuemin="0" aria-valuemax="6" aria-valuenow="{{forms}}" style="flex:1 1 200px;max-width:360px;height:6px;border-radius:3px;background:#ECEBE8;overflow:hidden"><span data-fill="1" style="display:block;height:100%;background:#2F5BEA;border-radius:3px;transform-origin:left;transition:width .6s cubic-bezier(.34,1.2,.5,1);width:{{formsPct}}%"></span></div>
+<span style="font-size:15px;color:#5E5E66">{{forms}} of 6</span>
+<span style="flex:1"></span>
+<span style="font-size:15px;color:#5E5E66">Next: medical certificate</span>
+<button class="btn" style="height:40px;padding:0 18px;font-size:14px">Upload</button>
+</div>
+</div>
+
+<main style="max-width:880px;margin:0 auto;padding:40px 28px 72px;display:flex;flex-direction:column;gap:24px">
+<div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-size:clamp(32px,4vw,44px);font-weight:800;letter-spacing:-0.045em;line-height:1">Your resume</h1><span style="font-size:16px;color:#5E5E66">Built from your answers. Change anything.</span></div>
+<div role="tablist" aria-label="Template" style="position:relative;display:flex;width:300px;padding:4px;border-radius:14px;background:#F3F2EF">
+<span aria-hidden="true" style="position:absolute;top:4px;left:4px;width:calc((100% - 8px) / 3);height:38px;border-radius:10px;background:#FFFFFF;box-shadow:0 2px 8px -2px rgba(22,22,26,.15);transition:transform .45s cubic-bezier(.34,1.4,.5,1);transform:translateX({{tplX}}%)"></span>
+<sc-for list="{{tpls}}" as="t" hint-placeholder-count="3"><button class="seg" role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="color:{{t.color}}">{{t.name}}</button></sc-for>
+</div>
+</div>
+
+<article data-in="1" aria-label="Resume preview" style="background:#FFFFFF;border:1px solid #ECEBE8;border-radius:8px;padding:{{pad}};display:flex;flex-direction:column;gap:{{gap}};font-family:{{font}};box-shadow:0 40px 80px -50px rgba(22,22,26,.45);transition:padding .4s,gap .4s">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px;border-bottom:2px solid #16161A;padding-bottom:14px">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:32px;font-weight:700;letter-spacing:-0.02em">Bea Santos</span><span style="font-size:15px;color:#3A3A40">BS Information Technology · Bayview State University</span></div>
+<span style="font-size:14px;color:#3A3A40">bea.santos@bsu.edu.ph · Laguna</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Projects</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:700;font-size:16px">Canteen inventory system, capstone</span><span style="font-size:14px;color:#5E5E66">2026</span></div><span style="font-size:15px;line-height:1.55">Designed the SQL database for a 4-person team's stock and sales tracker.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Leadership</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:700;font-size:16px">Treasurer, IT Society</span><span style="font-size:14px;color:#5E5E66">2025–26</span></div><span style="font-size:15px;line-height:1.55">Ran fees and monthly finance reports for 120 members in Google Sheets.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Work</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:700;font-size:16px">Store assistant, family business</span><span style="font-size:14px;color:#5E5E66">2022–now</span></div><span style="font-size:15px;line-height:1.55">Restocking, daily cash count and supplier orders.</span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Skills</span><span style="font-size:15px;line-height:1.55">SQL, database design, Python, Figma, Google Sheets, budgeting, inventory</span></div>
+</article>
+
+<div data-in="1" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+<sc-if value="{{notApproved}}" hint-placeholder-val="{{true}}"><button ref="{{holdRef}}" class="btn btn-p" onClick="{{fallback}}" style="min-width:240px;height:54px"><span ref="{{fillRef}}" aria-hidden="true" style="position:absolute;inset:0;background:#2F5BEA;transform-origin:left;transform:scaleX(0)"></span><span style="position:relative">Hold to approve</span></button></sc-if>
+<sc-if value="{{approved}}" hint-placeholder-val="{{false}}"><a href="Student-Jobs.dc.html" class="btn in" style="height:54px;background:#2F5BEA;border-color:#2F5BEA;color:#FFFFFF">Approved. Find jobs →</a></sc-if>
+<a href="Student-Onboarding.dc.html" class="btn" style="height:54px">Change with Sync</a>
+<a href="#pdf" class="btn" style="height:54px;border-color:transparent">Download PDF</a>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.root = null; this.hold = null; this.fill = null; this.state = { tpl: 0, approved: false }; }
+  componentDidMount() {
+    const M = window.Motion, r = this.root;
+    if (!M || !r) return;
+    const { animate, stagger, press } = M;
+    if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+      animate(r.querySelectorAll('[data-in]'), { opacity: [0, 1], y: [20, 0] }, { delay: stagger(0.08), duration: 0.8, ease: [0.22, 1, 0.36, 1] });
+      animate(r.querySelectorAll('[data-fill]'), { scaleX: [0, 1] }, { delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] });
+    }
+    if (this.hold && this.fill) {
+      press(this.hold, () => {
+        let done = false;
+        const a = animate(this.fill, { scaleX: [0, 1] }, { duration: 1, ease: 'linear' });
+        a.then(() => { done = true; this.setState({ approved: true }); });
+        return () => { if (!done) { a.stop(); animate(this.fill, { scaleX: 0 }, { duration: 0.25 }); } };
+      });
+    }
+  }
+  renderVals() {
+    const s = this.state;
+    const names = ['Classic', 'Modern', 'Compact'];
+    const fonts = ["'Source Serif 4', Georgia, serif", "'Plus Jakarta Sans', sans-serif", "'Plus Jakarta Sans', sans-serif"];
+    const forms = s.approved ? 5 : 4;
+    return {
+      rootRef: (el) => { this.root = el; }, holdRef: (el) => { this.hold = el; }, fillRef: (el) => { this.fill = el; },
+      tpls: names.map((n, i) => ({ name: n, on: s.tpl === i, color: s.tpl === i ? '#16161A' : '#5E5E66', pick: () => this.setState({ tpl: i }) })),
+      tplX: s.tpl * 100, font: fonts.at(s.tpl),
+      pad: s.tpl === 2 ? '32px 36px' : '52px 56px', gap: s.tpl === 2 ? '16px' : '26px',
+      approved: s.approved, notApproved: !s.approved,
+      fallback: () => { if (!window.Motion) this.setState({ approved: true }); },
+      forms, formsPct: Math.round(forms / 6 * 100)
+    };
+  }
+}
+</script>
+</body>
+</html>

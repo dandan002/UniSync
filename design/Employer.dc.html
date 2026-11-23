@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hiring</title>
+<script src="./support.js"></script>
+<script src="/_blob/5a4da31561d74fe775b9d84423f4c9e4"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#2F5BEA}a:hover{color:#1E40AF}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;text-decoration:none;border:1px solid #E4E2DD;background:#FFFFFF;color:#16161A;cursor:pointer;transition:border-color .2s;white-space:nowrap}
+.btn:hover{border-color:#C9C6BF;color:#16161A}
+.btn-p{background:#16161A;color:#FFFFFF;border-color:#16161A}.btn-p:hover{background:#2A2A30;color:#FFFFFF}
+.side a{display:flex;align-items:center;gap:10px;height:42px;padding:0 14px;border-radius:12px;color:#5E5E66;text-decoration:none;font-size:15px;font-weight:600;transition:background .2s,color .2s}
+.side a:hover{background:#F3F2EF;color:#16161A}
+.cand{width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;color:#16161A;background:#FFFFFF;border:1px solid #ECEBE8;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;box-sizing:border-box;transition:border-color .2s,box-shadow .2s}
+.cand:hover{border-color:#DAD8D2;box-shadow:0 14px 30px -22px rgba(22,22,26,.35)}
+.move{border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:#2F5BEA;cursor:pointer;height:36px;align-self:flex-end}
+.in{animation:rise .5s cubic-bezier(.34,1.3,.5,1) both}
+.drawer{animation:slide .55s cubic-bezier(.22,1,.36,1) both}
+.fade{animation:fade .3s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes slide{from{transform:translateX(60px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#16161A;min-height:100vh;display:flex;flex-wrap:wrap;position:relative">
+
+<nav class="side" aria-label="Company" data-in="1" style="flex:1 1 240px;max-width:260px;background:#FBFAF8;border-right:1px solid #ECEBE8;padding:22px 14px;display:flex;flex-direction:column;gap:4px;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:12px;padding:0 10px 22px"><span style="width:44px;height:44px;border-radius:13px;background:#FFF4E0;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E07B00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:800">Kalye Logistics</span><span style="font-size:13px;color:#2F5BEA;font-weight:600">Verified</span></span></div>
+<a href="#jobs">Jobs</a>
+<a href="Employer.dc.html" aria-current="page" style="background:#FFFFFF;color:#16161A;box-shadow:0 0 0 1px #ECEBE8">Applicants</a>
+<a href="#interns">Current interns</a>
+<a href="#find">Find students</a>
+<a href="#billing">Billing</a>
+</nav>
+
+<main style="flex:999 1 680px;min-width:0;padding:36px 40px 48px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+<div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:600;color:#5E5E66">18 applicants from 5 schools · 3 spots</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:800;letter-spacing:-0.045em">Data intern</h1></div>
+<div style="display:flex;gap:8px"><button class="btn" data-press="1">Edit job</button><button class="btn btn-p" data-press="1">Post a job</button></div>
+</div>
+
+<div data-in="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:18px 22px;border-radius:20px;background:#FFF4E0"><span style="flex:1;font-size:16px;font-weight:700">Your 4 interns logged hours this week.</span><a href="#interns" class="btn" style="height:40px">Approve hours</a></div>
+
+<div data-in="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:14px;align-items:start">
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
+<section aria-label="{{c.name}}" style="background:#F6F5F2;border-radius:22px;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:440px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 8px 4px"><span style="font-size:16px;font-weight:800">{{c.name}}</span><span style="font-size:14px;font-weight:600;color:#5E5E66">{{c.count}}</span></div>
+<sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
+<div class="in" style="display:flex;flex-direction:column">
+<button class="cand" onClick="{{k.open}}" aria-label="Open {{k.name}}">
+<span style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:50%;background:{{k.avBg}};color:{{k.avFg}};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none">{{k.ini}}</span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700">{{k.name}}</span><span style="font-size:13px;color:#5E5E66">{{k.school}}</span></span></span>
+<span style="font-size:14px;color:#3A3A40;line-height:1.45">{{k.line}}</span>
+<sc-if value="{{k.pick}}" hint-placeholder-val="{{false}}"><span style="font-size:13px;font-weight:700;color:#2F5BEA">Sync's top pick</span></sc-if>
+</button>
+<sc-if value="{{k.canMove}}" hint-placeholder-val="{{true}}"><button class="move" onClick="{{k.move}}">Move to {{k.next}} →</button></sc-if>
+</div>
+</sc-for>
+</section>
+</sc-for>
+</div>
+</main>
+
+<sc-if value="{{hasDrawer}}" hint-placeholder-val="{{false}}">
+<button class="fade" aria-label="Close profile" onClick="{{close}}" style="position:fixed;inset:0;width:100%;height:100%;border:0;padding:0;cursor:default;background:rgba(22,22,26,.32);backdrop-filter:blur(2px)"></button>
+<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-h" style="position:fixed;top:12px;right:12px;bottom:12px;width:min(500px,calc(100% - 24px));box-sizing:border-box;background:#FFFFFF;border-radius:24px;box-shadow:0 40px 100px -30px rgba(22,22,26,.5);display:flex;flex-direction:column;overflow:hidden">
+<div style="flex:1;overflow:auto;padding:32px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start">
+<span style="width:64px;height:64px;border-radius:50%;background:{{d.avBg}};color:{{d.avFg}};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800">{{d.ini}}</span>
+<button onClick="{{close}}" aria-label="Close" style="width:44px;height:44px;border-radius:50%;border:1px solid #ECEBE8;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16161A" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px"><h2 id="dr-h" style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.045em">{{d.name}}</h2><span style="font-size:16px;color:#5E5E66">{{d.school}} · confirmed by school</span></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:20px;border-radius:18px;background:#F6F5F2">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E5E66">Available</span><span style="font-weight:700">{{d.avail}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E5E66">Lives in</span><span style="font-weight:700">{{d.city}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E5E66">Hours needed</span><span style="font-weight:700">{{d.hours}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E5E66">School MOA</span><span style="font-weight:700">{{d.moa}}</span></div>
+</div>
+<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">Why Sync suggested them</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3A3A40">{{d.why}}</p></section>
+<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">Experience</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3A3A40"><sc-for list="{{d.exp}}" as="x" hint-placeholder-count="2"><li>{{x}}</li></sc-for></ul></section>
+<span style="font-size:14px;color:#5E5E66">Sync suggests. You decide. Age, gender and photos are never used.</span>
+</div>
+<div style="padding:18px 32px;border-top:1px solid #ECEBE8;display:flex;gap:10px"><button class="btn btn-p" style="flex:1;height:48px">Invite to interview</button><button class="btn" style="height:48px">Message</button></div>
+</aside>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.root = null;
+    this.av = [['#EEF2FE', '#2F5BEA'], ['#E9F6EE', '#1A7F45'], ['#FFF4E0', '#B45F00'], ['#F3EEFE', '#7C3AED'], ['#FDEEF5', '#BE185D'], ['#E6F6F9', '#0E7490']];
+    this.cands = {
+      bea: { i: 0, rank: 1, name: 'Bea Santos', school: 'Bayview State · BSIT', city: 'Laguna', avail: 'Apr–Jul', hours: '486', moa: 'Yes', line: 'Built the database for a canteen inventory capstone.', why: 'She designed a real SQL database for her capstone and ran finance reports for a 120-member org. Her dates and commute fit this role.', exp: ['Capstone: canteen inventory system (database lead)', 'Treasurer, IT Society, 120 members', 'Family store: stock and cash'] },
+      ana: { i: 1, rank: 2, name: 'Ana Castillo', school: 'Laguna Tech · BSCS', city: 'Santa Rosa', avail: 'Apr–Jul', hours: '600', moa: 'Yes', line: 'Thesis on delivery route data.', why: 'Her thesis analyzed delivery routes, close to what your ops team does every day.', exp: ['Thesis: delivery route analysis in Python', 'Dean’s lister, 3 semesters'] },
+      leo: { i: 2, rank: 3, name: 'Leo Bautista', school: 'Rizal Polytechnic · BSIE', city: 'Pasig', avail: 'May–Jul', hours: '486', moa: 'No', line: 'Ran stock counts for a hardware store.', why: 'Strong on operations and lives 15 minutes away. Starts in May.', exp: ['Hardware store: weekly stock counts', 'Excel for inventory reports'] },
+      paolo: { i: 3, name: 'Paolo Dizon', school: 'Bayview State · BSIT', city: 'Cainta', avail: 'Apr–Jul', hours: '486', moa: 'Yes', line: 'Made a Power BI dashboard for the city tourism office.', why: 'He has already built a dashboard people used, which is most of this job.', exp: ['Power BI dashboard, city tourism office', 'Python and SQL coursework'] },
+      kim: { i: 4, name: 'Kim Navarro', school: 'Bayview State · BSIS', city: 'Marikina', avail: 'Apr–Jul', hours: '486', moa: 'Yes', line: 'Interviewed Mar 4. Strong on SQL.', why: 'Did well in the first interview and knows SQL joins well.', exp: ['Tableau class project', 'Part-time encoder'] },
+      ella: { i: 5, name: 'Ella Ramos', school: 'Laguna Tech · BSIT', city: 'Biñan', avail: 'Apr–Jul', hours: '600', moa: 'Yes', line: 'Offer sent Mar 6.', why: 'Strong interview and the earliest start date.', exp: ['Data mining elective, top of class'] }
+    };
+    this.state = { stage: { bea: 0, ana: 0, leo: 0, paolo: 1, kim: 2, ella: 3 }, open: '' };
+  }
+  componentDidMount() {
+    const M = window.Motion, r = this.root;
+    if (!M || !r || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
+    const { animate, stagger, press, hover } = M;
+    animate(r.querySelectorAll('[data-in]'), { opacity: [0, 1], y: [18, 0] }, { delay: stagger(0.08), duration: 0.8, ease: [0.22, 1, 0.36, 1] });
+    animate(r.querySelectorAll('.cand'), { opacity: [0, 1], y: [14, 0], scale: [0.97, 1] }, { delay: stagger(0.05, { startDelay: 0.35 }), type: 'spring', stiffness: 260, damping: 24 });
+    r.querySelectorAll('[data-press]').forEach((el) => press(el, () => {
+      animate(el, { scale: 0.95 }, { type: 'spring', stiffness: 700, damping: 30 });
+      return () => animate(el, { scale: 1 }, { type: 'spring', stiffness: 500, damping: 15 });
+    }));
+  }
+  renderVals() {
+    const s = this.state;
+    const names = ['New', 'Reviewing', 'Interview', 'Offer'];
+    const ids = Object.keys(this.cands);
+    const mk = (id) => { const c = this.cands[id]; const a = this.av.at(c.i);
+      return { ...c, ini: c.name.split(' ').map((w) => w.charAt(0)).join(''), avBg: a.at(0), avFg: a.at(1) }; };
+    const cols = names.map((n, ci) => {
+      const inCol = ids.filter((id) => s.stage[id] === ci).sort((a, b) => (this.cands[a].rank || 9) - (this.cands[b].rank || 9));
+      return { name: n, count: inCol.length,
+        cards: inCol.map((id, idx) => ({ ...mk(id), pick: ci === 0 && idx === 0, canMove: ci < 3, next: names.at(Math.min(ci + 1, 3)),
+          move: () => this.setState({ stage: { ...s.stage, [id]: ci + 1 } }), open: () => this.setState({ open: id }) })) };
+    });
+    return {
+      rootRef: (el) => { this.root = el; },
+      cols, hasDrawer: !!s.open,
+      d: s.open ? mk(s.open) : { name: '', school: '', ini: '', avBg: '#FFFFFF', avFg: '#16161A', avail: '', city: '', hours: '', moa: '', why: '', exp: [] },
+      close: () => this.setState({ open: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>
