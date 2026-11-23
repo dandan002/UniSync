@@ -9,18 +9,18 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#4A55A8}a:hover{color:#36408A}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:14px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s;white-space:nowrap}
 .btn:hover{border-color:#C3C7E0;color:#1E2140}
 .btn-p{background:#D4DAFF;color:#1E2140;border-color:#D4DAFF}.btn-p:hover{background:#B8C1FA;color:#1E2140}
-.side a{display:flex;align-items:center;gap:10px;height:42px;padding:0 14px;border-radius:12px;color:#5E6280;text-decoration:none;font-size:15px;font-weight:600;transition:background .2s,color .2s}
+.side a{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:12px;color:#5E6280;text-decoration:none;font-size:15px;font-weight:500;transition:background .2s,color .2s}
 .side a:hover{background:#EEF0FA;color:#1E2140}
-.cand{width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;color:#1E2140;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;cursor:pointer;box-sizing:border-box;transition:border-color .2s,box-shadow .2s}
-.cand:hover{border-color:#CDD1EA;box-shadow:0 14px 30px -22px rgba(30,33,64,.35)}
-.move{border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:#4A55A8;cursor:pointer;height:36px;align-self:flex-end}
+.cand{width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;color:#1E2140;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:8px;cursor:pointer;box-sizing:border-box;transition:border-color .2s,box-shadow .2s}
+.cand:hover{border-color:#CDD1EA;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12)}
+.move{border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;color:#4A55A8;cursor:pointer;height:36px;align-self:flex-end}
 .in{animation:rise .5s cubic-bezier(.34,1.3,.5,1) both}
 .drawer{animation:slide .55s cubic-bezier(.22,1,.36,1) both}
 .fade{animation:fade .3s ease both}
@@ -32,8 +32,8 @@ a{color:#4A55A8}a:hover{color:#36408A}
 </helmet>
 <div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh;display:flex;flex-wrap:wrap;position:relative">
 
-<nav class="side" aria-label="Company" data-in="1" style="flex:1 1 240px;max-width:260px;background:#FAFAFE;border-right:1px solid #E6E7F2;padding:22px 14px;display:flex;flex-direction:column;gap:4px;box-sizing:border-box">
-<div style="display:flex;align-items:center;gap:12px;padding:0 10px 22px"><span style="width:44px;height:44px;border-radius:13px;background:#F1EDFF;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:800">Kalye Logistics</span><span style="font-size:13px;color:#4A55A8;font-weight:600">Verified</span></span></div>
+<nav class="side" aria-label="Company" data-in="1" style="flex:1 1 240px;max-width:260px;background:#FAFAFE;border-right:1px solid #E6E7F2;padding:20px 12px;display:flex;flex-direction:column;gap:4px;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:12px;padding:0 8px 20px"><span style="width:44px;height:44px;border-radius:8px;background:#F1EDFF;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="display:flex;flex-direction:column"><span style="font-size:15px;font-weight:600">Kalye Logistics</span><span style="font-size:13px;color:#4A55A8;font-weight:500">Verified</span></span></div>
 <a href="#jobs">Jobs</a>
 <a href="Employer.dc.html" aria-current="page" style="background:#FFFFFF;color:#1E2140;box-shadow:0 0 0 1px #E6E7F2">Applicants</a>
 <a href="#interns">Current interns</a>
@@ -41,24 +41,24 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <a href="#billing">Billing</a>
 </nav>
 
-<main style="flex:999 1 680px;min-width:0;padding:36px 40px 48px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+<main style="flex:999 1 680px;min-width:0;padding:40px 40px 48px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:600;color:#5E6280">18 applicants from 5 schools · 3 spots</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:800;letter-spacing:-0.045em">Data intern</h1></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:500;color:#5E6280">18 applicants from 5 schools · 3 spots</span><h1 style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:400;letter-spacing:-0.015em">Data intern</h1></div>
 <div style="display:flex;gap:8px"><button class="btn" data-press="1">Edit job</button><button class="btn btn-p" data-press="1">Post a job</button></div>
 </div>
 
-<div data-in="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:18px 22px;border-radius:20px;background:#F1EDFF"><span style="flex:1;font-size:16px;font-weight:700">Your 4 interns logged hours this week.</span><a href="#interns" class="btn" style="height:40px">Approve hours</a></div>
+<div data-in="1" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:16px 20px;border-radius:12px;background:#F1EDFF"><span style="flex:1;font-size:16px;font-weight:500">Your 4 interns logged hours this week.</span><a href="#interns" class="btn" style="height:40px">Approve hours</a></div>
 
-<div data-in="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:14px;align-items:start">
+<div data-in="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;align-items:start">
 <sc-for list="{{cols}}" as="c" hint-placeholder-count="4">
-<section aria-label="{{c.name}}" style="background:#F4F5FC;border-radius:22px;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:440px">
-<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 8px 4px"><span style="font-size:16px;font-weight:800">{{c.name}}</span><span style="font-size:14px;font-weight:600;color:#5E6280">{{c.count}}</span></div>
+<section aria-label="{{c.name}}" style="background:#F4F5FC;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:440px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 8px 4px"><span style="font-size:16px;font-weight:600">{{c.name}}</span><span style="font-size:14px;font-weight:500;color:#5E6280">{{c.count}}</span></div>
 <sc-for list="{{c.cards}}" as="k" hint-placeholder-count="3">
 <div class="in" style="display:flex;flex-direction:column">
 <button class="cand" onClick="{{k.open}}" aria-label="Open {{k.name}}">
-<span style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:50%;background:{{k.avBg}};color:{{k.avFg}};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none">{{k.ini}}</span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:700">{{k.name}}</span><span style="font-size:13px;color:#5E6280">{{k.school}}</span></span></span>
+<span style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:50%;background:{{k.avBg}};color:{{k.avFg}};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex:none">{{k.ini}}</span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:500">{{k.name}}</span><span style="font-size:13px;color:#5E6280">{{k.school}}</span></span></span>
 <span style="font-size:14px;color:#3F4262;line-height:1.45">{{k.line}}</span>
-<sc-if value="{{k.pick}}" hint-placeholder-val="{{false}}"><span style="font-size:13px;font-weight:700;color:#4A55A8">Sync's top pick</span></sc-if>
+<sc-if value="{{k.pick}}" hint-placeholder-val="{{false}}"><span style="font-size:13px;font-weight:500;color:#4A55A8">Sync's top pick</span></sc-if>
 </button>
 <sc-if value="{{k.canMove}}" hint-placeholder-val="{{true}}"><button class="move" onClick="{{k.move}}">Move to {{k.next}} →</button></sc-if>
 </div>
@@ -70,24 +70,24 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <sc-if value="{{hasDrawer}}" hint-placeholder-val="{{false}}">
 <button class="fade" aria-label="Close profile" onClick="{{close}}" style="position:fixed;inset:0;width:100%;height:100%;border:0;padding:0;cursor:default;background:rgba(30,33,64,.32);backdrop-filter:blur(2px)"></button>
-<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-h" style="position:fixed;top:12px;right:12px;bottom:12px;width:min(500px,calc(100% - 24px));box-sizing:border-box;background:#FFFFFF;border-radius:24px;box-shadow:0 40px 100px -30px rgba(30,33,64,.5);display:flex;flex-direction:column;overflow:hidden">
+<aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-h" style="position:fixed;top:12px;right:12px;bottom:12px;width:min(500px,calc(100% - 24px));box-sizing:border-box;background:#FFFFFF;border-radius:12px;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);display:flex;flex-direction:column;overflow:hidden">
 <div style="flex:1;overflow:auto;padding:32px;display:flex;flex-direction:column;gap:24px">
 <div style="display:flex;justify-content:space-between;align-items:flex-start">
-<span style="width:64px;height:64px;border-radius:50%;background:{{d.avBg}};color:{{d.avFg}};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800">{{d.ini}}</span>
+<span style="width:64px;height:64px;border-radius:50%;background:{{d.avBg}};color:{{d.avFg}};display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600">{{d.ini}}</span>
 <button onClick="{{close}}" aria-label="Close" style="width:44px;height:44px;border-radius:50%;border:1px solid #E6E7F2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E2140" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 </div>
-<div style="display:flex;flex-direction:column;gap:6px"><h2 id="dr-h" style="margin:0;font-size:32px;font-weight:800;letter-spacing:-0.045em">{{d.name}}</h2><span style="font-size:16px;color:#5E6280">{{d.school}} · confirmed by school</span></div>
-<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:20px;border-radius:18px;background:#F4F5FC">
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Available</span><span style="font-weight:700">{{d.avail}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Lives in</span><span style="font-weight:700">{{d.city}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Hours needed</span><span style="font-weight:700">{{d.hours}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">School MOA</span><span style="font-weight:700">{{d.moa}}</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><h2 id="dr-h" style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:32px;font-weight:400;letter-spacing:-0.015em">{{d.name}}</h2><span style="font-size:16px;color:#5E6280">{{d.school}} · confirmed by school</span></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:20px;border-radius:12px;background:#F4F5FC">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Available</span><span style="font-weight:500">{{d.avail}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Lives in</span><span style="font-weight:500">{{d.city}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Hours needed</span><span style="font-weight:500">{{d.hours}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">School MOA</span><span style="font-weight:500">{{d.moa}}</span></div>
 </div>
-<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">Why Sync suggested them</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.why}}</p></section>
-<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">Experience</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.exp}}" as="x" hint-placeholder-count="2"><li>{{x}}</li></sc-for></ul></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">Why Sync suggested them</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.why}}</p></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">Experience</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.exp}}" as="x" hint-placeholder-count="2"><li>{{x}}</li></sc-for></ul></section>
 <span style="font-size:14px;color:#5E6280">Sync suggests. You decide. Age, gender and photos are never used.</span>
 </div>
-<div style="padding:18px 32px;border-top:1px solid #E6E7F2;display:flex;gap:10px"><button class="btn btn-p" style="flex:1;height:48px">Invite to interview</button><button class="btn" style="height:48px">Message</button></div>
+<div style="padding:16px 32px;border-top:1px solid #E6E7F2;display:flex;gap:8px"><button class="btn btn-p" style="flex:1;height:48px">Invite to interview</button><button class="btn" style="height:48px">Message</button></div>
 </aside>
 </sc-if>
 </div>

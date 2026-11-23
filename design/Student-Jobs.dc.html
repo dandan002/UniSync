@@ -9,19 +9,19 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#4A55A8}a:hover{color:#36408A}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s,background .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:15px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s,background .2s}
 .btn:hover{border-color:#C3C7E0;color:#1E2140}
 .btn-p{background:#D4DAFF;color:#1E2140;border-color:#D4DAFF}.btn-p:hover{background:#B8C1FA;color:#1E2140}
-.tab{color:#5E6280;text-decoration:none;font-size:15px;font-weight:600;height:72px;display:flex;align-items:center;border-bottom:2px solid transparent}
+.tab{color:#5E6280;text-decoration:none;font-size:15px;font-weight:500;height:72px;display:flex;align-items:center;border-bottom:2px solid transparent}
 .tab:hover{color:#1E2140}
-.f{height:42px;padding:0 16px;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
-.job{width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;color:#1E2140;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:22px;padding:22px;cursor:pointer;display:flex;flex-direction:column;gap:16px;min-height:236px;box-sizing:border-box;transition:border-color .25s,box-shadow .25s}
-.job:hover{border-color:#CDD1EA;box-shadow:0 22px 44px -28px rgba(30,33,64,.3)}
-.logo{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none}
+.f{height:42px;padding:0 16px;border-radius:12px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.job{width:100%;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;color:#1E2140;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:10px;padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:16px;min-height:236px;box-sizing:border-box;transition:border-color .25s,box-shadow .25s}
+.job:hover{border-color:#CDD1EA;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12)}
+.logo{width:52px;height:52px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none}
 .drawer{animation:slide .55s cubic-bezier(.22,1,.36,1) both}
 .fade{animation:fade .3s ease both}
 .toast{animation:toast .6s cubic-bezier(.34,1.4,.5,1) both}
@@ -34,21 +34,21 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh;position:relative">
 
 <header style="border-bottom:1px solid #E6E7F2">
-<div style="max-width:1240px;margin:0 auto;padding:0 28px;display:flex;flex-wrap:wrap;align-items:center;gap:0 32px">
-<a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:#1E2140;height:72px;font-weight:800;letter-spacing:-0.04em;font-size:19px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a>
-<nav aria-label="Student" style="display:flex;gap:28px;flex:1">
+<div style="max-width:1240px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:0 32px">
+<a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1E2140;height:72px;font-weight:600;letter-spacing:-0.01em;font-size:18px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a>
+<nav aria-label="Student" style="display:flex;gap:24px;flex:1">
 <a class="tab" href="Student-Home.dc.html">Home</a>
 <a class="tab" href="Student-Jobs.dc.html" aria-current="page" style="color:#1E2140;border-bottom-color:#4A55A8">Jobs</a>
 <a class="tab" href="Student-Ready.dc.html">Resume</a>
 </nav>
-<span style="width:38px;height:38px;border-radius:50%;background:#E8EBFF;color:#4A55A8;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700" aria-label="Bea Santos">BS</span>
+<span style="width:38px;height:38px;border-radius:50%;background:#E8EBFF;color:#4A55A8;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500" aria-label="Bea Santos">BS</span>
 </div>
 </header>
 
-<div style="max-width:1240px;margin:0 auto;padding:40px 28px 72px;display:flex;flex-direction:column;gap:26px">
+<div style="max-width:1240px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:24px">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px">
-<div style="display:flex;flex-direction:column;gap:8px"><h1 style="margin:0;font-size:clamp(34px,4vw,48px);font-weight:800;letter-spacing:-0.045em;line-height:1">Jobs for you</h1><span style="font-size:17px;color:#5E6280">{{count}} internships match your resume.</span></div>
-<label style="position:relative;flex:0 1 360px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search jobs</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E6280" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:16px;top:15px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" placeholder="Search role or company" style="width:100%;height:48px;box-sizing:border-box;border-radius:14px;border:1px solid #DCDEEE;background:#FFFFFF;padding:0 16px 0 44px;font:inherit;font-size:15px;color:#1E2140"></label>
+<div style="display:flex;flex-direction:column;gap:8px"><h1 style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:clamp(34px,4vw,48px);font-weight:400;letter-spacing:-0.015em;line-height:1">Jobs for you</h1><span style="font-size:16px;color:#5E6280">{{count}} internships match your resume.</span></div>
+<label style="position:relative;flex:0 1 360px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search jobs</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5E6280" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="position:absolute;left:16px;top:15px"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" placeholder="Search role or company" style="width:100%;height:48px;box-sizing:border-box;border-radius:10px;border:1px solid #DCDEEE;background:#FFFFFF;padding:0 16px 0 48px;font:inherit;font-size:15px;color:#1E2140"></label>
 </div>
 
 <div data-in="1" role="group" aria-label="Filters" style="display:flex;flex-wrap:wrap;gap:8px">
@@ -58,7 +58,7 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div role="list" aria-label="Jobs" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:16px">
 <sc-for list="{{jobs}}" as="j" hint-placeholder-count="6">
 <div role="listitem" data-card="1"><button class="job" onClick="{{j.open}}" aria-label="{{j.role}} at {{j.co}}">
-<span style="display:flex;align-items:center;gap:14px;width:100%">
+<span style="display:flex;align-items:center;gap:12px;width:100%">
 <span class="logo" style="background:{{j.bg}}">
 <sc-if value="{{j.isKalye}}" hint-placeholder-val="{{true}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></sc-if>
 <sc-if value="{{j.isMabuhay}}" hint-placeholder-val="{{false}}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 10 11 5 20 4c-1 9-6 15-15 15z" fill="#4A55A8"/><path d="M5 19l8-8" stroke="#E8EBFF" stroke-width="1.8" stroke-linecap="round"/></svg></sc-if>
@@ -67,11 +67,11 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <sc-if value="{{j.isHalo}}" hint-placeholder-val="{{false}}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" fill="#7C88DC"/><circle cx="12" cy="13" r="4" fill="#B8C1FA"/><path d="M6 15h12l-2 6H8z" fill="#7C88DC"/></svg></sc-if>
 <sc-if value="{{j.isPulo}}" hint-placeholder-val="{{false}}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M3 10c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0"/></svg></sc-if>
 </span>
-<span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:600;display:flex;align-items:center;gap:6px">{{j.co}}<svg width="15" height="15" viewBox="0 0 24 24" role="img" aria-label="Verified"><circle cx="12" cy="12" r="10" fill="#7C88DC"/><path d="M8 12.5l2.6 2.6L16 9.7" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:14px;color:#5E6280">{{j.place}}</span></span>
+<span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:500;display:flex;align-items:center;gap:4px">{{j.co}}<svg width="15" height="15" viewBox="0 0 24 24" role="img" aria-label="Verified"><circle cx="12" cy="12" r="10" fill="#7C88DC"/><path d="M8 12.5l2.6 2.6L16 9.7" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span style="font-size:14px;color:#5E6280">{{j.place}}</span></span>
 </span>
-<span style="font-size:22px;font-weight:800;letter-spacing:-0.03em;line-height:1.15">{{j.role}}</span>
+<span style="font-size:22px;font-weight:600;letter-spacing:-0.01em;line-height:1.15">{{j.role}}</span>
 <span style="font-size:15px;color:#5E6280;line-height:1.5">{{j.teaser}}</span>
-<span style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;width:100%;font-size:14px"><span style="font-weight:700">{{j.pay}}</span><span style="color:{{j.noteColor}};font-weight:600">{{j.note}}</span></span>
+<span style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;width:100%;font-size:14px"><span style="font-weight:500">{{j.pay}}</span><span style="color:{{j.noteColor}};font-weight:500">{{j.note}}</span></span>
 </button></div>
 </sc-for>
 </div>
@@ -79,10 +79,10 @@ a{color:#4A55A8}a:hover{color:#36408A}
 
 <sc-if value="{{hasOpen}}" hint-placeholder-val="{{false}}">
 <button class="fade" aria-label="Close job" onClick="{{close}}" style="position:fixed;inset:0;width:100%;height:100%;border:0;padding:0;cursor:default;background:rgba(30,33,64,.32);backdrop-filter:blur(2px)"></button>
-<article class="drawer" role="dialog" aria-modal="true" aria-labelledby="job-h" style="position:fixed;top:12px;right:12px;bottom:12px;width:min(580px,calc(100% - 24px));box-sizing:border-box;background:#FFFFFF;border-radius:24px;box-shadow:0 40px 100px -30px rgba(30,33,64,.5);display:flex;flex-direction:column;overflow:hidden">
-<div style="flex:1;overflow:auto;padding:32px;display:flex;flex-direction:column;gap:26px">
+<article class="drawer" role="dialog" aria-modal="true" aria-labelledby="job-h" style="position:fixed;top:12px;right:12px;bottom:12px;width:min(580px,calc(100% - 24px));box-sizing:border-box;background:#FFFFFF;border-radius:12px;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);display:flex;flex-direction:column;overflow:hidden">
+<div style="flex:1;overflow:auto;padding:32px;display:flex;flex-direction:column;gap:24px">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-<span class="logo" style="background:{{d.bg}};width:60px;height:60px;border-radius:16px">
+<span class="logo" style="background:{{d.bg}};width:60px;height:60px;border-radius:10px">
 <sc-if value="{{d.isKalye}}" hint-placeholder-val="{{true}}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6A5DC2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></sc-if>
 <sc-if value="{{d.isMabuhay}}" hint-placeholder-val="{{false}}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 10 11 5 20 4c-1 9-6 15-15 15z" fill="#4A55A8"/><path d="M5 19l8-8" stroke="#E8EBFF" stroke-width="1.8" stroke-linecap="round"/></svg></sc-if>
 <sc-if value="{{d.isBanaba}}" hint-placeholder-val="{{false}}"><svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><g fill="#6A5DC2"><circle cx="12" cy="6.5" r="4.5"/><circle cx="17.5" cy="12" r="4.5"/><circle cx="12" cy="17.5" r="4.5"/><circle cx="6.5" cy="12" r="4.5"/></g><circle cx="12" cy="12" r="2.6" fill="#F1EDFF"/></svg></sc-if>
@@ -92,20 +92,20 @@ a{color:#4A55A8}a:hover{color:#36408A}
 </span>
 <button onClick="{{close}}" aria-label="Close" style="width:44px;height:44px;border-radius:50%;border:1px solid #E6E7F2;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E2140" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 </div>
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:16px;font-weight:600;color:#5E6280">{{d.co}}</span><h2 id="job-h" style="margin:0;font-size:34px;font-weight:800;letter-spacing:-0.045em;line-height:1.05">{{d.role}}</h2></div>
-<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:20px;border-radius:18px;background:#F4F5FC">
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Allowance</span><span style="font-weight:700">{{d.pay}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Where</span><span style="font-weight:700">{{d.place}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Schedule</span><span style="font-weight:700">{{d.sched}}</span></div>
-<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Dates</span><span style="font-weight:700">{{d.dates}}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:16px;font-weight:500;color:#5E6280">{{d.co}}</span><h2 id="job-h" style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:34px;font-weight:400;letter-spacing:-0.015em;line-height:1.05">{{d.role}}</h2></div>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;padding:20px;border-radius:12px;background:#F4F5FC">
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Allowance</span><span style="font-weight:500">{{d.pay}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Where</span><span style="font-weight:500">{{d.place}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Schedule</span><span style="font-weight:500">{{d.sched}}</span></div>
+<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:13px;color:#5E6280">Dates</span><span style="font-weight:500">{{d.dates}}</span></div>
 </div>
-<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">About the role</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.about}}</p></section>
-<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">What you'll do</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.doList}}" as="x" hint-placeholder-count="3"><li>{{x}}</li></sc-for></ul></section>
-<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">What you'll need</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.need}}" as="x" hint-placeholder-count="3"><li>{{x}}</li></sc-for></ul></section>
-<section style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font-size:18px;font-weight:800">Perks</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.perks}}" as="x" hint-placeholder-count="2"><li>{{x}}</li></sc-for></ul></section>
-<section style="display:flex;flex-direction:column;gap:10px;padding-top:6px;border-top:1px solid #E6E7F2"><h3 style="margin:16px 0 0;font-size:18px;font-weight:800">About {{d.co}}</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.coAbout}}</p></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">About the role</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.about}}</p></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">What you'll do</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.doList}}" as="x" hint-placeholder-count="3"><li>{{x}}</li></sc-for></ul></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">What you'll need</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.need}}" as="x" hint-placeholder-count="3"><li>{{x}}</li></sc-for></ul></section>
+<section style="display:flex;flex-direction:column;gap:8px"><h3 style="margin:0;font-size:18px;font-weight:600">Perks</h3><ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#3F4262"><sc-for list="{{d.perks}}" as="x" hint-placeholder-count="2"><li>{{x}}</li></sc-for></ul></section>
+<section style="display:flex;flex-direction:column;gap:8px;padding-top:4px;border-top:1px solid #E6E7F2"><h3 style="margin:16px 0 0;font-size:18px;font-weight:600">About {{d.co}}</h3><p style="margin:0;font-size:16px;line-height:1.6;color:#3F4262">{{d.coAbout}}</p></section>
 </div>
-<div style="padding:18px 32px;border-top:1px solid #E6E7F2;display:flex;align-items:center;gap:12px">
+<div style="padding:16px 32px;border-top:1px solid #E6E7F2;display:flex;align-items:center;gap:12px">
 <sc-if value="{{dNotApplied}}" hint-placeholder-val="{{true}}"><button class="btn btn-p" data-press="1" onClick="{{apply}}" style="flex:1">Apply with my resume</button></sc-if>
 <sc-if value="{{dApplied}}" hint-placeholder-val="{{false}}"><a href="Student-Home.dc.html" class="btn" style="flex:1;color:#4A55A8;border-color:#C3C7E0">Applied. Track it →</a></sc-if>
 <button class="btn" aria-label="Save job">Save</button>
@@ -114,7 +114,7 @@ a{color:#4A55A8}a:hover{color:#36408A}
 </sc-if>
 
 <sc-if value="{{toast}}" hint-placeholder-val="{{false}}">
-<div role="status" class="toast" style="position:fixed;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:16px;background:#1E2140;color:#FFFFFF;box-shadow:0 20px 50px -20px rgba(30,33,64,.6);font-size:15px;font-weight:600">Sent to {{toast}}. Sync wrote your cover note.</div>
+<div role="status" class="toast" style="position:fixed;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:10px;background:#1E2140;color:#FFFFFF;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);font-size:15px;font-weight:500">Sent to {{toast}}. Sync wrote your cover note.</div>
 </sc-if>
 </div>
 </x-dc>

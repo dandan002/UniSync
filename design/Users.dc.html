@@ -9,19 +9,19 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#4A55A8}a:hover{color:#36408A}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 18px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 16px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:14px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s;white-space:nowrap}
 .btn:hover{border-color:#C3C7E0;color:#1E2140}
 .btn-p{background:#D4DAFF;color:#1E2140;border-color:#D4DAFF}.btn-p:hover{background:#B8C1FA;color:#1E2140}
-.side a{display:flex;align-items:center;gap:10px;height:42px;padding:0 14px;border-radius:12px;color:#5E6280;text-decoration:none;font-size:15px;font-weight:600;transition:background .2s,color .2s}
+.side a{display:flex;align-items:center;gap:8px;height:42px;padding:0 12px;border-radius:12px;color:#5E6280;text-decoration:none;font-size:15px;font-weight:500;transition:background .2s,color .2s}
 .side a:hover{background:#EEF0FA;color:#1E2140}
-.tabu{height:48px;padding:0;border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:color .2s}
-th{font-weight:600;text-align:left;color:#5E6280;font-size:13px;padding:0 18px;height:44px;border-bottom:1px solid #E6E7F2;white-space:nowrap}
-td{padding:0 18px;height:68px;border-bottom:1px solid #EEF0FA;font-size:15px;white-space:nowrap}
-select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;font:inherit;font-size:14px;font-weight:600;padding:0 12px}
+.tabu{height:48px;padding:0;border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:color .2s}
+th{font-weight:500;text-align:left;color:#5E6280;font-size:13px;padding:0 16px;height:44px;border-bottom:1px solid #E6E7F2;white-space:nowrap}
+td{padding:0 16px;height:68px;border-bottom:1px solid #EEF0FA;font-size:15px;white-space:nowrap}
+select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;font:inherit;font-size:14px;font-weight:500;padding:0 12px}
 .in{animation:rise .4s cubic-bezier(.22,1,.36,1) both}
 .pop{animation:pop .45s cubic-bezier(.34,1.45,.5,1) both}
 .fade{animation:fade .3s ease both}
@@ -33,8 +33,8 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 </helmet>
 <div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh;display:flex;flex-wrap:wrap;position:relative">
 
-<nav class="side" aria-label="Console" data-in="1" style="flex:1 1 240px;max-width:260px;background:#FAFAFE;border-right:1px solid #E6E7F2;padding:22px 14px;display:flex;flex-direction:column;gap:4px;box-sizing:border-box">
-<a href="Main.dc.html" aria-label="Unisync home" style="height:auto;padding:0 14px 20px;font-weight:800;letter-spacing:-0.04em;font-size:19px;color:#1E2140;background:transparent"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a>
+<nav class="side" aria-label="Console" data-in="1" style="flex:1 1 240px;max-width:260px;background:#FAFAFE;border-right:1px solid #E6E7F2;padding:20px 12px;display:flex;flex-direction:column;gap:4px;box-sizing:border-box">
+<a href="Main.dc.html" aria-label="Unisync home" style="height:auto;padding:0 12px 20px;font-weight:600;letter-spacing:-0.01em;font-size:18px;color:#1E2140;background:transparent"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a>
 <a href="Coordinator.dc.html">Students</a>
 <a href="#companies">Companies</a>
 <a href="#forms">Forms</a>
@@ -42,9 +42,9 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 <a href="Users.dc.html" aria-current="page" style="background:#FFFFFF;color:#1E2140;box-shadow:0 0 0 1px #E6E7F2">People</a>
 </nav>
 
-<main style="flex:999 1 640px;min-width:0;padding:36px 40px 60px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
+<main style="flex:999 1 640px;min-width:0;padding:40px 40px 64px;display:flex;flex-direction:column;gap:24px;box-sizing:border-box">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:15px;font-weight:600;color:#5E6280">Bayview State University</span><h1 style="margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:800;letter-spacing:-0.045em">People</h1></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:15px;font-weight:500;color:#5E6280">Bayview State University</span><h1 style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:clamp(30px,3.4vw,40px);font-weight:400;letter-spacing:-0.015em">People</h1></div>
 <div style="display:flex;gap:8px"><button class="btn" data-press="1">Upload class list</button><button class="btn btn-p" data-press="1" onClick="{{openInvite}}">Invite</button></div>
 </div>
 
@@ -54,16 +54,16 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 </div>
 
 <sc-if value="{{isPeople}}" hint-placeholder-val="{{true}}">
-<section class="in" aria-label="People list" style="border:1px solid #E6E7F2;border-radius:24px;overflow-x:auto">
+<section class="in" aria-label="People list" style="border:1px solid #E6E7F2;border-radius:12px;overflow-x:auto">
 <table style="width:100%;border-collapse:collapse;min-width:820px">
 <thead><tr><th>Name</th><th>Role</th><th>Handles</th><th>Status</th><th>Last seen</th><th><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Actions</span></th></tr></thead>
 <tbody>
 <sc-for list="{{people}}" as="p" hint-placeholder-count="6">
 <tr>
-<td><span style="display:flex;align-items:center;gap:12px"><span style="width:38px;height:38px;border-radius:50%;background:{{p.avBg}};color:{{p.avFg}};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">{{p.ini}}</span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700">{{p.name}}</span><span style="font-size:13px;color:#5E6280">{{p.email}}</span></span></span></td>
+<td><span style="display:flex;align-items:center;gap:12px"><span style="width:38px;height:38px;border-radius:50%;background:{{p.avBg}};color:{{p.avFg}};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500">{{p.ini}}</span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:500">{{p.name}}</span><span style="font-size:13px;color:#5E6280">{{p.email}}</span></span></span></td>
 <td><label><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Role for {{p.name}}</span><select value="{{p.role}}" onChange="{{p.setRole}}"><option>Student</option><option>Coordinator</option><option>Supervisor</option><option>Admin</option></select></label></td>
 <td style="color:#3F4262">{{p.scope}}</td>
-<td style="color:{{p.statusColor}};font-weight:600">{{p.status}}</td>
+<td style="color:{{p.statusColor}};font-weight:500">{{p.status}}</td>
 <td style="color:#5E6280">{{p.last}}</td>
 <td><button aria-label="More for {{p.name}}" style="width:40px;height:40px;border-radius:50%;border:0;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="#5E6280" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></td>
 </tr>
@@ -74,22 +74,22 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 </sc-if>
 
 <sc-if value="{{isRoles}}" hint-placeholder-val="{{false}}">
-<section class="in" aria-label="What each role can do" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:14px">
+<section class="in" aria-label="What each role can do" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px">
 <sc-for list="{{roles}}" as="r" hint-placeholder-count="4">
-<div style="border:1px solid #E6E7F2;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px">
-<span style="font-size:19px;font-weight:800;letter-spacing:-0.02em">{{r.name}}</span>
-<ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.45;color:#3F4262"><sc-for list="{{r.can}}" as="c" hint-placeholder-count="3"><li>{{c}}</li></sc-for></ul>
+<div style="border:1px solid #E6E7F2;border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:12px">
+<span style="font-size:18px;font-weight:600;letter-spacing:-0.005em">{{r.name}}</span>
+<ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.45;color:#3F4262"><sc-for list="{{r.can}}" as="c" hint-placeholder-count="3"><li>{{c}}</li></sc-for></ul>
 </div>
 </sc-for>
 </section>
 </sc-if>
 
 <sc-if value="{{isVerify}}" hint-placeholder-val="{{false}}">
-<section class="in" aria-label="Company checks" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px">
+<section class="in" aria-label="Company checks" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:12px">
 <sc-for list="{{companies}}" as="c" hint-placeholder-count="3">
-<div style="border:1px solid {{c.border}};border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:16px;transition:border-color .4s,background .4s;background:{{c.bg}}">
-<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:18px;font-weight:800">{{c.name}}</span><span style="font-size:14px;font-weight:700;color:{{c.stateColor}}">{{c.state}}</span></div>
-<div style="display:flex;flex-direction:column;gap:10px;font-size:15px"><sc-for list="{{c.checks}}" as="k" hint-placeholder-count="3"><span style="display:flex;justify-content:space-between"><span style="color:#5E6280">{{k.n}}</span><span style="font-weight:600;color:{{k.color}}">{{k.v}}</span></span></sc-for></div>
+<div style="border:1px solid {{c.border}};border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:16px;transition:border-color .4s,background .4s;background:{{c.bg}}">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:18px;font-weight:600">{{c.name}}</span><span style="font-size:14px;font-weight:500;color:{{c.stateColor}}">{{c.state}}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:15px"><sc-for list="{{c.checks}}" as="k" hint-placeholder-count="3"><span style="display:flex;justify-content:space-between"><span style="color:#5E6280">{{k.n}}</span><span style="font-weight:500;color:{{k.color}}">{{k.v}}</span></span></sc-for></div>
 <sc-if value="{{c.pending}}" hint-placeholder-val="{{true}}"><div style="display:flex;gap:8px"><button class="btn btn-p" onClick="{{c.approve}}">Approve</button><button class="btn">Ask for more</button></div></sc-if>
 </div>
 </sc-for>
@@ -97,9 +97,9 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 </sc-if>
 
 <sc-if value="{{isAudit}}" hint-placeholder-val="{{false}}">
-<section class="in" aria-label="Activity" style="border:1px solid #E6E7F2;border-radius:24px">
+<section class="in" aria-label="Activity" style="border:1px solid #E6E7F2;border-radius:12px">
 <sc-for list="{{audit}}" as="a" hint-placeholder-count="5">
-<div style="display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;padding:18px 22px;border-bottom:1px solid #EEF0FA;font-size:15px"><span style="color:#5E6280;width:110px;flex:none">{{a.t}}</span><span><span style="font-weight:700">{{a.who}}</span> {{a.what}}</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:4px 20px;align-items:baseline;padding:16px 20px;border-bottom:1px solid #EEF0FA;font-size:15px"><span style="color:#5E6280;width:110px;flex:none">{{a.t}}</span><span><span style="font-weight:500">{{a.who}}</span> {{a.what}}</span></div>
 </sc-for>
 </section>
 </sc-if>
@@ -107,11 +107,11 @@ select{height:40px;border-radius:12px;border:1px solid #DCDEEE;background:#FFFFF
 
 <sc-if value="{{invite}}" hint-placeholder-val="{{false}}">
 <button class="fade" aria-label="Close invite" onClick="{{closeInvite}}" style="position:fixed;inset:0;width:100%;height:100%;border:0;padding:0;cursor:default;background:rgba(30,33,64,.35);backdrop-filter:blur(3px)"></button>
-<div class="pop" role="dialog" aria-modal="true" aria-labelledby="inv-h" style="position:fixed;left:50%;top:50%;width:min(460px,calc(100% - 32px));box-sizing:border-box;background:#FFFFFF;border-radius:28px;padding:30px;display:flex;flex-direction:column;gap:18px;box-shadow:0 40px 100px -30px rgba(30,33,64,.5)">
-<h2 id="inv-h" style="margin:0;font-size:24px;font-weight:800;letter-spacing:-0.03em">Invite people</h2>
-<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Emails<input type="text" placeholder="name@bsu.edu.ph" style="height:48px;border-radius:14px;border:1px solid #DCDEEE;padding:0 16px;font:inherit;font-size:15px;font-weight:500"></label>
-<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600">Role<select style="height:48px;border-radius:14px"><option>Coordinator</option><option>Supervisor</option><option>Admin</option></select></label>
-<div style="display:flex;justify-content:flex-end;gap:8px;padding-top:6px"><button class="btn" onClick="{{closeInvite}}">Cancel</button><button class="btn btn-p" onClick="{{closeInvite}}">Send</button></div>
+<div class="pop" role="dialog" aria-modal="true" aria-labelledby="inv-h" style="position:fixed;left:50%;top:50%;width:min(460px,calc(100% - 32px));box-sizing:border-box;background:#FFFFFF;border-radius:12px;padding:32px;display:flex;flex-direction:column;gap:16px;box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12)">
+<h2 id="inv-h" style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:24px;font-weight:400;letter-spacing:-0.015em">Invite people</h2>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500">Emails<input type="text" placeholder="name@bsu.edu.ph" style="height:48px;border-radius:10px;border:1px solid #DCDEEE;padding:0 16px;font:inherit;font-size:15px;font-weight:500"></label>
+<label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500">Role<select style="height:48px;border-radius:10px"><option>Coordinator</option><option>Supervisor</option><option>Admin</option></select></label>
+<div style="display:flex;justify-content:flex-end;gap:8px;padding-top:4px"><button class="btn" onClick="{{closeInvite}}">Cancel</button><button class="btn btn-p" onClick="{{closeInvite}}">Send</button></div>
 </div>
 </sc-if>
 </div>

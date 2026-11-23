@@ -22,9 +22,9 @@ design/
 
 ## Design system
 
-- Font: Plus Jakarta Sans (Google Fonts)
+- Fonts: Newsreader (regular) for headings, Plus Jakarta Sans 400–600 for everything else
 - Colors: one periwinkle family plus a matching lilac. Ink `#1E2140`, muted text `#5E6280`, borders `#E6E7F2`, surface `#F4F5FC`, primary fill `#D4DAFF` (hover `#B8C1FA`), soft fill `#E8EBFF`, accent mark `#7C88DC`, accent text `#4A55A8`, lilac `#A99BF0` / `#F1EDFF` / `#6A5DC2`
-- Shapes: pill buttons, 18–24 px card radius, hairline borders, soft shadows on hover only
+- Spacing and shape: 8px spacing scale, 8px button and 10–12px card radii, hairline borders, faint shadows (Mercury-style)
 - Motion: spring transitions, staggered reveals, hover lift and press feedback via Motion's `animate`, `stagger`, `inView`, `hover` and `press`
 
 ## Viewing the files

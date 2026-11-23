@@ -9,16 +9,16 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#4A55A8}a:hover{color:#36408A}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 24px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:15px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden}
 .btn:hover{border-color:#C3C7E0;color:#1E2140}
 .btn-p{background:#D4DAFF;color:#1E2140;border-color:#D4DAFF}.btn-p:hover{background:#B8C1FA;color:#1E2140}
-.tab{color:#5E6280;text-decoration:none;font-size:15px;font-weight:600;height:72px;display:flex;align-items:center;border-bottom:2px solid transparent}
+.tab{color:#5E6280;text-decoration:none;font-size:15px;font-weight:500;height:72px;display:flex;align-items:center;border-bottom:2px solid transparent}
 .tab:hover{color:#1E2140}
-.seg{position:relative;z-index:1;flex:1;height:38px;border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:color .3s}
+.seg{position:relative;z-index:1;flex:1;height:38px;border:0;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:color .3s}
 .in{animation:rise .5s cubic-bezier(.22,1,.36,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -27,53 +27,53 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh">
 
 <header style="border-bottom:1px solid #E6E7F2">
-<div style="max-width:1240px;margin:0 auto;padding:0 28px;display:flex;flex-wrap:wrap;align-items:center;gap:0 32px">
-<a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:#1E2140;height:72px;font-weight:800;letter-spacing:-0.04em;font-size:19px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a>
-<nav aria-label="Student" style="display:flex;gap:28px;flex:1">
+<div style="max-width:1240px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;align-items:center;gap:0 32px">
+<a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#1E2140;height:72px;font-weight:600;letter-spacing:-0.01em;font-size:18px"><svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><g fill="#1E2140"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#A99BF0"/></svg>unisync</a>
+<nav aria-label="Student" style="display:flex;gap:24px;flex:1">
 <a class="tab" href="Student-Home.dc.html">Home</a>
 <a class="tab" href="Student-Jobs.dc.html">Jobs</a>
 <a class="tab" href="Student-Ready.dc.html" aria-current="page" style="color:#1E2140;border-bottom-color:#4A55A8">Resume</a>
 </nav>
-<span style="width:38px;height:38px;border-radius:50%;background:#E8EBFF;color:#4A55A8;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700" aria-label="Bea Santos">BS</span>
+<span style="width:38px;height:38px;border-radius:50%;background:#E8EBFF;color:#4A55A8;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500" aria-label="Bea Santos">BS</span>
 </div>
 </header>
 
 <div data-in="1" style="border-bottom:1px solid #E6E7F2;background:#FAFAFE">
-<div style="max-width:1240px;margin:0 auto;padding:14px 28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
-<span style="font-size:15px;font-weight:700">School forms</span>
+<div style="max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px">
+<span style="font-size:15px;font-weight:500">School forms</span>
 <div role="progressbar" aria-label="School forms" aria-valuemin="0" aria-valuemax="6" aria-valuenow="{{forms}}" style="flex:1 1 200px;max-width:360px;height:6px;border-radius:3px;background:#E6E7F2;overflow:hidden"><span data-fill="1" style="display:block;height:100%;background:#7C88DC;border-radius:3px;transform-origin:left;transition:width .6s cubic-bezier(.34,1.2,.5,1);width:{{formsPct}}%"></span></div>
 <span style="font-size:15px;color:#5E6280">{{forms}} of 6</span>
 <span style="flex:1"></span>
 <span style="font-size:15px;color:#5E6280">Next: medical certificate</span>
-<button class="btn" style="height:40px;padding:0 18px;font-size:14px">Upload</button>
+<button class="btn" style="height:40px;padding:0 16px;font-size:14px">Upload</button>
 </div>
 </div>
 
-<main style="max-width:880px;margin:0 auto;padding:40px 28px 72px;display:flex;flex-direction:column;gap:24px">
+<main style="max-width:880px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:24px">
 <div data-in="1" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
-<div style="display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-size:clamp(32px,4vw,44px);font-weight:800;letter-spacing:-0.045em;line-height:1">Your resume</h1><span style="font-size:16px;color:#5E6280">Built from your answers. Change anything.</span></div>
-<div role="tablist" aria-label="Template" style="position:relative;display:flex;width:300px;padding:4px;border-radius:14px;background:#EEF0FA">
-<span aria-hidden="true" style="position:absolute;top:4px;left:4px;width:calc((100% - 8px) / 3);height:38px;border-radius:10px;background:#FFFFFF;box-shadow:0 2px 8px -2px rgba(30,33,64,.15);transition:transform .45s cubic-bezier(.34,1.4,.5,1);transform:translateX({{tplX}}%)"></span>
+<div style="display:flex;flex-direction:column;gap:4px"><h1 style="font-family:'Newsreader',Georgia,serif;margin:0;font-size:clamp(32px,4vw,44px);font-weight:400;letter-spacing:-0.015em;line-height:1">Your resume</h1><span style="font-size:16px;color:#5E6280">Built from your answers. Change anything.</span></div>
+<div role="tablist" aria-label="Template" style="position:relative;display:flex;width:300px;padding:4px;border-radius:10px;background:#EEF0FA">
+<span aria-hidden="true" style="position:absolute;top:4px;left:4px;width:calc((100% - 8px) / 3);height:38px;border-radius:8px;background:#FFFFFF;box-shadow:0 1px 2px rgba(30,33,64,.05);transition:transform .45s cubic-bezier(.34,1.4,.5,1);transform:translateX({{tplX}}%)"></span>
 <sc-for list="{{tpls}}" as="t" hint-placeholder-count="3"><button class="seg" role="tab" aria-selected="{{t.on}}" onClick="{{t.pick}}" style="color:{{t.color}}">{{t.name}}</button></sc-for>
 </div>
 </div>
 
-<article data-in="1" aria-label="Resume preview" style="background:#FFFFFF;border:1px solid #E6E7F2;border-radius:8px;padding:{{pad}};display:flex;flex-direction:column;gap:{{gap}};font-family:{{font}};box-shadow:0 40px 80px -50px rgba(30,33,64,.45);transition:padding .4s,gap .4s">
-<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px;border-bottom:2px solid #1E2140;padding-bottom:14px">
-<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:32px;font-weight:700;letter-spacing:-0.02em">Bea Santos</span><span style="font-size:15px;color:#3F4262">BS Information Technology · Bayview State University</span></div>
+<article data-in="1" aria-label="Resume preview" style="background:#FFFFFF;border:1px solid #E6E7F2;border-radius:8px;padding:{{pad}};display:flex;flex-direction:column;gap:{{gap}};font-family:{{font}};box-shadow:0 1px 2px rgba(30,33,64,.04),0 8px 24px -12px rgba(30,33,64,.12);transition:padding .4s,gap .4s">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px;border-bottom:2px solid #1E2140;padding-bottom:12px">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:'Newsreader',Georgia,serif;font-size:32px;font-weight:400;letter-spacing:-0.015em">Bea Santos</span><span style="font-size:15px;color:#3F4262">BS Information Technology · Bayview State University</span></div>
 <span style="font-size:14px;color:#3F4262">bea.santos@bsu.edu.ph · Laguna</span>
 </div>
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Projects</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:700;font-size:16px">Canteen inventory system, capstone</span><span style="font-size:14px;color:#5E6280">2026</span></div><span style="font-size:15px;line-height:1.55">Designed the SQL database for a 4-person team's stock and sales tracker.</span></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Leadership</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:700;font-size:16px">Treasurer, IT Society</span><span style="font-size:14px;color:#5E6280">2025–26</span></div><span style="font-size:15px;line-height:1.55">Ran fees and monthly finance reports for 120 members in Google Sheets.</span></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Work</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:700;font-size:16px">Store assistant, family business</span><span style="font-size:14px;color:#5E6280">2022–now</span></div><span style="font-size:15px;line-height:1.55">Restocking, daily cash count and supplier orders.</span></div>
-<div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Skills</span><span style="font-size:15px;line-height:1.55">SQL, database design, Python, Figma, Google Sheets, budgeting, inventory</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Projects</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:500;font-size:16px">Canteen inventory system, capstone</span><span style="font-size:14px;color:#5E6280">2026</span></div><span style="font-size:15px;line-height:1.55">Designed the SQL database for a 4-person team's stock and sales tracker.</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Leadership</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:500;font-size:16px">Treasurer, IT Society</span><span style="font-size:14px;color:#5E6280">2025–26</span></div><span style="font-size:15px;line-height:1.55">Ran fees and monthly finance reports for 120 members in Google Sheets.</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Work</span><div style="display:flex;justify-content:space-between;gap:12px"><span style="font-weight:500;font-size:16px">Store assistant, family business</span><span style="font-size:14px;color:#5E6280">2022–now</span></div><span style="font-size:15px;line-height:1.55">Restocking, daily cash count and supplier orders.</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Skills</span><span style="font-size:15px;line-height:1.55">SQL, database design, Python, Figma, Google Sheets, budgeting, inventory</span></div>
 </article>
 
-<div data-in="1" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-<sc-if value="{{notApproved}}" hint-placeholder-val="{{true}}"><button ref="{{holdRef}}" class="btn btn-p" onClick="{{fallback}}" style="min-width:240px;height:54px"><span ref="{{fillRef}}" aria-hidden="true" style="position:absolute;inset:0;background:#B8C1FA;transform-origin:left;transform:scaleX(0)"></span><span style="position:relative">Hold to approve</span></button></sc-if>
-<sc-if value="{{approved}}" hint-placeholder-val="{{false}}"><a href="Student-Jobs.dc.html" class="btn in" style="height:54px;background:#D4DAFF;border-color:#D4DAFF;color:#1E2140">Approved. Find jobs →</a></sc-if>
-<a href="Student-Onboarding.dc.html" class="btn" style="height:54px">Change with Sync</a>
-<a href="#pdf" class="btn" style="height:54px;border-color:transparent">Download PDF</a>
+<div data-in="1" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+<sc-if value="{{notApproved}}" hint-placeholder-val="{{true}}"><button ref="{{holdRef}}" class="btn btn-p" onClick="{{fallback}}" style="min-width:240px;height:48px"><span ref="{{fillRef}}" aria-hidden="true" style="position:absolute;inset:0;background:#B8C1FA;transform-origin:left;transform:scaleX(0)"></span><span style="position:relative">Hold to approve</span></button></sc-if>
+<sc-if value="{{approved}}" hint-placeholder-val="{{false}}"><a href="Student-Jobs.dc.html" class="btn in" style="height:48px;background:#D4DAFF;border-color:#D4DAFF;color:#1E2140">Approved. Find jobs →</a></sc-if>
+<a href="Student-Onboarding.dc.html" class="btn" style="height:48px">Change with Sync</a>
+<a href="#pdf" class="btn" style="height:48px;border-color:transparent">Download PDF</a>
 </div>
 </main>
 </div>
