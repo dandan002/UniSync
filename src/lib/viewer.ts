@@ -51,7 +51,7 @@ export function homeFor(profile: Profile, company?: Company | null): string {
     case "admin":
       return profile.school_id ? "/school" : "/sign-in?error=no-school";
     case "supervisor":
-      return profile.company_id || company ? "/employer" : "/employer/register";
+      return profile.company_id || company ? "/employer" : "/register";
   }
 }
 

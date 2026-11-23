@@ -8,6 +8,7 @@ const isProtected = createRouteMatcher([
   "/school(.*)",
   "/employer(.*)",
   "/welcome(.*)",
+  "/register(.*)",
   "/api/reports(.*)",
 ]);
 

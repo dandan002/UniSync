@@ -73,7 +73,7 @@ function Layout({
       <Body style={{ margin: 0, padding: "32px 12px", backgroundColor: C.surface, fontFamily: FONT, color: C.ink }}>
         <Container style={{ maxWidth: 560, width: "100%", margin: "0 auto" }}>
           <Section style={{ padding: "0 4px 20px" }}>
-            <Img src={appUrl("/email/logo.png")} width="132" height="32" alt="unisync" style={{ display: "block" }} />
+            <Img src={appUrl("/email/logo.png")} width="121" height="32" alt="unisync" style={{ display: "block" }} />
           </Section>
 
           <Section style={{ backgroundColor: "#FFFFFF", border: `1px solid ${C.line}`, borderRadius: 12, overflow: "hidden" }}>
@@ -197,7 +197,7 @@ export function ApplicationSentEmail(props: { name: string; job: string; company
         { label: "Details", value: props.detail },
       ]}
     >
-      <Text style={p}>Hi {props.name}, most companies reply within three days. We'll email you when they view it or invite you to an interview.</Text>
+      <Text style={p}>Hi {props.name}, most companies reply within three days. We’ll email you when they view it or invite you to an interview.</Text>
     </Layout>
   );
 }
@@ -256,7 +256,7 @@ export function OfferEmail(props: { name: string; company: string; job: string; 
       ]}
       tone="lilac"
     >
-      <Text style={p}>Nice work, {props.name}. Accept it on Unisync and we'll tell your school, so your coordinator can start your placement forms.</Text>
+      <Text style={p}>Nice work, {props.name}. Accept it on Unisync and we’ll tell your school, so your coordinator can start your placement forms.</Text>
     </Layout>
   );
 }
@@ -297,7 +297,7 @@ export function InviteEmail(props: { school: string; role: string; inviter: stri
       ]}
     >
       <Text style={p}>
-        {props.inviter} added you as {article} {props.role}. Sign in with {props.email} and you'll land in the right place. No password needed; we'll email you a code.
+        {props.inviter} added you as {article} {props.role}. Sign in with {props.email} and you’ll land in the right place. No password needed; we’ll email you a code.
       </Text>
     </Layout>
   );

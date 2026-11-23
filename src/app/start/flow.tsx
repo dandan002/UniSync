@@ -4,7 +4,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Arrow, CompanyMark, Mark } from "@/components/brand";
 import { CodeAuth, toE164 } from "@/components/code-auth";
 import { pressProps } from "@/components/motion";
@@ -28,16 +28,25 @@ import type { ResumeItem } from "@/lib/types";
 
 const TOTAL = 8;
 
+// Returning with a named draft: offer to continue. Coming from the landing
+// page with only a course: start at the name question.
+function firstStep(draft: Draft): number {
+  if (hasDraft(draft) && draft.name) return 0;
+  const resumeAt = Math.min(Math.max(draft.last, 1), TOTAL);
+  return draft.course ? Math.max(resumeAt, 2) : 1;
+}
+
 type SyncState = "idle" | "writing" | "done";
 
 export function Flow() {
   const router = useRouter();
   const { isSignedIn } = useAuth();
   const { user } = useUser();
-  const [d, setD] = useState<Draft>(EMPTY_DRAFT);
-  const [step, setStep] = useState(1);
+  // This component only renders in the browser (see page.tsx), so the draft
+  // can be read straight from localStorage.
+  const [d, setD] = useState<Draft>(() => loadDraft());
+  const [step, setStep] = useState(() => firstStep(loadDraft()));
   const [dir, setDir] = useState(1);
-  const [loaded, setLoaded] = useState(false);
   const [saved, setSaved] = useState(false);
   const [capSync, setCapSync] = useState<SyncState>("idle");
   const [fupSync, setFupSync] = useState<SyncState>("idle");
@@ -47,17 +56,6 @@ export function Flow() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ matches: number; top: TopJob | null } | null>(null);
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Restore the draft from this phone.
-  useEffect(() => {
-    const draft = loadDraft();
-    setD(draft);
-    const resumeAt = Math.min(Math.max(draft.last, 1), TOTAL);
-    // Coming from the landing page with only a course: jump straight in.
-    if (hasDraft(draft) && draft.name) setStep(0);
-    else setStep(draft.course ? Math.max(resumeAt, 2) : 1);
-    setLoaded(true);
-  }, []);
 
   const update = useCallback((patch: Partial<Draft>) => {
     setD((prev) => {
@@ -173,8 +171,6 @@ export function Flow() {
   const resume = draftToResume(d);
   const answered = step === 0 ? d.last - 1 : step - 1;
   const inFlow = step >= 1 && step <= TOTAL;
-
-  if (!loaded) return <div className="min-h-screen bg-paper" />;
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink">
@@ -521,13 +517,12 @@ function PhoneCapture({ channel, onPhone, children }: { channel: "phone" | "emai
 type Recognition = { lang: string; interimResults: boolean; start: () => void; stop: () => void; onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null; onend: (() => void) | null };
 
 function Dictate({ lang, onText }: { lang: string; onText: (t: string) => void }) {
-  const [supported, setSupported] = useState(false);
+  const [supported] = useState(() => {
+    const w = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
+    return !!(w.SpeechRecognition || w.webkitSpeechRecognition);
+  });
   const [on, setOn] = useState(false);
   const rec = useRef<Recognition | null>(null);
-  useEffect(() => {
-    const w = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
-    setSupported(!!(w.SpeechRecognition || w.webkitSpeechRecognition));
-  }, []);
   if (!supported) return null;
   return (
     <button
