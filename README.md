@@ -9,8 +9,8 @@ This repo holds the UI scaffold (design mockups). There is no app code yet.
 ```
 design/
   canvas.json               Artboard layout for the design canvas
-  Main.dc.html              Landing page
-  Student-Onboarding.dc.html  One-question-per-screen signup with Sync (saved progress, "x of 8")
+  Main.dc.html              Landing page: first question inline, live resume preview
+  Student-Onboarding.dc.html  One question per screen, resume builds live, contact asked after the resume
   Student-Ready.dc.html     Resume preview, template switcher, hold-to-approve, school forms progress
   Student-Jobs.dc.html      Job cards with company logos and a full job description slide-over
   Student-Home.dc.html      Next interview, applications, updates, school forms progress

@@ -9,197 +9,202 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;800&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#2F5BEA}a:hover{color:#1E40AF}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 22px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:15px;text-decoration:none;border:1px solid #E4E2DD;background:#FFFFFF;color:#16161A;cursor:pointer;transition:border-color .2s,background .2s}
-.btn:hover{border-color:#C9C6BF;color:#16161A}
-.btn-p{background:#16161A;color:#FFFFFF;border-color:#16161A}.btn-p:hover{background:#2A2A30;color:#FFFFFF}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:56px;padding:0 28px;border-radius:999px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:16px;text-decoration:none;border:0;cursor:pointer;transition:background .2s,transform .2s}
+.go{background:#2F5BEA;color:#FFFFFF}.go:hover{background:#2449C4;color:#FFFFFF}
+.ink{background:#16161A;color:#FFFFFF}.ink:hover{background:#2A2A30;color:#FFFFFF}
+.off{background:#ECEBE8;color:#77767D;cursor:not-allowed}
 .nav a{color:#5E5E66;text-decoration:none;font-size:15px;font-weight:500;transition:color .2s}.nav a:hover{color:#16161A}
-.card{background:#FFFFFF;border:1px solid #ECEBE8;border-radius:20px;transition:border-color .25s,box-shadow .25s}
-.card:hover{border-color:#DAD8D2;box-shadow:0 18px 40px -24px rgba(22,22,26,.25)}
-.in{animation:rise .55s cubic-bezier(.22,1,.36,1) both}
-.typing span{width:6px;height:6px;border-radius:50%;background:#A3A1A8;display:inline-block;animation:blink 1s infinite}
-.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
-@keyframes rise{from{opacity:0;transform:translateY(10px) scale(.98);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
-@keyframes blink{50%{opacity:.3}}
+.chip{height:40px;padding:0 16px;border-radius:12px;border:1px solid #E4E2DD;background:#FFFFFF;color:#16161A;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:border-color .2s,background .2s}
+.chip:hover{border-color:#2F5BEA;background:#F5F7FE}
+.sk{display:block;height:10px;border-radius:5px;background:#F0EFEC}
+.shim{background:linear-gradient(90deg,#F0EFEC 0%,#F8F7F5 50%,#F0EFEC 100%);background-size:200% 100%;animation:shim 1.6s linear infinite}
+.pop{animation:pop .5s cubic-bezier(.34,1.5,.5,1) both}
+.caret{display:inline-block;width:2px;height:1em;background:#2F5BEA;vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+@keyframes shim{to{background-position:-200% 0}}
+@keyframes pop{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </helmet>
 <div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#16161A;overflow:hidden">
 
-<header style="position:relative;z-index:2">
+<header>
 <div style="max-width:1200px;margin:0 auto;padding:0 28px;min-height:76px;display:flex;flex-wrap:wrap;align-items:center;gap:12px 40px">
 <a href="Main.dc.html" aria-label="Unisync home" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#16161A">
 <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><g fill="#16161A"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/></g><circle cx="16" cy="16" r="5" fill="#FFB020"/></svg>
 <span style="font-size:20px;font-weight:800;letter-spacing:-0.04em">unisync</span>
 </a>
-<nav class="nav" aria-label="Main" style="display:flex;flex-wrap:wrap;gap:6px 30px;flex:1 1 320px">
-<a href="Student-Onboarding.dc.html">Students</a><a href="Coordinator.dc.html">Schools</a><a href="Employer.dc.html">Employers</a><a href="#safety">Safety</a>
+<nav class="nav" aria-label="Main" style="display:flex;flex-wrap:wrap;gap:6px 28px;flex:1 1 300px;justify-content:flex-end">
+<a href="Coordinator.dc.html">For schools</a><a href="Employer.dc.html">For employers</a><a href="Student-Home.dc.html" style="color:#16161A;font-weight:800">Log in</a>
 </nav>
-<div style="display:flex;align-items:center;gap:8px">
-<a href="Student-Home.dc.html" class="btn" style="height:42px;border-color:transparent">Log in</a>
-<a href="Student-Onboarding.dc.html" class="btn btn-p" data-press="1" style="height:42px">Get started</a>
-</div>
 </div>
 </header>
 
-<section style="position:relative">
-<div aria-hidden="true" style="position:absolute;left:50%;top:-140px;width:1100px;height:700px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(47,91,234,.10),rgba(255,176,32,.06) 55%,rgba(255,255,255,0));pointer-events:none"></div>
-<div style="position:relative;max-width:1200px;margin:0 auto;padding:72px 28px 56px;display:flex;flex-direction:column;align-items:center;gap:24px;text-align:center">
-<a data-hero="1" href="Student-Onboarding.dc.html" style="display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 6px 0 16px;border:1px solid #ECEBE8;border-radius:999px;background:#FFFFFF;color:#16161A;text-decoration:none;font-size:14px;font-weight:500">OJT 2027 applications are open<span style="height:26px;padding:0 10px;border-radius:999px;background:#EEF2FE;color:#2F5BEA;display:inline-flex;align-items:center;font-weight:600">Start</span></a>
-<h1 aria-label="Internship-ready in 20 minutes." style="margin:0;font-size:clamp(48px,7.4vw,100px);line-height:.98;letter-spacing:-0.055em;font-weight:800;max-width:1000px;display:flex;flex-wrap:wrap;justify-content:center;column-gap:.24em">
-<span data-word="1" aria-hidden="true">Internship-ready</span><span data-word="1" aria-hidden="true">in</span><span data-word="1" aria-hidden="true" style="color:#2F5BEA">20</span><span data-word="1" aria-hidden="true" style="color:#2F5BEA">minutes.</span>
-</h1>
-<p data-hero="1" style="margin:0;font-size:20px;line-height:1.5;color:#5E5E66;max-width:520px">Chat with Sync. Get a resume, your school forms and real postings.</p>
-<div data-hero="1" style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px">
-<a href="Student-Onboarding.dc.html" class="btn btn-p" data-press="1" style="height:54px;padding:0 28px;font-size:16px">Start with Sync</a>
-<a href="Coordinator.dc.html" class="btn" data-press="1" style="height:54px;padding:0 26px;font-size:16px">I run OJT at a school</a>
+<section aria-labelledby="hero-h">
+<div style="max-width:1200px;margin:0 auto;padding:48px 28px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:48px;align-items:center">
+
+<div style="display:flex;flex-direction:column;gap:26px">
+<h1 id="hero-h" data-hero="1" style="margin:0;font-size:clamp(44px,6vw,80px);line-height:.98;letter-spacing:-0.055em;font-weight:800">Your first resume.<br><span style="color:#2F5BEA">One conversation.</span></h1>
+<p data-hero="1" style="margin:0;font-size:19px;line-height:1.5;color:#5E5E66;max-width:470px">Real internships from checked companies. No deposits. No Telegram. No scams.</p>
+
+<div data-hero="1" style="border:1px solid #ECEBE8;border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:16px;box-shadow:0 30px 60px -40px rgba(22,22,26,.35);max-width:520px">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:32px;height:32px;border-radius:50%;background:#16161A;display:flex;align-items:center;justify-content:center;flex:none"><svg width="16" height="16" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="8" fill="#FFB020"/></svg></span><span style="font-size:18px;font-weight:800;letter-spacing:-0.02em">What's your course?</span></div>
+<label style="position:relative;display:block"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your course</span><input type="text" value="{{course}}" onChange="{{typeCourse}}" placeholder="e.g. BS Information Technology" style="width:100%;box-sizing:border-box;height:56px;border-radius:16px;border:2px solid {{inputBorder}};padding:0 18px;font:inherit;font-size:17px;font-weight:500;color:#16161A;outline:none;transition:border-color .2s"></label>
+<div role="group" aria-label="Common courses" style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{picks}}" as="p" hint-placeholder-count="4"><button class="chip" onClick="{{p.pick}}">{{p.name}}</button></sc-for>
+</div>
+<sc-if value="{{ready}}" hint-placeholder-val="{{false}}"><a href="Student-Onboarding.dc.html" class="btn go pop" data-press="1">Build my resume, free <span aria-hidden="true">→</span></a></sc-if>
+<sc-if value="{{notReady}}" hint-placeholder-val="{{true}}"><button class="btn off" disabled>Build my resume, free <span aria-hidden="true">→</span></button></sc-if>
+<span style="font-size:14px;color:#5E5E66;text-align:center">No sign-up yet · Never charges students</span>
 </div>
 </div>
 
-<div data-hero="1" style="position:relative;max-width:1040px;margin:0 auto;padding:0 28px 100px">
-<div style="border:1px solid #ECEBE8;border-radius:28px;background:#F6F5F2;padding:14px;box-shadow:0 50px 100px -50px rgba(22,22,26,.35)">
-<div style="background:#FFFFFF;border-radius:18px;border:1px solid #ECEBE8;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));min-height:400px;overflow:hidden">
-<div style="padding:28px;display:flex;flex-direction:column;gap:12px;text-align:left">
-<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="width:34px;height:34px;border-radius:50%;background:#16161A;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="7" fill="#FFB020"/></svg></span><span style="display:flex;flex-direction:column"><span style="font-weight:700;font-size:15px">Sync</span><span style="font-size:13px;color:#5E5E66">Saved a moment ago</span></span></div>
-<sc-for list="{{feed}}" as="f" hint-placeholder-count="4">
-<sc-if value="{{f.isSync}}" hint-placeholder-val="{{true}}"><div class="in" style="align-self:flex-start;max-width:86%;background:#F6F5F2;border-radius:6px 20px 20px 20px;padding:12px 16px;font-size:15px;line-height:1.45">{{f.text}}</div></sc-if>
-<sc-if value="{{f.isMe}}" hint-placeholder-val="{{false}}"><div class="in" style="align-self:flex-end;max-width:86%;background:#2F5BEA;color:#FFFFFF;border-radius:20px 6px 20px 20px;padding:12px 16px;font-size:15px;line-height:1.45">{{f.text}}</div></sc-if>
-<sc-if value="{{f.isJob}}" hint-placeholder-val="{{false}}"><div class="in" style="display:flex;align-items:center;gap:14px;border:1px solid #ECEBE8;border-radius:16px;padding:14px"><span style="width:44px;height:44px;border-radius:12px;background:#FFF4E0;display:flex;align-items:center;justify-content:center;flex:none"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E07B00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18l5-6-5-6M12 18l5-6-5-6"/></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700">Data intern</span><span style="font-size:14px;color:#5E5E66">Kalye Logistics · Pasig · ₱6,000 a month</span></span></div></sc-if>
-</sc-for>
-<sc-if value="{{typing}}" hint-placeholder-val="{{false}}"><div class="typing" style="align-self:flex-start;display:flex;gap:4px;padding:14px 16px;background:#F6F5F2;border-radius:6px 20px 20px 20px"><span></span><span></span><span></span></div></sc-if>
-</div>
-<div style="padding:28px;background:#FBFAF8;border-left:1px solid #ECEBE8;display:flex;flex-direction:column;gap:18px;text-align:left">
-<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:700">Bea's resume</span><span style="font-size:13px;color:#5E5E66">Writing itself</span></div>
-<div style="background:#FFFFFF;border:1px solid #ECEBE8;border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px">
-<span style="font-size:20px;font-weight:800;letter-spacing:-0.03em">Bea Santos</span>
-<span style="font-size:13px;color:#5E5E66">BS Information Technology · Bayview State</span>
-<span style="height:1px;background:#ECEBE8"></span>
-<span style="font-size:14px;font-weight:700">Canteen inventory system</span>
-<span style="font-size:13px;color:#5E5E66;line-height:1.5">Designed the database for a 4-person capstone.</span>
-<span style="font-size:14px;font-weight:700">Treasurer, IT Society</span>
-<span style="font-size:13px;color:#5E5E66;line-height:1.5">Ran fees and monthly reports for 120 members.</span>
-</div>
+<div data-hero="1" aria-label="Your resume, live preview" style="position:relative;justify-self:center;width:100%;max-width:470px">
+<div aria-hidden="true" style="position:absolute;inset:24px -16px -16px 24px;border-radius:24px;background:#F6F5F2"></div>
+<div style="position:relative;background:#FFFFFF;border:1px solid #ECEBE8;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:18px;min-height:460px;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:800;color:#2F5BEA">Your resume</span><span style="font-size:13px;color:#5E5E66">{{filled}}</span></div>
+<span style="font-size:30px;font-weight:800;letter-spacing:-0.035em;color:#C9C6BF">Your name</span>
+<span style="font-size:16px;font-weight:500;min-height:24px;color:{{courseColor}}">{{courseLine}}<sc-if value="{{typing}}" hint-placeholder-val="{{false}}"><span class="caret"></span></sc-if></span>
+<span style="height:2px;background:#16161A"></span>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Projects</span><span class="sk shim" style="width:70%"></span><span class="sk shim" style="width:92%"></span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Experience</span><span class="sk shim" style="width:60%"></span><span class="sk shim" style="width:85%"></span><span class="sk shim" style="width:40%"></span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#5E5E66">Skills</span>
+<div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{skills}}" as="k" hint-placeholder-count="3"><span class="pop" style="height:28px;padding:0 12px;border-radius:8px;background:#F5F7FE;color:#2F5BEA;font-size:13px;font-weight:800;display:inline-flex;align-items:center">{{k}}</span></sc-for><sc-if value="{{noSkills}}" hint-placeholder-val="{{true}}"><span class="sk shim" style="width:50%"></span></sc-if></div>
 </div>
 </div>
 </div>
 </div>
 </section>
 
-<section data-reveal="1" aria-label="Why" style="background:#16161A;color:#FFFFFF">
-<div style="max-width:1200px;margin:0 auto;padding:96px 28px;display:flex;flex-direction:column;gap:48px">
-<h2 data-item="1" style="margin:0;font-size:clamp(32px,4vw,52px);letter-spacing:-0.045em;font-weight:800;line-height:1.05;max-width:700px">Getting a first internship shouldn't take a stack of paper.</h2>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:40px">
-<div data-item="1" style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #34343A;padding-top:24px"><span style="font-size:60px;font-weight:800;letter-spacing:-0.05em;line-height:1;font-variant-numeric:tabular-nums">{{grads}}</span><span style="font-size:16px;color:#C4C3CA">graduates a year need an internship</span><span style="font-size:13px;color:#9998A0">CHED, AY 2023-24</span></div>
-<div data-item="1" style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #34343A;padding-top:24px"><span style="font-size:60px;font-weight:800;letter-spacing:-0.05em;line-height:1;font-variant-numeric:tabular-nums">{{forms}}</span><span style="font-size:16px;color:#C4C3CA">forms per intern, mostly on paper</span><span style="font-size:13px;color:#9998A0">CHED CMO 104</span></div>
-<div data-item="1" style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #34343A;padding-top:24px"><span style="font-size:60px;font-weight:800;letter-spacing:-0.05em;line-height:1;font-variant-numeric:tabular-nums">{{fraud}}%</span><span style="font-size:16px;color:#C4C3CA">of APAC job scams target the Philippines</span><span style="font-size:13px;color:#9998A0">SEEK, 2024-25</span></div>
+<section data-reveal="1" aria-labelledby="how" style="background:#F6F5F2">
+<div style="max-width:1200px;margin:0 auto;padding:96px 28px;display:flex;flex-direction:column;gap:44px">
+<h2 id="how" data-item="1" style="margin:0;font-size:clamp(32px,4vw,52px);letter-spacing:-0.05em;font-weight:800;line-height:1">Answer. Get a resume. Apply.</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px;align-items:stretch">
+
+<figure data-item="1" style="margin:0;display:flex;flex-direction:column;gap:16px">
+<div style="background:#FFFFFF;border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:10px;min-height:240px;box-sizing:border-box">
+<div style="align-self:flex-start;max-width:88%;background:#F6F5F2;border-radius:6px 18px 18px 18px;padding:11px 14px;font-size:15px;line-height:1.45">What did you build for your capstone?</div>
+<div style="align-self:flex-end;max-width:88%;background:#2F5BEA;color:#FFFFFF;border-radius:18px 6px 18px 18px;padding:11px 14px;font-size:15px;line-height:1.45">Inventory system para sa canteen. Ako sa database.</div>
+<div style="align-self:flex-start;max-width:88%;background:#F6F5F2;border-radius:6px 18px 18px 18px;padding:11px 14px;font-size:15px;line-height:1.45">Galing. Added to your resume.</div>
+</div>
+<figcaption style="font-size:17px;font-weight:800">Answer in Taglish.</figcaption>
+</figure>
+
+<figure data-item="1" style="margin:0;display:flex;flex-direction:column;gap:16px">
+<div style="background:#FFFFFF;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:10px;min-height:240px;box-sizing:border-box">
+<span style="font-size:22px;font-weight:800;letter-spacing:-0.03em">Bea Santos</span>
+<span style="font-size:13px;color:#5E5E66">BS Information Technology</span>
+<span style="height:2px;background:#16161A;margin:4px 0"></span>
+<span style="font-size:15px;font-weight:800">Canteen inventory system</span>
+<span style="font-size:14px;color:#5E5E66">Designed the database for a 4-person team.</span>
+<span style="font-size:15px;font-weight:800">Treasurer, IT Society</span>
+<span style="font-size:14px;color:#5E5E66">Fees and reports for 120 members.</span>
+</div>
+<figcaption style="font-size:17px;font-weight:800">Get a resume that sounds like you.</figcaption>
+</figure>
+
+<figure data-item="1" style="margin:0;display:flex;flex-direction:column;gap:16px">
+<div style="background:#FFFFFF;border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px;min-height:240px;box-sizing:border-box">
+<div style="display:flex;align-items:center;gap:12px"><span style="width:44px;height:44px;border-radius:12px;background:#EEF2FE;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F5BEA" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:800">Data intern</span><span style="font-size:14px;color:#1A7F45;font-weight:800">Company checked</span></span></div>
+<span style="font-size:15px;color:#5E5E66;line-height:1.5">Allowance, hours and commute shown before you apply.</span>
+<span class="btn go" style="height:46px;font-size:15px;margin-top:auto" aria-hidden="true">Apply with my resume</span>
+</div>
+<figcaption style="font-size:17px;font-weight:800">Apply in one tap.</figcaption>
+</figure>
 </div>
 </div>
 </section>
 
-<section data-reveal="1" aria-labelledby="how" style="max-width:1200px;margin:0 auto;padding:110px 28px;display:flex;flex-direction:column;gap:40px">
-<div style="display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center">
-<h2 id="how" data-item="1" style="margin:0;font-size:clamp(36px,4.4vw,56px);letter-spacing:-0.05em;font-weight:800;line-height:1">How it works</h2>
-<p data-item="1" style="margin:0;color:#5E5E66;font-size:18px">Free for students and schools.</p>
-</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:16px">
-<div data-item="1" data-lift="1" class="card" style="padding:28px;display:flex;flex-direction:column;gap:56px;min-height:220px"><span style="width:44px;height:44px;border-radius:14px;background:#EEF2FE;color:#2F5BEA;display:flex;align-items:center;justify-content:center;font-weight:800">1</span><div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-size:21px;font-weight:700;letter-spacing:-0.02em">Talk</h3><p style="margin:0;color:#5E5E66;font-size:15px;line-height:1.5">English, Filipino or Taglish.</p></div></div>
-<div data-item="1" data-lift="1" class="card" style="padding:28px;display:flex;flex-direction:column;gap:56px;min-height:220px"><span style="width:44px;height:44px;border-radius:14px;background:#EEF2FE;color:#2F5BEA;display:flex;align-items:center;justify-content:center;font-weight:800">2</span><div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-size:21px;font-weight:700;letter-spacing:-0.02em">Get your resume</h3><p style="margin:0;color:#5E5E66;font-size:15px;line-height:1.5">Plus every school form, filled.</p></div></div>
-<div data-item="1" data-lift="1" class="card" style="padding:28px;display:flex;flex-direction:column;gap:56px;min-height:220px"><span style="width:44px;height:44px;border-radius:14px;background:#EEF2FE;color:#2F5BEA;display:flex;align-items:center;justify-content:center;font-weight:800">3</span><div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-size:21px;font-weight:700;letter-spacing:-0.02em">Apply</h3><p style="margin:0;color:#5E5E66;font-size:15px;line-height:1.5">Only to companies we've checked.</p></div></div>
-<div data-item="1" data-lift="1" class="card" style="padding:28px;display:flex;flex-direction:column;gap:56px;min-height:220px"><span style="width:44px;height:44px;border-radius:14px;background:#FFF4E0;color:#B45F00;display:flex;align-items:center;justify-content:center;font-weight:800">✓</span><div style="display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-size:21px;font-weight:700;letter-spacing:-0.02em">Always saved</h3><p style="margin:0;color:#5E5E66;font-size:15px;line-height:1.5">Leave anytime. Pick up later.</p></div></div>
-</div>
-</section>
-
-<section data-reveal="1" aria-label="Who it's for" style="background:#F6F5F2">
-<div style="max-width:1200px;margin:0 auto;padding:96px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px">
-<a data-item="1" data-lift="1" href="Student-Onboarding.dc.html" class="card" style="padding:32px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#16161A;min-height:200px"><span style="font-size:15px;color:#2F5BEA;font-weight:700">Students</span><span style="font-size:28px;font-weight:800;letter-spacing:-0.035em;line-height:1.1">From no resume to your first application.</span><span style="margin-top:auto;color:#5E5E66">Free →</span></a>
-<a data-item="1" data-lift="1" href="Coordinator.dc.html" class="card" style="padding:32px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#16161A;min-height:200px"><span style="font-size:15px;color:#2F5BEA;font-weight:700">Schools</span><span style="font-size:28px;font-weight:800;letter-spacing:-0.035em;line-height:1.1">Every OJT form, in one place.</span><span style="margin-top:auto;color:#5E5E66">Free →</span></a>
-<a data-item="1" data-lift="1" href="Employer.dc.html" class="card" style="padding:32px;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:#16161A;min-height:200px"><span style="font-size:15px;color:#2F5BEA;font-weight:700">Employers</span><span style="font-size:28px;font-weight:800;letter-spacing:-0.035em;line-height:1.1">Interns your schools vouch for.</span><span style="margin-top:auto;color:#5E5E66">[YOUR PRICE] →</span></a>
-</div>
-</section>
-
-<section id="safety" data-reveal="1" aria-labelledby="safety-h">
-<div style="max-width:1200px;margin:0 auto;padding:120px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px;align-items:end">
-<h2 id="safety-h" data-item="1" style="margin:0;font-size:clamp(44px,6vw,84px);line-height:.98;letter-spacing:-0.055em;font-weight:800">No deposits.<br>No Telegram.<br><span style="color:#2F5BEA">No scams.</span></h2>
-<div data-item="1" style="display:flex;flex-direction:column;gap:20px;font-size:17px;line-height:1.5;color:#5E5E66;max-width:440px">
-<p style="margin:0">Every company is checked with SEC or DTI before it can post.</p>
-<p style="margin:0">Chats stay here. Anyone asking for money gets blocked.</p>
-<p style="margin:0">No age, gender or photo filters. Ever.</p>
+<section data-reveal="1" aria-labelledby="safety-h">
+<div style="max-width:1200px;margin:0 auto;padding:110px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px;align-items:end">
+<h2 id="safety-h" data-item="1" style="margin:0;font-size:clamp(44px,6vw,84px);line-height:.98;letter-spacing:-0.055em;font-weight:800">Every company,<br>checked.</h2>
+<div data-item="1" style="display:flex;flex-direction:column;gap:18px;font-size:17px;line-height:1.5;color:#5E5E66;max-width:440px">
+<p style="margin:0">SEC or DTI record, a work email and a phone call before anyone can post.</p>
+<p style="margin:0">Chats stay here. Ask for money, get blocked.</p>
+<p style="margin:0">No age, gender or photo filters.</p>
 </div>
 </div>
 </section>
 
-<section data-reveal="1" aria-labelledby="cta" style="padding:0 28px 100px">
-<div data-item="1" style="max-width:1144px;margin:0 auto;border-radius:32px;background:#2F5BEA;color:#FFFFFF;padding:72px 48px;display:flex;flex-direction:column;align-items:center;gap:26px;text-align:center;position:relative;overflow:hidden">
-<svg width="420" height="420" viewBox="0 0 32 32" aria-hidden="true" style="position:absolute;right:-120px;top:-140px;opacity:.12"><g fill="#FFFFFF"><rect x="14.5" y="1" width="3" height="7" rx="1.5"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(45 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(90 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(135 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(180 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(225 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(270 16 16)"/><rect x="14.5" y="1" width="3" height="7" rx="1.5" transform="rotate(315 16 16)"/><circle cx="16" cy="16" r="5"/></g></svg>
-<h2 id="cta" style="margin:0;font-size:clamp(36px,4.8vw,64px);letter-spacing:-0.05em;font-weight:800;line-height:1;position:relative">Your OJT starts here.</h2>
-<a href="Student-Onboarding.dc.html" class="btn" data-press="1" style="height:56px;padding:0 30px;font-size:16px;border-color:#FFFFFF;position:relative">Start with Sync</a>
+<section data-reveal="1" aria-labelledby="cta" style="padding:0 28px 96px">
+<div data-item="1" style="max-width:1144px;margin:0 auto;border-radius:32px;background:#16161A;color:#FFFFFF;padding:72px 48px;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center">
+<h2 id="cta" style="margin:0;font-size:clamp(36px,4.8vw,64px);letter-spacing:-0.05em;font-weight:800;line-height:1">Start with one answer.</h2>
+<a href="Student-Onboarding.dc.html" class="btn go" data-press="1">Build my resume, free <span aria-hidden="true">→</span></a>
+<span style="font-size:14px;color:#B9B8BF">No sign-up yet · Never charges students</span>
 </div>
 </section>
 
 <footer style="border-top:1px solid #ECEBE8">
 <div style="max-width:1200px;margin:0 auto;padding:28px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;font-size:14px;color:#5E5E66">
-<span>Unisync never charges students.</span>
-<nav class="nav" aria-label="Footer" style="display:flex;gap:24px"><a href="#safety">Safety</a><a href="Users.dc.html">For admins</a><a href="#how">Privacy</a></nav>
+<span>Unisync, made for Filipino students.</span>
+<nav class="nav" aria-label="Footer" style="display:flex;gap:24px"><a href="Coordinator.dc.html">Schools</a><a href="Employer.dc.html">Employers</a><a href="#safety-h">Safety</a></nav>
 </div>
 </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3500}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2300}}'>
 class Component extends DCLogic {
   constructor(p) {
     super(p);
     this.root = null;
-    this.script = [
-      { t: 'sync', text: 'Hi Bea! What did you build for your capstone?' },
-      { t: 'me', text: 'Inventory system para sa canteen. Ako sa database.' },
-      { t: 'sync', text: 'Nice. Added to your resume. This one fits you:' },
-      { t: 'job' }
-    ];
-    this.state = { step: 1, typing: false, k: 1 };
+    this.state = { course: '', typing: false };
+    this.skillMap = {
+      'BS Information Technology': ['SQL', 'Networking', 'Web dev'],
+      'BS Business Admin': ['Excel', 'Marketing', 'Sales'],
+      'BS Accountancy': ['Bookkeeping', 'Excel', 'Tax basics'],
+      'BS Psychology': ['Research', 'Interviewing', 'Report writing']
+    };
   }
   componentDidMount() {
     const M = window.Motion, r = this.root;
-    this.loop = setInterval(() => this.tick(), 1600);
     if (!M || !r || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) return;
-    const { animate, stagger, inView, hover, press } = M;
+    const { animate, stagger, inView, press } = M;
     const ease = [0.22, 1, 0.36, 1];
-    animate(r.querySelectorAll('[data-word]'), { opacity: [0, 1], y: [40, 0], filter: ['blur(12px)', 'blur(0px)'] }, { delay: stagger(0.09), duration: 0.9, ease });
-    animate(r.querySelectorAll('[data-hero]'), { opacity: [0, 1], y: [24, 0] }, { delay: stagger(0.1, { startDelay: 0.3 }), duration: 0.9, ease });
+    animate(r.querySelectorAll('[data-hero]'), { opacity: [0, 1], y: [28, 0], filter: ['blur(8px)', 'blur(0px)'] }, { delay: stagger(0.09), duration: 0.9, ease });
     r.querySelectorAll('[data-reveal] [data-item]').forEach((el) => { el.style.opacity = '0'; });
     inView(r.querySelectorAll('[data-reveal]'), (sec) => {
-      animate(sec.querySelectorAll('[data-item]'), { opacity: [0, 1], y: [28, 0] }, { delay: stagger(0.08), duration: 0.9, ease });
+      animate(sec.querySelectorAll('[data-item]'), { opacity: [0, 1], y: [28, 0] }, { delay: stagger(0.1), duration: 0.9, ease });
     }, { amount: 0.15 });
-    this.setState({ k: 0 });
-    inView(r.querySelector('[aria-label="Why"]'), () => { animate(0, 1, { duration: 1.8, ease, onUpdate: (v) => this.setState({ k: v }) }); }, { amount: 0.3 });
-    r.querySelectorAll('[data-lift]').forEach((el) => hover(el, () => {
-      animate(el, { y: -6 }, { type: 'spring', stiffness: 400, damping: 22 });
-      return () => animate(el, { y: 0 }, { type: 'spring', stiffness: 400, damping: 22 });
-    }));
-    r.querySelectorAll('[data-press]').forEach((el) => press(el, () => {
-      animate(el, { scale: 0.95 }, { type: 'spring', stiffness: 700, damping: 30 });
-      return () => animate(el, { scale: 1 }, { type: 'spring', stiffness: 500, damping: 15 });
-    }));
+    this.bindPress();
   }
-  componentWillUnmount() { clearInterval(this.loop); }
-  tick() {
-    const s = this.state, n = this.script.length;
-    if (s.step >= n + 2) { this.setState({ step: 1, typing: false }); return; }
-    const up = this.script[s.step];
-    if (up && up.t === 'sync' && !s.typing) { this.setState({ typing: true }); return; }
-    this.setState({ step: s.step + 1, typing: false });
+  componentDidUpdate() { this.bindPress(); }
+  componentWillUnmount() { clearInterval(this.tw); }
+  bindPress() {
+    const M = window.Motion, r = this.root;
+    if (!M || !r) return;
+    r.querySelectorAll('[data-press]').forEach((el) => {
+      if (el.dataset.bound) return; el.dataset.bound = '1';
+      M.press(el, () => { M.animate(el, { scale: 0.95 }, { type: 'spring', stiffness: 700, damping: 30 }); return () => M.animate(el, { scale: 1 }, { type: 'spring', stiffness: 500, damping: 14 }); });
+    });
+  }
+  typeOut(text) {
+    clearInterval(this.tw);
+    let i = 0;
+    this.setState({ course: '', typing: true });
+    this.tw = setInterval(() => {
+      i++;
+      this.setState({ course: text.slice(0, i) });
+      if (i >= text.length) { clearInterval(this.tw); this.setState({ typing: false }); }
+    }, 28);
   }
   renderVals() {
-    const s = this.state, k = s.k;
+    const s = this.state, c = s.course.trim();
+    const done = c.length > 2 && !s.typing;
+    const skills = done ? (this.skillMap[c] || ['Teamwork', 'Communication']) : [];
     return {
       rootRef: (el) => { this.root = el; },
-      feed: this.script.slice(0, s.step).map((f) => ({ ...f, isSync: f.t === 'sync', isMe: f.t === 'me', isJob: f.t === 'job' })),
-      typing: s.typing,
-      grads: Math.round(805300 * k).toLocaleString('en-US'),
-      forms: k < 1 ? String(Math.round(10 * k)) : '8–10',
-      fraud: Math.round(20 * k)
+      course: s.course, typing: s.typing,
+      typeCourse: (e) => { clearInterval(this.tw); this.setState({ course: e.target.value, typing: false }); },
+      picks: ['BS Information Technology', 'BS Business Admin', 'BS Accountancy', 'BS Psychology'].map((n) => ({ name: n.replace('BS ', ''), pick: () => this.typeOut(n) })),
+      ready: done, notReady: !done,
+      inputBorder: c ? '#2F5BEA' : '#E4E2DD',
+      courseLine: c || 'Your course', courseColor: c ? '#16161A' : '#C9C6BF',
+      skills, noSkills: skills.length === 0,
+      filled: done ? '2 of 8 filled' : '0 of 8 filled'
     };
   }
 }
