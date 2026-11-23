@@ -22,7 +22,7 @@ design/
 
 ## Design system
 
-- Fonts: Newsreader (regular) for headings, Plus Jakarta Sans 400–600 for everything else
+- Font: Instrument Sans 400–600 everywhere (headings at 400 with tight tracking)
 - Colors: one periwinkle family plus a matching lilac. Ink `#1E2140`, muted text `#5E6280`, borders `#E6E7F2`, surface `#F4F5FC`, primary fill `#D4DAFF` (hover `#B8C1FA`), soft fill `#E8EBFF`, accent mark `#7C88DC`, accent text `#4A55A8`, lilac `#A99BF0` / `#F1EDFF` / `#6A5DC2`
 - Spacing and shape: 8px spacing scale, 8px button and 10–12px card radii, hairline borders, faint shadows (Mercury-style)
 - Motion: spring transitions, staggered reveals, hover lift and press feedback via Motion's `animate`, `stagger`, `inView`, `hover` and `press`

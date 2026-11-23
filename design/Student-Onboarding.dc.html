@@ -9,22 +9,22 @@
 <body>
 <x-dc>
 <helmet>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#4A55A8}a:hover{color:#36408A}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;font-size:15px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s,background .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 24px;border-radius:8px;font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;font-weight:500;font-size:15px;text-decoration:none;border:1px solid #DCDEEE;background:#FFFFFF;color:#1E2140;cursor:pointer;transition:border-color .2s,background .2s}
 .btn:hover{border-color:#C3C7E0;color:#1E2140}
 .go{background:#D4DAFF;color:#1E2140;border-color:#D4DAFF}.go:hover{background:#B8C1FA;color:#1E2140}
 .next{width:60px;height:60px;border-radius:50%;border:0;background:#D4DAFF;color:#1E2140;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:none;transition:background .2s}
 .next:hover{background:#B8C1FA}
 .icon{width:44px;height:44px;border-radius:50%;border:1px solid #E6E7F2;background:#FFFFFF;color:#1E2140;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
-.opt{width:100%;min-height:64px;border-radius:10px;padding:0 20px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:500;text-align:left;cursor:pointer;align-items:center;justify-content:space-between;transition:border-color .2s,background .2s}
-.chip{height:48px;padding:0 20px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:500;cursor:pointer;transition:border-color .2s,background .2s}
-.big{width:100%;box-sizing:border-box;border:0;border-bottom:2px solid #1E2140;padding:8px 0;font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:500;letter-spacing:-0.03em;color:#1E2140;background:transparent;outline:none}
-.area{width:100%;box-sizing:border-box;min-height:130px;border:1px solid #DCDEEE;border-radius:10px;padding:16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:500;line-height:1.5;color:#1E2140;resize:none;outline-color:#4A55A8}
-.field{height:56px;border-radius:10px;border:1px solid #DCDEEE;padding:0 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:500;color:#1E2140;box-sizing:border-box}
-.q{margin:0;font-size:clamp(32px,4vw,44px);font-weight:400;letter-spacing:-0.015em;line-height:1.05;font-family:'Newsreader',Georgia,serif}
+.opt{width:100%;min-height:64px;border-radius:10px;padding:0 20px;font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;font-size:18px;font-weight:500;text-align:left;cursor:pointer;align-items:center;justify-content:space-between;transition:border-color .2s,background .2s}
+.chip{height:48px;padding:0 20px;border-radius:10px;font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;font-size:16px;font-weight:500;cursor:pointer;transition:border-color .2s,background .2s}
+.big{width:100%;box-sizing:border-box;border:0;border-bottom:2px solid #1E2140;padding:8px 0;font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;font-size:32px;font-weight:500;letter-spacing:-0.03em;color:#1E2140;background:transparent;outline:none}
+.area{width:100%;box-sizing:border-box;min-height:130px;border:1px solid #DCDEEE;border-radius:10px;padding:16px;font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;font-size:18px;font-weight:500;line-height:1.5;color:#1E2140;resize:none;outline-color:#4A55A8}
+.field{height:56px;border-radius:10px;border:1px solid #DCDEEE;padding:0 16px;font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;font-size:17px;font-weight:500;color:#1E2140;box-sizing:border-box}
+.q{margin:0;font-size:clamp(32px,4vw,44px);font-weight:400;letter-spacing:-0.03em;line-height:1.05}
 .sk{display:block;height:10px;border-radius:5px;background:linear-gradient(90deg,#ECEEF8 0%,#F7F8FD 50%,#ECEEF8 100%);background-size:200% 100%;animation:shim 1.6s linear infinite}
 .pop{animation:pop .55s cubic-bezier(.34,1.5,.5,1) both}
 .saved{animation:saved 1.6s ease both}
@@ -37,7 +37,7 @@ a{color:#4A55A8}a:hover{color:#36408A}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </helmet>
-<div ref="{{rootRef}}" style="font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh;display:flex;flex-direction:column">
+<div ref="{{rootRef}}" style="font-family:'Instrument Sans',system-ui,-apple-system,sans-serif;background:#FFFFFF;color:#1E2140;min-height:100vh;display:flex;flex-direction:column">
 
 <header style="padding:20px 24px 0;display:flex;flex-direction:column;gap:16px">
 <div style="display:flex;align-items:center;gap:16px">
@@ -164,8 +164,8 @@ a{color:#4A55A8}a:hover{color:#36408A}
 <div aria-hidden="true" style="position:absolute;inset:24px -16px -16px 24px;border-radius:12px;background:#F4F5FC"></div>
 <div style="position:relative;background:#FFFFFF;border:1px solid #E6E7F2;border-radius:12px;padding:40px;display:flex;flex-direction:column;gap:16px;min-height:520px;box-sizing:border-box">
 <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;font-weight:600;color:#4A55A8">Your resume</span><span style="font-size:13px;color:#5E6280">Writing as you answer</span></div>
-<sc-if value="{{r.name}}" hint-placeholder-val="{{true}}"><span class="pop" style="font-family:'Newsreader',Georgia,serif;font-size:30px;font-weight:400;letter-spacing:-0.015em">Bea Santos</span></sc-if>
-<sc-if value="{{r.noName}}" hint-placeholder-val="{{false}}"><span style="font-family:'Newsreader',Georgia,serif;font-size:30px;font-weight:400;letter-spacing:-0.015em;color:#C3C7E0">Your name</span></sc-if>
+<sc-if value="{{r.name}}" hint-placeholder-val="{{true}}"><span class="pop" style="font-size:30px;font-weight:400;letter-spacing:-0.03em">Bea Santos</span></sc-if>
+<sc-if value="{{r.noName}}" hint-placeholder-val="{{false}}"><span style="font-size:30px;font-weight:400;letter-spacing:-0.03em;color:#C3C7E0">Your name</span></sc-if>
 <span style="font-size:16px;font-weight:500">BS Information Technology · Bayview State University</span>
 <span style="height:2px;background:#1E2140"></span>
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#5E6280">Projects</span>
