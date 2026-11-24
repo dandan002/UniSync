@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ChatRequest, openingMessage } from "@/lib/agent/chat";
 import { applyEdit, cleanText, LIMITS, TOOLS } from "@/lib/agent/edits";
+import { numbersIn, ungrounded } from "@/lib/agent/grounding";
 import { buildMessages, SYSTEM } from "@/lib/agent/prompt";
 import { scriptedTurn } from "@/lib/agent/scripted";
 import { draftToResume, EMPTY_DRAFT } from "@/lib/resume";
@@ -169,5 +170,30 @@ describe("resume voice", () => {
 
   it("lets the keyless fallback keep the student's own words", () => {
     expect(applyEdit(base(), "set_profile", { summary: "I want a web internship." }, { voice: false }).ok).toBe(true);
+  });
+});
+
+describe("numbers come from the student", () => {
+  it("reads numbers in digits and in English or Filipino words", () => {
+    const known = numbersIn("Treasurer kami, mga 120 members. Apat na raan ang budget, 5k per sem, four officers, dalawang daan na resibo, 1,500 views");
+    for (const n of [120, 400, 5000, 4, 200, 1500]) expect(known.has(n)).toBe(true);
+  });
+
+  it("flags numerals the student never gave, but lets years through", () => {
+    const known = numbersIn("cashier sa 7-Eleven, mga 200 customers per shift");
+    expect(ungrounded(["Served about 200 customers per shift at 7-Eleven in 2025."], known)).toEqual([]);
+    expect(ungrounded(["Raised sales by 35% across 1,200 orders."], known)).toEqual([35, 1200]);
+  });
+
+  it("sends edits with made-up numbers back to Sync and keeps grounded ones", () => {
+    const known = numbersIn("Store assistant ako, mga 40 customers a day");
+    const made = applyEdit(base(), "edit_entry", { list: "experience", index: 0, bullets: ["Served about 40 customers a day.", "Cut restocking time by 30%."] }, { known });
+    expect(made.ok).toBe(false);
+    if (!made.ok) expect(made.error).toMatch(/never gave this number: 30/);
+    const fine = applyEdit(base(), "edit_entry", { list: "experience", index: 0, bullets: ["Served about 40 customers a day."], when: "2024-26" }, { known });
+    expect(fine.ok).toBe(true);
+    expect(applyEdit(base(), "set_profile", { availability: "April to July, 600 hours" }, { known }).ok).toBe(false);
+    // Without known numbers (the keyless fallback files the student's own words), nothing is checked.
+    expect(applyEdit(base(), "set_profile", { availability: "April to July, 600 hours" }).ok).toBe(true);
   });
 });
