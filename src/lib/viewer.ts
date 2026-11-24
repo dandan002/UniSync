@@ -16,7 +16,8 @@ export type Viewer = {
 export class SetupError extends Error {}
 
 // Signed-in user plus their profile. Creates or claims the profile on first
-// visit. Memoized per request.
+// visit. Null when signed out or the account was just deleted. Memoized per
+// request.
 export const getViewer = cache(async (): Promise<Viewer | null> => {
   const { userId } = await auth();
   if (!userId) return null;
@@ -24,6 +25,9 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
 
   const ensured = await supabase.rpc("ensure_profile");
   if (ensured.error) {
+    // Deleted moments ago: the Clerk token outlives the account by up to a
+    // minute. Treat it as signed out.
+    if (ensured.error.hint === "account_deleted") return null;
     // A bad or unrecognized token means Supabase doesn't trust Clerk yet.
     const msg = `${ensured.error.code ?? ""} ${ensured.error.message}`;
     if (/JWS|JWT|jwt|PGRST301|401|third.party|No suitable key/i.test(msg)) {

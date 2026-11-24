@@ -188,6 +188,15 @@
     color: var(--paper);
     opacity: 0.9;
   }
+  .btn-danger {
+    background: var(--lilac-ink);
+    border-color: var(--lilac-ink);
+    color: var(--paper);
+  }
+  .btn-danger:hover {
+    color: var(--paper);
+    opacity: 0.9;
+  }
   .btn-off {
     background: var(--line);
     border-color: var(--line);

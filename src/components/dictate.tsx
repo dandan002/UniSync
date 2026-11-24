@@ -10,17 +10,16 @@ type Recognition = {
   onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
   onend: (() => void) | null;
 };
-type RecognitionCtor = new () => Recognition;
+type RecognitionWindow = { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
 
-function recognizer(): RecognitionCtor | undefined {
-  if (typeof window === "undefined") return undefined;
-  const w = window as unknown as { SpeechRecognition?: RecognitionCtor; webkitSpeechRecognition?: RecognitionCtor };
-  return w.SpeechRecognition || w.webkitSpeechRecognition;
-}
-
-// Voice note via the browser's speech recognition, where available.
+// Voice notes through the browser's speech recognition, where it exists.
+// Renders nothing in browsers without it.
 export function Dictate({ lang, onText, compact = false }: { lang: string; onText: (t: string) => void; compact?: boolean }) {
-  const [supported] = useState(() => !!recognizer());
+  const [supported] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const w = window as unknown as RecognitionWindow;
+    return !!(w.SpeechRecognition || w.webkitSpeechRecognition);
+  });
   const [on, setOn] = useState(false);
   const rec = useRef<Recognition | null>(null);
   if (!supported) return null;
@@ -32,12 +31,14 @@ export function Dictate({ lang, onText, compact = false }: { lang: string; onTex
       aria-pressed={on}
       aria-label={compact ? label : undefined}
       title={compact ? label : undefined}
+      style={compact && on ? { borderColor: "var(--mark)", color: "var(--accent)" } : undefined}
       onClick={() => {
         if (on) {
           rec.current?.stop();
           return;
         }
-        const R = recognizer()!;
+        const w = window as unknown as RecognitionWindow;
+        const R = (w.SpeechRecognition || w.webkitSpeechRecognition)!;
         const r = new R();
         r.lang = lang;
         r.interimResults = false;

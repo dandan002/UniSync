@@ -10,7 +10,7 @@ const FONTS: Record<Template, string> = {
 // The printable resume. Always light, like paper.
 export function ResumeDoc({ data, template = "classic", className = "" }: { data: ResumeData; template?: Template; className?: string }) {
   const compact = template === "compact";
-  const contact = [data.email, data.phone, data.city, data.availability ? `Available ${data.availability}` : ""].filter(Boolean).join(" · ");
+  const contact = [data.email, data.phone, data.city].filter(Boolean).join(" · ");
   const subtitle = [data.course, data.school].filter(Boolean).join(" · ");
   return (
     <article
@@ -30,6 +30,7 @@ export function ResumeDoc({ data, template = "classic", className = "" }: { data
         </div>
         {contact ? <span style={{ fontSize: 14, color: "#3F4262" }}>{contact}</span> : null}
       </div>
+      {data.summary ? <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55 }}>{data.summary}</p> : null}
       {sectionsOf(data).map((sec) => (
         <div key={sec.heading} className="flex flex-col" style={{ gap: compact ? 6 : 10 }}>
           <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: ".08em", textTransform: "uppercase", color: "#5E6280" }}>{sec.heading}</span>
@@ -41,9 +42,11 @@ export function ResumeDoc({ data, template = "classic", className = "" }: { data
               </div>
               {it.line ? <span style={{ fontSize: 15, lineHeight: 1.55 }}>{it.line}</span> : null}
               {it.bullets?.length ? (
-                <ul className="m-0 flex flex-col pl-5" style={{ fontSize: 15, lineHeight: 1.5, gap: compact ? 0 : 2 }}>
+                <ul style={{ margin: 0, paddingLeft: 20, listStyle: "disc", display: "flex", flexDirection: "column", gap: compact ? 2 : 4 }}>
                   {it.bullets.map((b, j) => (
-                    <li key={j}>{b}</li>
+                    <li key={j} style={{ fontSize: 15, lineHeight: 1.5 }}>
+                      {b}
+                    </li>
                   ))}
                 </ul>
               ) : null}

@@ -38,6 +38,8 @@ export type Company = {
 export type Profile = {
   id: string;
   clerk_id: string | null;
+  // Shared demo persona. Can't be deleted.
+  demo?: boolean;
   role: Role;
   full_name: string;
   email: string | null;
@@ -56,7 +58,7 @@ export type Profile = {
 export type ResumeItem = {
   title: string;
   line: string;
-  // Up to three supporting points Sync adds once the student gives details.
+  // Specifics under the one-line description: tools, scope, results.
   bullets?: string[];
   when?: string;
   section?: "Leadership" | "Work" | "Volunteer" | "Activities";
@@ -72,6 +74,8 @@ export type ResumeData = {
   city?: string;
   language?: "English" | "Filipino" | "Taglish";
   availability?: string;
+  // One or two sentences at the top: what the student wants and offers.
+  summary?: string;
   projects: ResumeItem[];
   experience: ResumeItem[];
   skills: string[];

@@ -4,13 +4,16 @@ import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
+import { Mark } from "@/components/brand";
+import { ConfirmDialog } from "@/components/confirm";
 import { FormUpload } from "@/components/form-upload";
 import { pressProps } from "@/components/motion";
 import { ResumeDoc } from "@/components/resume-doc";
-import { SyncChat } from "@/components/sync-chat";
+import { deleteResume } from "@/lib/actions/account";
 import { approveResume, saveResume, setTemplate } from "@/lib/actions/student";
-import type { CoachState } from "@/lib/coach-shared";
+import { forgetChat } from "@/lib/draft";
 import { spell } from "@/lib/format";
+import { reviewResume } from "@/lib/review";
 import type { FormKey, ResumeData, ResumeItem, Template } from "@/lib/types";
 
 const TEMPLATES: Array<{ id: Template; name: string }> = [
@@ -37,13 +40,12 @@ export function ResumeEditor({
   const [tpl, setTpl] = useState<Template>(initialTemplate);
   const [approved, setApproved] = useState(initialApproved);
   const [editing, setEditing] = useState(false);
-  const [coaching, setCoaching] = useState(false);
-  const [coach, setCoach] = useState<CoachState | null>(null);
+  const [removing, setRemoving] = useState(false);
   const [error, setError] = useState("");
   const [, start] = useTransition();
-  const savedJson = useRef(JSON.stringify(initial));
   const idx = TEMPLATES.findIndex((t) => t.id === tpl);
   const done = Math.min(forms.done + (approved && !initialApproved ? 1 : 0), forms.total);
+  const review = reviewResume(data);
 
   return (
     <>
@@ -68,7 +70,10 @@ export function ResumeEditor({
             <h1 className="display m-0" style={{ fontSize: "clamp(32px,4vw,44px)", lineHeight: 1 }}>
               Your resume
             </h1>
-            <span style={{ fontSize: 16, color: "var(--muted)" }}>Built from your answers. Edit anything.</span>
+            <span style={{ fontSize: 16, color: "var(--muted)" }}>
+              Built from your answers. Strength {review.score}%
+              {review.gaps.length ? ` · Sync can help with ${spell(review.gaps.length)} ${review.gaps.length === 1 ? "thing" : "things"}` : ""}.
+            </span>
           </div>
           <div role="tablist" aria-label="Template" className="relative flex w-[300px] rounded-[10px] p-1" style={{ background: "var(--line-3)" }}>
             <motion.span
@@ -96,45 +101,6 @@ export function ResumeEditor({
           </div>
         </div>
 
-        {coaching ? (
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="card flex flex-col gap-4 p-5 sm:p-6">
-            <div className="flex flex-col gap-1">
-              <h2 className="m-0" style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.01em" }}>
-                Improve with Sync
-              </h2>
-              <span style={{ fontSize: 15, color: "var(--muted)" }}>Sync asks about the parts that need detail and saves each change to your resume.</span>
-            </div>
-            <SyncChat
-              mode="edit"
-              language={data.language ?? "Taglish"}
-              name={data.name}
-              course={data.course}
-              state={coach}
-              seed={{ projects: data.projects, experience: data.experience, skills: data.skills, city: data.city, availability: data.availability }}
-              onState={(c) => {
-                setCoach(c);
-                // Save only turns where Sync changed something.
-                const last = c.messages[c.messages.length - 1];
-                if (last?.role !== "sync" || !last.changes?.length) return;
-                const next: ResumeData = { ...data, ...c.resume };
-                const json = JSON.stringify(next);
-                if (json === savedJson.current) return;
-                savedJson.current = json;
-                setData(next);
-                start(async () => {
-                  const res = await saveResume(next, tpl);
-                  setError(res.ok ? "" : res.error);
-                });
-              }}
-              onFinish={() => {
-                setCoaching(false);
-                router.refresh();
-              }}
-              finishLabel="Done"
-            />
-          </motion.div>
-        ) : null}
-
         {editing ? (
           <Editor
             data={data}
@@ -142,7 +108,6 @@ export function ResumeEditor({
             onSave={async (next) => {
               const res = await saveResume(next, tpl);
               if (!res.ok) return res.error;
-              savedJson.current = JSON.stringify(next);
               setData(next);
               setEditing(false);
               router.refresh();
@@ -155,7 +120,7 @@ export function ResumeEditor({
           </motion.div>
         )}
 
-        {!editing && !coaching ? (
+        {!editing ? (
           <div className="flex flex-wrap items-center gap-2">
             {approved ? (
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
@@ -179,13 +144,34 @@ export function ResumeEditor({
             <button className="btn" style={{ height: 48 }} onClick={() => setEditing(true)}>
               Edit
             </button>
-            <button className="btn" style={{ height: 48 }} onClick={() => setCoaching(true)}>
+            <Link href="/resume/sync" className="btn" style={{ height: 48 }}>
+              <Mark size={16} color="var(--mark)" />
               Improve with Sync
-            </button>
+            </Link>
             <button className="btn btn-ghost" style={{ height: 48 }} onClick={() => window.print()}>
               Download PDF
             </button>
+            <span className="flex-1" />
+            <button className="link-btn" style={{ color: "var(--lilac-ink)" }} onClick={() => setRemoving(true)}>
+              Delete resume
+            </button>
           </div>
+        ) : null}
+        {removing ? (
+          <ConfirmDialog
+            title="Delete your resume?"
+            confirmLabel="Delete resume"
+            onClose={() => setRemoving(false)}
+            onConfirm={async () => {
+              const res = await deleteResume();
+              if (!res.ok) return res.error;
+              forgetChat(studentId);
+              router.push("/start");
+            }}
+          >
+            <p className="m-0">This removes your resume, its approval and your chat with Sync. Your account, applications and school forms stay.</p>
+            <p className="m-0">You&apos;ll start again from the first question. Companies you&apos;ve applied to see an empty resume until you build a new one.</p>
+          </ConfirmDialog>
         ) : null}
         {error ? (
           <p role="alert" className="m-0" style={{ fontSize: 14, color: "var(--lilac-ink)" }}>
@@ -281,10 +267,10 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
             <textarea className="field" aria-label="Description" value={it.line} onChange={(e) => update(i, { line: e.target.value })} style={{ minHeight: 70 }} />
             <textarea
               className="field"
-              aria-label="Details, one per line"
-              placeholder="Details, one per line (up to three)"
+              aria-label="Bullets, one per line"
+              placeholder="Bullets, one per line"
               value={(it.bullets ?? []).join("\n")}
-              onChange={(e) => update(i, { bullets: e.target.value.split("\n") })}
+              onChange={(e) => update(i, { bullets: e.target.value.split("\n").slice(0, 6) })}
               style={{ minHeight: 70 }}
             />
             <button type="button" className="link-btn self-start" style={{ height: 32 }} onClick={() => set({ [key]: list.filter((_, j) => j !== i) } as Partial<ResumeData>)}>
@@ -305,16 +291,18 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
       onSubmit={async (e) => {
         e.preventDefault();
         setBusy(true);
-        const tidy = (it: ResumeItem): ResumeItem => {
-          const bullets = (it.bullets ?? []).map((b) => b.trim()).filter(Boolean).slice(0, 3);
-          const { bullets: _drop, ...rest } = it;
-          void _drop;
-          return bullets.length ? { ...rest, bullets } : rest;
-        };
+        const tidy = (list: ResumeItem[]) =>
+          list
+            .filter((p) => p.title.trim())
+            .map((p) => {
+              const bullets = (p.bullets ?? []).map((b) => b.trim()).filter(Boolean);
+              return { ...p, bullets: bullets.length ? bullets : undefined };
+            });
         const next: ResumeData = {
           ...d,
-          projects: d.projects.filter((p) => p.title.trim()).map(tidy),
-          experience: d.experience.filter((p) => p.title.trim()).map(tidy),
+          summary: d.summary?.trim() || undefined,
+          projects: tidy(d.projects),
+          experience: tidy(d.experience),
           skills: skills.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 20),
         };
         const err = await onSave(next);
@@ -344,6 +332,10 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
           <input className="field" placeholder="April to July" value={d.availability ?? ""} onChange={(e) => set({ availability: e.target.value })} />
         </label>
       </div>
+      <label className="label">
+        Summary
+        <textarea className="field" value={d.summary ?? ""} maxLength={400} placeholder="One or two sentences: the internship you want and what you bring." onChange={(e) => set({ summary: e.target.value })} style={{ minHeight: 70 }} />
+      </label>
       {items("projects")}
       {items("experience")}
       <label className="label">

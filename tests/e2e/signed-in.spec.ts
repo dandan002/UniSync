@@ -34,13 +34,6 @@ test("student: home, jobs and resume", async ({ page }) => {
   await page.getByRole("tab", { name: "Compact" }).click();
   await expect(page.getByRole("tab", { name: "Compact" })).toHaveAttribute("aria-selected", "true");
   await page.getByRole("tab", { name: "Classic" }).click();
-
-  // Sync can pick up a saved resume. Opening the chat changes nothing.
-  await page.getByRole("button", { name: "Improve with Sync" }).click();
-  const chat = page.getByRole("region", { name: "Chat with Sync" });
-  await expect(chat.getByRole("listitem").first()).toContainText("?", { timeout: 45_000 });
-  await chat.getByRole("button", { name: "Done" }).click();
-  await expect(page.getByLabel("Resume preview").getByText("Canteen inventory system, capstone")).toBeVisible();
 });
 
 test("coordinator: students, forms and activity", async ({ page }) => {
@@ -93,31 +86,71 @@ test("employer in review sees the review notice", async ({ page }) => {
 
 test("new student: finish onboarding signed in and save", async ({ page }) => {
   await signInAs(page, /Nina Garcia/, /\/(start|home)$/);
+  // Earlier runs leave Nina with a resume. Deleting it starts her over.
   if (page.url().endsWith("/home")) {
-    await expect(page.getByRole("heading", { name: /Hi, Nina/ })).toBeVisible();
-    return;
+    await page.goto("/resume");
+    await page.getByRole("button", { name: "Delete resume" }).click();
+    const dialog = page.getByRole("alertdialog", { name: "Delete your resume?" });
+    await expect(dialog.getByText(/Your account, applications and school forms stay/)).toBeVisible();
+    await dialog.getByRole("button", { name: "Delete resume" }).click();
+    await page.waitForURL(/\/start$/, { timeout: 30_000 });
   }
   await page.evaluate(() => localStorage.clear());
   await page.reload();
-  const next = page.getByRole("button", { name: "Next", exact: true });
   await page.getByRole("button", { name: "Information Technology", exact: true }).click();
-  await next.click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByLabel("What's your full name?").fill("Nina Garcia");
-  await next.click();
-  await next.click();
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByLabel(/capstone/).fill("Gumawa kami ng attendance app gamit ang QR codes para sa 300 students. Ako ang nag-design ng UI sa Figma.");
-  await next.click();
+  await page.getByRole("button", { name: "Next" }).click();
   await page.getByRole("button", { name: "Volunteer" }).click();
-  await next.click();
+  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByRole("button", { name: "Skip" }).click();
   await page.getByRole("button", { name: "Taguig" }).click();
-  await next.click();
-  const chat = page.getByRole("region", { name: "Chat with Sync" });
-  await expect(chat.getByRole("listitem").first()).toContainText("?", { timeout: 45_000 });
-  await chat.getByLabel("Message Sync").fill("Nag-volunteer ako sa Brigada Eskwela, nag-paint ng classrooms kasama ang 30 students.");
-  await chat.getByRole("button", { name: "Send" }).click();
-  await expect(chat.getByRole("listitem").nth(2)).toBeVisible({ timeout: 45_000 });
-  await chat.getByRole("button", { name: /^(Finish|Looks good)/ }).click();
+  await page.getByRole("button", { name: "Next" }).click();
   await expect(page.getByRole("heading", { name: "Save your resume." })).toBeVisible();
   await page.getByRole("button", { name: "Save my resume" }).click();
+
+  // Sync picks up where the questions left off, starting with the weakest spot.
+  const chat = page.getByRole("region", { name: "Chat with Sync" });
+  await expect(chat.getByText(/Hi Nina! You've got the basics down/)).toBeVisible({ timeout: 30_000 });
+  await expect(chat.getByText(/volunteer entry/i)).toBeVisible();
+  await expect(page.getByLabel("Your resume, live").getByRole("progressbar", { name: "Resume strength" })).toBeVisible();
+  await expect(chat.getByLabel("Message Sync")).toBeVisible();
+  await chat.getByRole("button", { name: "Finish" }).click();
   await expect(page.getByRole("heading", { name: "You're ready, Nina." })).toBeVisible({ timeout: 30_000 });
+});
+
+test("demo accounts can't be deleted", async ({ page }) => {
+  await signInAs(page, /Nina Garcia/, /\/(start|home)$/);
+  await page.getByRole("button", { name: "Account for Nina Garcia" }).click();
+  await page.getByRole("menuitem", { name: "Delete account" }).click();
+  const dialog = page.getByRole("alertdialog", { name: "Delete your account?" });
+  const confirm = dialog.getByRole("button", { name: "Delete my account" });
+  await expect(confirm).toBeDisabled();
+  await dialog.getByLabel("Type DELETE to confirm").fill("delete");
+  await expect(confirm).toBeEnabled();
+  await confirm.click();
+  await expect(dialog.getByRole("alert")).toHaveText("Demo accounts can't be deleted.");
+  await dialog.getByRole("button", { name: "Cancel" }).click();
+  await expect(dialog).toBeHidden();
+});
+
+test("student: improve the resume with Sync", async ({ page }) => {
+  await signInAs(page, /Bea Santos/, /\/home$/);
+  await page.goto("/resume");
+  await expect(page.getByText(/Strength \d+%/)).toBeVisible();
+  await page.getByRole("link", { name: "Improve with Sync" }).click();
+  await expect(page).toHaveURL(/\/resume\/sync$/);
+  const chat = page.getByRole("region", { name: "Chat with Sync" });
+  await expect(chat.getByText(/^Hi Bea!/)).toBeVisible();
+  const paper = page.getByLabel("Your resume, live");
+  await expect(paper.getByText("To strengthen")).toBeVisible();
+  await expect(paper.getByLabel("Resume preview").getByText("Treasurer, IT Society")).toBeVisible();
+  await expect(chat.getByRole("button", { name: "Send" })).toBeDisabled();
+  await chat.getByLabel("Message Sync").fill("Hi");
+  await expect(chat.getByRole("button", { name: "Send" })).toBeEnabled();
+  await chat.getByRole("button", { name: "Done" }).click();
+  await expect(page).toHaveURL(/\/resume$/);
 });

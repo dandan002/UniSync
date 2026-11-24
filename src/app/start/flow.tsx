@@ -4,25 +4,45 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Arrow, CompanyMark, Mark } from "@/components/brand";
 import { CodeAuth, toE164 } from "@/components/code-auth";
 import { Dictate } from "@/components/dictate";
 import { pressProps } from "@/components/motion";
 import { ResumeDoc } from "@/components/resume-doc";
 import { SyncChat } from "@/components/sync-chat";
-import { saveOnboarding, type TopJob } from "@/lib/actions/student";
-import { isPlaceholder, reconcileCoach, type CoachResume } from "@/lib/coach-shared";
-import { clearDraft, hasDraft, loadDraft, saveDraft } from "@/lib/draft";
+import { refreshMatches, saveOnboarding, type MatchSummary } from "@/lib/actions/student";
+import { clearDraft, hasDraft, loadDraft, REFINING_KEY, saveDraft } from "@/lib/draft";
 import { allowanceLabel, firstName, spell } from "@/lib/format";
-import { ALLOWANCES, EMPTY_DRAFT, EXPERIENCES, LANGUAGES, PLACES, currentResume, draftToResume, skillsForCourse, type Draft, type Experience } from "@/lib/resume";
-import type { ResumeItem } from "@/lib/types";
+import {
+  ALLOWANCES,
+  EMPTY_DRAFT,
+  EXPERIENCE_DEFAULTS,
+  EXPERIENCES,
+  LANGUAGES,
+  PLACES,
+  draftToResume,
+  followupTopic,
+  skillsForCourse,
+  type Draft,
+  type Experience,
+} from "@/lib/resume";
+import type { ResumeData, ResumeItem } from "@/lib/types";
 
-// Six quick questions for the basics, then a chat with Sync that fills in
-// the details, then save.
 const TOTAL = 8;
-const CHAT = 7;
-const SAVE = 8;
+// After the questions: 9 is the Sync chat, 10 is "You're ready".
+const REFINE = 9;
+const READY = 10;
+// Set while the student is in the Sync chat, so a reload takes them back to
+// it instead of to question one.
+function setRefining(on: boolean) {
+  try {
+    if (on) window.localStorage.setItem(REFINING_KEY, "1");
+    else window.localStorage.removeItem(REFINING_KEY);
+  } catch {
+    // ignore
+  }
+}
 
 // Returning with a named draft: offer to continue. Coming from the landing
 // page with only a course: start at the name question.
@@ -45,26 +65,38 @@ export function Flow() {
   const [dir, setDir] = useState(1);
   const [saved, setSaved] = useState(false);
   const [capSync, setCapSync] = useState<SyncState>("idle");
-  const [preview, setPreview] = useState(false);
+  const [fupSync, setFupSync] = useState<SyncState>("idle");
   const [channel, setChannel] = useState<"phone" | "email">("phone");
   const [phone, setPhone] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
-  const [result, setResult] = useState<{ matches: number; top: TopJob | null } | null>(null);
+  const [result, setResult] = useState<MatchSummary | null>(null);
+  const [chat, setChat] = useState<{ resume: ResumeData; studentId: string } | null>(null);
+  const [finalResume, setFinalResume] = useState<ResumeData | null>(null);
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Reloaded mid-chat: the draft is gone but the resume is saved, so continue there.
+  useEffect(() => {
+    let refining = false;
+    try {
+      refining = window.localStorage.getItem(REFINING_KEY) === "1";
+    } catch {
+      // ignore
+    }
+    if (!refining) return;
+    setRefining(false);
+    router.replace("/resume/sync");
+  }, [router]);
 
   const update = useCallback((patch: Partial<Draft>) => {
     setD((prev) => {
-      let next = { ...prev, ...patch };
-      // Changing a basic answer after the chat started keeps Sync's work.
-      if (next.coach && ("experiences" in patch || "capstoneItem" in patch)) {
-        const resume = reconcileCoach(next.coach.resume, next);
-        if (resume !== next.coach.resume) next = { ...next, coach: { ...next.coach, resume } };
-      }
+      const next = { ...prev, ...patch };
       saveDraft(next);
       return next;
     });
   }, []);
+
+  const topic = followupTopic(d);
 
   function go(to: number, direction: number) {
     setDir(direction);
@@ -78,32 +110,52 @@ export function Flow() {
     }
   }
 
-  async function runSync() {
-    const answer = d.capstone;
+  async function runSync(kind: "project" | "experience") {
+    const answer = kind === "project" ? d.capstone : d.followup;
     if (answer.trim().length < 3) return;
-    setCapSync("writing");
+    const set = kind === "project" ? setCapSync : setFupSync;
+    set("writing");
     try {
       const res = await fetch("/api/sync", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ kind: "project", topic: "", question: "What did you build for your capstone?", answer, course: d.course }),
+        body: JSON.stringify({
+          kind,
+          topic: kind === "experience" ? (topic ?? "") : "",
+          question: kind === "project" ? "What did you build for your capstone?" : topic ? EXPERIENCE_DEFAULTS[topic].ask : "",
+          answer,
+          course: d.course,
+        }),
       });
       if (!res.ok) throw new Error("sync failed");
       const out = (await res.json()) as { title: string; line: string; skills: string[] };
-      update({ capstoneItem: { title: out.title, line: out.line }, capstoneSkills: out.skills });
+      const item: ResumeItem = { title: out.title, line: out.line };
+      if (kind === "project") update({ capstoneItem: item, capstoneSkills: out.skills });
+      else update({ followupItem: item, followupSkills: out.skills });
     } catch {
       // Keep the student's own words if Sync can't help.
-      update({ capstoneItem: { title: "Capstone project", line: answer.trim() } });
+      const item: ResumeItem = { title: kind === "project" ? "Capstone project" : (topic ?? "Experience"), line: answer.trim() };
+      if (kind === "project") update({ capstoneItem: item });
+      else update({ followupItem: item });
     }
-    setCapSync("done");
+    set("done");
   }
 
   function next() {
-    if (step === 4 && d.capstone.trim() && !d.capstoneItem) void runSync();
+    if (step === 4 && d.capstone.trim()) void runSync("project");
+    if (step === 6 && d.followup.trim()) void runSync("experience");
+    if (step === 5 && !topic) {
+      go(7, 1);
+      return;
+    }
     go(Math.min(step + 1, TOTAL), 1);
   }
 
   function back() {
+    if (step === 7 && !topic) {
+      go(5, -1);
+      return;
+    }
     go(Math.max(step - 1, 1), -1);
   }
 
@@ -113,7 +165,8 @@ export function Flow() {
     step === 3 ||
     step === 4 ||
     (step === 5 && d.experiences.length > 0) ||
-    (step === 6 && d.places.length > 0);
+    step === 6 ||
+    (step === 7 && d.places.length > 0);
 
   async function finish() {
     setSaving(true);
@@ -127,9 +180,11 @@ export function Flow() {
         capstoneItem: d.capstoneItem,
         capstoneSkills: d.capstoneSkills,
         experiences: d.experiences,
+        followup: d.followup,
+        followupItem: d.followupItem,
+        followupSkills: d.followupSkills,
         places: d.places,
         minAllowance: d.minAllowance,
-        refined: d.coach?.resume ?? null,
       },
       channel === "phone" && phone ? toE164(phone) : undefined,
     );
@@ -139,17 +194,27 @@ export function Flow() {
       return;
     }
     clearDraft();
-    setResult(res.data);
+    const { resume: saved, studentId, ...matches } = res.data;
+    setResult(matches);
+    setChat({ resume: saved, studentId });
+    setRefining(true);
     setDir(1);
-    setStep(9);
+    setStep(REFINE);
   }
 
-  const resume = currentResume(d);
+  function ready(final: ResumeData) {
+    setRefining(false);
+    setFinalResume(final);
+    setDir(1);
+    setStep(READY);
+    void refreshMatches().then((r) => {
+      if (r.ok) setResult(r.data);
+    });
+  }
+
+  const resume = draftToResume(d);
+  const answered = step === 0 ? d.last - 1 : step - 1;
   const inFlow = step >= 1 && step <= TOTAL;
-  const base = draftToResume(d);
-  const seed: CoachResume = { projects: base.projects, experience: base.experience, skills: base.skills };
-  const lastSync = d.coach ? [...d.coach.messages].reverse().find((m) => m.role === "sync") : undefined;
-  const fresh = new Set((lastSync?.changes ?? []).filter((c) => c.kind !== "removed").map((c) => c.what));
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink">
@@ -193,298 +258,292 @@ export function Flow() {
         ) : null}
       </header>
 
-      <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-wrap items-start gap-16 px-6 pb-12" style={{ paddingTop: "7vh", boxSizing: "border-box" }}>
-        <main className="flex min-w-0 max-w-[560px] flex-col gap-6" style={{ flex: "1 1 440px" }}>
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={step}
-              custom={dir}
-              initial={{ opacity: 0, x: dir * 36, filter: "blur(6px)" }}
-              animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, x: dir * -24, filter: "blur(4px)" }}
-              transition={{ type: "spring", stiffness: 260, damping: 28 }}
-              className="flex flex-col gap-5"
-            >
-              {step === 0 ? (
-                <>
-                  <h1 className="display m-0" style={{ fontSize: "clamp(40px,5.4vw,58px)" }}>
-                    Welcome back{d.name ? `, ${firstName(d.name)}` : ""}.
-                  </h1>
-                  <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
-                    Saved on this phone. {spell(Math.max(TOTAL - d.last + 1, 0), true)} {TOTAL - d.last + 1 === 1 ? "step" : "steps"} left.
-                  </p>
-                  <div className="flex flex-wrap gap-2 pt-2">
-                    <motion.button className="btn btn-p" {...pressProps} onClick={() => go(Math.max(d.last, 1), 1)}>
-                      Continue
-                    </motion.button>
-                    <button
-                      className="btn"
-                      onClick={() => {
-                        clearDraft();
-                        setD(EMPTY_DRAFT);
-                        go(1, 1);
-                      }}
-                    >
-                      Start over
-                    </button>
-                  </div>
-                </>
-              ) : null}
-
-              {step === 1 ? (
-                <>
-                  <Q id="q1">What&apos;s your course?</Q>
-                  <input aria-labelledby="q1" className="big" value={d.course} autoFocus placeholder="BS Information Technology" onChange={(e) => update({ course: e.target.value })} onKeyDown={(e) => e.key === "Enter" && canNext && next()} />
-                  <div className="flex flex-wrap gap-2">
-                    {["BS Information Technology", "BS Computer Science", "BS Business Admin", "BS Accountancy", "BS Psychology"].map((c) => (
-                      <button key={c} className="chip" onClick={() => update({ course: c })}>
-                        {c.replace("BS ", "")}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              ) : null}
-
-              {step === 2 ? (
-                <>
-                  <Q id="q2">What&apos;s your full name?</Q>
-                  <input aria-labelledby="q2" className="big" value={d.name} autoFocus autoComplete="name" placeholder="Bea Santos" onChange={(e) => update({ name: e.target.value })} onKeyDown={(e) => e.key === "Enter" && canNext && next()} />
-                  <span style={{ fontSize: 15, color: "var(--muted)" }}>This goes on your resume.</span>
-                </>
-              ) : null}
-
-              {step === 3 ? (
-                <>
-                  <Q id="q3">Which language do you prefer?</Q>
-                  <div role="radiogroup" aria-labelledby="q3" className="flex flex-col gap-2">
-                    {LANGUAGES.map((l) => (
-                      <button key={l} className="opt" role="radio" aria-checked={d.language === l} onClick={() => update({ language: l })}>
-                        {l}
-                        <span className="dot" />
-                      </button>
-                    ))}
-                  </div>
-                  <span style={{ fontSize: 15, color: "var(--muted)" }}>Your resume will be in English.</span>
-                </>
-              ) : null}
-
-              {step === 4 ? (
-                <>
-                  <Q id="q4">{d.language === "Filipino" ? "Ano ang ginawa mo sa capstone mo?" : "What did you build for your capstone?"}</Q>
-                  <textarea
-                    aria-labelledby="q4"
-                    className="area"
-                    autoFocus
-                    value={d.capstone}
-                    placeholder="Inventory system para sa school canteen. Ako yung gumawa ng database, 4 kami sa team."
-                    onChange={(e) => update({ capstone: e.target.value, capstoneItem: null })}
-                  />
-                  <Dictate lang={d.language === "English" ? "en-PH" : "fil-PH"} onText={(t) => update({ capstone: `${d.capstone} ${t}`.trim(), capstoneItem: null })} />
-                </>
-              ) : null}
-
-              {step === 5 ? (
-                <>
-                  <Q id="q5">What else have you done?</Q>
-                  <span style={{ fontSize: 16, color: "var(--muted)" }}>Select all that apply. Sync will ask about each one next.</span>
-                  <div role="group" aria-labelledby="q5" className="flex flex-wrap gap-2">
-                    {EXPERIENCES.map((e) => {
-                      const on = d.experiences.includes(e);
-                      return (
-                        <motion.button
-                          key={e}
-                          className="chip chip-lg"
-                          aria-pressed={on}
-                          {...pressProps}
-                          onClick={() => {
-                            let list: Experience[];
-                            if (e === "None yet") list = on ? [] : ["None yet"];
-                            else list = on ? d.experiences.filter((x) => x !== e) : [...d.experiences.filter((x) => x !== "None yet"), e];
-                            update({ experiences: list });
-                          }}
-                        >
-                          {e}
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                </>
-              ) : null}
-
-              {step === 6 ? (
-                <>
-                  <Q id="q6">Where can you intern?</Q>
-                  <div role="group" aria-labelledby="q6" className="flex flex-wrap gap-2">
-                    {PLACES.map((p) => {
-                      const on = d.places.includes(p);
-                      return (
-                        <motion.button key={p} className="chip chip-lg" aria-pressed={on} {...pressProps} onClick={() => update({ places: on ? d.places.filter((x) => x !== p) : [...d.places, p] })}>
-                          {p}
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                  <span id="pay" style={{ fontSize: 16, fontWeight: 600, paddingTop: 4 }}>
-                    Minimum allowance
-                  </span>
-                  <div role="radiogroup" aria-labelledby="pay" className="flex flex-wrap gap-2">
-                    {ALLOWANCES.map((a) => (
-                      <button key={a.label} className="chip chip-lg" role="radio" aria-checked={d.minAllowance === a.value} onClick={() => update({ minAllowance: a.value })}>
-                        {a.label}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              ) : null}
-
-              {step === CHAT ? (
-                <>
-                  <div className="flex flex-col gap-2">
-                    <Q id="q7">Let&apos;s make it stronger.</Q>
-                    <span style={{ fontSize: 16, color: "var(--muted)", lineHeight: 1.5 }}>
-                      Sync will ask about the details recruiters look for. Answer in your own words, in any language. Finish whenever you&apos;re ready.
-                    </span>
-                  </div>
-                  <button type="button" className="btn btn-sm self-start min-[1000px]:hidden" aria-expanded={preview} onClick={() => setPreview((p) => !p)}>
-                    {preview ? "Hide resume" : "Preview resume"}
-                  </button>
-                  {preview ? (
-                    <div className="min-[1000px]:hidden" style={{ fontSize: 14 }}>
-                      <ResumeDoc data={resume} template="compact" />
-                    </div>
-                  ) : null}
-                  {capSync === "writing" ? (
-                    <Writing label="Sync is reading your answers…" />
-                  ) : (
-                    <SyncChat
-                      mode="onboarding"
-                      language={d.language}
-                      name={d.name}
-                      course={d.course}
-                      state={d.coach}
-                      seed={seed}
-                      onState={(coach) => update({ coach })}
-                      onFinish={() => go(SAVE, 1)}
-                      finishLabel={d.coach?.done ? "Looks good. Save it" : "Finish"}
-                    />
-                  )}
-                </>
-              ) : null}
-
-              {step === SAVE ? (
-                <>
-                  <Q id="q8">Save your resume.</Q>
-                  {isSignedIn ? (
-                    <>
-                      <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
-                        You&apos;re signed in{user?.primaryEmailAddress ? ` as ${user.primaryEmailAddress.emailAddress}` : ""}. We&apos;ll save it to your account.
-                      </p>
-                      <motion.button className="btn btn-p" {...pressProps} disabled={saving} onClick={() => void finish()}>
-                        {saving ? "Saving…" : "Save my resume"}
-                      </motion.button>
-                    </>
-                  ) : (
-                    <>
-                      <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
-                        Add your number so you can come back and companies can reach you.
-                      </p>
-                      <PhoneCapture channel={channel} onPhone={setPhone}>
-                        <CodeAuth key={channel} channel={channel} fullName={d.name} onDone={() => finish()} submitLabel={channel === "phone" ? "Text me a code" : "Email me a code"} />
-                      </PhoneCapture>
-                      <div className="flex items-center gap-3" style={{ fontSize: 14, color: "var(--faint)" }}>
-                        <span className="hairline flex-1" />
-                        or
-                        <span className="hairline flex-1" />
-                      </div>
-                      <button className="btn" onClick={() => setChannel(channel === "phone" ? "email" : "phone")}>
-                        {channel === "phone" ? (
-                          <>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                              <rect x="3" y="5" width="18" height="14" rx="2" />
-                              <path d="M3 7l9 6 9-6" />
-                            </svg>
-                            Use my school email
-                          </>
-                        ) : (
-                          "Use my mobile number"
-                        )}
-                      </button>
-                      <span className="text-center" style={{ fontSize: 14, color: "var(--muted)" }}>
-                        We don&apos;t share your number.
-                      </span>
-                    </>
-                  )}
-                  {error ? (
-                    <p role="alert" className="m-0" style={{ fontSize: 14, color: "var(--lilac-ink)" }}>
-                      {error}
-                    </p>
-                  ) : null}
-                </>
-              ) : null}
-
-              {step === 9 ? (
-                <>
-                  <motion.div initial={{ scale: 0.3, rotate: -90, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 180, damping: 14 }}>
-                    <Mark size={88} color="#7C88DC" />
-                  </motion.div>
-                  <h1 className="display m-0" style={{ fontSize: "clamp(40px,5.4vw,58px)" }}>
-                    You&apos;re ready, {firstName(resume.name) || "friend"}.
-                  </h1>
-                  <p className="m-0" style={{ fontSize: 18, color: "var(--muted)" }}>
-                    {result && result.matches > 0
-                      ? `${spell(result.matches, true)} ${result.matches === 1 ? "internship matches" : "internships match"} your resume. Here's the closest match.`
-                      : "We'll show you new internships as companies post them."}
-                  </p>
-                  {result?.top ? (
-                    <Link href={`/jobs?open=${result.top.id}`} className="card flex w-full items-center gap-4 p-4 text-ink no-underline" style={{ boxSizing: "border-box" }}>
-                      <CompanyMark logo={result.top.logo} bg={result.top.logo_bg} size={52} />
-                      <span className="flex flex-1 flex-col gap-0.5">
-                        <span style={{ fontWeight: 600, fontSize: 16 }}>{result.top.title}</span>
-                        <span style={{ fontSize: 15, color: "var(--muted)" }}>
-                          {result.top.company} · {result.top.mode === "Remote" ? "Remote" : result.top.city} · {allowanceLabel(result.top.allowance)}
-                        </span>
-                      </span>
-                      <span aria-hidden="true" style={{ fontSize: 20 }}>
-                        →
-                      </span>
-                    </Link>
-                  ) : null}
-                  <div className="flex flex-wrap gap-2">
-                    <motion.button className="btn btn-p" {...pressProps} onClick={() => router.push("/jobs")}>
-                      View all internships
-                    </motion.button>
-                    <Link href="/resume" className="btn">
-                      Review my resume
-                    </Link>
-                  </div>
-                </>
-              ) : null}
-            </motion.div>
-          </AnimatePresence>
-
-          {step >= 1 && step < CHAT ? (
-            <div className="flex items-center justify-end gap-4 pt-1">
-              {step === 4 ? (
-                <button className="link-btn" onClick={() => go(step + 1, 1)}>
-                  Skip
-                </button>
-              ) : null}
-              <motion.button
-                className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center rounded-full border-0 text-ink"
-                style={{ background: canNext ? "var(--primary)" : "var(--line)", color: canNext ? "var(--ink)" : "var(--faint)" }}
-                aria-label="Next"
-                disabled={!canNext}
-                {...pressProps}
-                onClick={next}
+      {step === REFINE && chat ? (
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 260, damping: 28 }} style={{ paddingTop: 24 }}>
+          <SyncChat studentId={chat.studentId} initial={chat.resume} firstName={firstName(chat.resume.name)} fresh top={112} onDone={ready} />
+        </motion.div>
+      ) : (
+        <div className="mx-auto flex w-full max-w-[1200px] flex-1 flex-wrap items-start gap-16 px-6 pb-12" style={{ paddingTop: "7vh", boxSizing: "border-box" }}>
+          <main className="flex min-w-0 max-w-[560px] flex-col gap-6" style={{ flex: "1 1 440px" }}>
+            <AnimatePresence mode="wait" custom={dir}>
+              <motion.div
+                key={step}
+                custom={dir}
+                initial={{ opacity: 0, x: dir * 36, filter: "blur(6px)" }}
+                animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, x: dir * -24, filter: "blur(4px)" }}
+                transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                className="flex flex-col gap-5"
               >
-                <Arrow />
-              </motion.button>
-            </div>
-          ) : null}
-        </main>
+                {step === 0 ? (
+                  <>
+                    <h1 className="display m-0" style={{ fontSize: "clamp(40px,5.4vw,58px)" }}>
+                      Welcome back{d.name ? `, ${firstName(d.name)}` : ""}.
+                    </h1>
+                    <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
+                      Saved on this phone. {spell(Math.max(TOTAL - d.last + 1, 0), true)} {TOTAL - d.last + 1 === 1 ? "question" : "questions"} left.
+                    </p>
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      <motion.button className="btn btn-p" {...pressProps} onClick={() => go(Math.max(d.last, 1), 1)}>
+                        Continue
+                      </motion.button>
+                      <button
+                        className="btn"
+                        onClick={() => {
+                          clearDraft();
+                          setD(EMPTY_DRAFT);
+                          go(1, 1);
+                        }}
+                      >
+                        Start over
+                      </button>
+                    </div>
+                  </>
+                ) : null}
 
-        <LivePaper d={d} capSync={capSync} fresh={fresh} />
-      </div>
+                {step === 1 ? (
+                  <>
+                    <Q id="q1">What&apos;s your course?</Q>
+                    <input aria-labelledby="q1" className="big" value={d.course} autoFocus placeholder="BS Information Technology" onChange={(e) => update({ course: e.target.value })} onKeyDown={(e) => e.key === "Enter" && canNext && next()} />
+                    <div className="flex flex-wrap gap-2">
+                      {["BS Information Technology", "BS Computer Science", "BS Business Admin", "BS Accountancy", "BS Psychology"].map((c) => (
+                        <button key={c} className="chip" onClick={() => update({ course: c })}>
+                          {c.replace("BS ", "")}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                ) : null}
+
+                {step === 2 ? (
+                  <>
+                    <Q id="q2">What&apos;s your full name?</Q>
+                    <input aria-labelledby="q2" className="big" value={d.name} autoFocus autoComplete="name" placeholder="Bea Santos" onChange={(e) => update({ name: e.target.value })} onKeyDown={(e) => e.key === "Enter" && canNext && next()} />
+                    <span style={{ fontSize: 15, color: "var(--muted)" }}>This goes on your resume.</span>
+                  </>
+                ) : null}
+
+                {step === 3 ? (
+                  <>
+                    <Q id="q3">Which language do you prefer?</Q>
+                    <div role="radiogroup" aria-labelledby="q3" className="flex flex-col gap-2">
+                      {LANGUAGES.map((l) => (
+                        <button key={l} className="opt" role="radio" aria-checked={d.language === l} onClick={() => update({ language: l })}>
+                          {l}
+                          <span className="dot" />
+                        </button>
+                      ))}
+                    </div>
+                    <span style={{ fontSize: 15, color: "var(--muted)" }}>Your resume will be in English.</span>
+                  </>
+                ) : null}
+
+                {step === 4 ? (
+                  <>
+                    <Q id="q4">{d.language === "Filipino" ? "Ano ang ginawa mo sa capstone mo?" : "What did you build for your capstone?"}</Q>
+                    <textarea
+                      aria-labelledby="q4"
+                      className="area"
+                      autoFocus
+                      value={d.capstone}
+                      placeholder="Inventory system para sa school canteen. Ako yung gumawa ng database, 4 kami sa team."
+                      onChange={(e) => update({ capstone: e.target.value, capstoneItem: null })}
+                    />
+                    <Dictate lang={d.language === "English" ? "en-PH" : "fil-PH"} onText={(t) => update({ capstone: `${d.capstone} ${t}`.trim(), capstoneItem: null })} />
+                  </>
+                ) : null}
+
+                {step === 5 ? (
+                  <>
+                    <Q id="q5">What else have you done?</Q>
+                    <span style={{ fontSize: 16, color: "var(--muted)" }}>Select all that apply.</span>
+                    <div role="group" aria-labelledby="q5" className="flex flex-wrap gap-2">
+                      {EXPERIENCES.map((e) => {
+                        const on = d.experiences.includes(e);
+                        return (
+                          <motion.button
+                            key={e}
+                            className="chip chip-lg"
+                            aria-pressed={on}
+                            {...pressProps}
+                            onClick={() => {
+                              let list: Experience[];
+                              if (e === "None yet") list = on ? [] : ["None yet"];
+                              else list = on ? d.experiences.filter((x) => x !== e) : [...d.experiences.filter((x) => x !== "None yet"), e];
+                              const topicChanged = followupTopic({ experiences: list }) !== topic;
+                              update({ experiences: list, ...(topicChanged ? { followup: "", followupItem: null, followupSkills: [] } : {}) });
+                            }}
+                          >
+                            {e}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </>
+                ) : null}
+
+                {step === 6 && topic ? (
+                  <>
+                    <Q id="q6">{EXPERIENCE_DEFAULTS[topic].ask}</Q>
+                    <textarea
+                      aria-labelledby="q6"
+                      className="area"
+                      autoFocus
+                      value={d.followup}
+                      placeholder={topic === "Club officer" ? "Treasurer ako ng IT Society. Nag-collect ng fees from mga 120 members, tapos monthly report sa Google Sheets." : "Tell Sync in your own words."}
+                      onChange={(e) => update({ followup: e.target.value, followupItem: null })}
+                    />
+                    <Dictate lang={d.language === "English" ? "en-PH" : "fil-PH"} onText={(t) => update({ followup: `${d.followup} ${t}`.trim(), followupItem: null })} />
+                  </>
+                ) : null}
+
+                {step === 7 ? (
+                  <>
+                    <Q id="q7">Where can you intern?</Q>
+                    <div role="group" aria-labelledby="q7" className="flex flex-wrap gap-2">
+                      {PLACES.map((p) => {
+                        const on = d.places.includes(p);
+                        return (
+                          <motion.button key={p} className="chip chip-lg" aria-pressed={on} {...pressProps} onClick={() => update({ places: on ? d.places.filter((x) => x !== p) : [...d.places, p] })}>
+                            {p}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                    <span id="pay" style={{ fontSize: 16, fontWeight: 600, paddingTop: 4 }}>
+                      Minimum allowance
+                    </span>
+                    <div role="radiogroup" aria-labelledby="pay" className="flex flex-wrap gap-2">
+                      {ALLOWANCES.map((a) => (
+                        <button key={a.label} className="chip chip-lg" role="radio" aria-checked={d.minAllowance === a.value} onClick={() => update({ minAllowance: a.value })}>
+                          {a.label}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                ) : null}
+
+                {step === 8 ? (
+                  <>
+                    <Q id="q8">Save your resume.</Q>
+                    {isSignedIn ? (
+                      <>
+                        <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
+                          You&apos;re signed in{user?.primaryEmailAddress ? ` as ${user.primaryEmailAddress.emailAddress}` : ""}. We&apos;ll save it to your account.
+                        </p>
+                        <motion.button className="btn btn-p" {...pressProps} disabled={saving} onClick={() => void finish()}>
+                          {saving ? "Saving…" : "Save my resume"}
+                        </motion.button>
+                      </>
+                    ) : (
+                      <>
+                        <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
+                          Add your number so you can come back and companies can reach you.
+                        </p>
+                        <PhoneCapture channel={channel} onPhone={setPhone}>
+                          <CodeAuth key={channel} channel={channel} fullName={d.name} onDone={() => finish()} submitLabel={channel === "phone" ? "Text me a code" : "Email me a code"} />
+                        </PhoneCapture>
+                        <div className="flex items-center gap-3" style={{ fontSize: 14, color: "var(--faint)" }}>
+                          <span className="hairline flex-1" />
+                          or
+                          <span className="hairline flex-1" />
+                        </div>
+                        <button className="btn" onClick={() => setChannel(channel === "phone" ? "email" : "phone")}>
+                          {channel === "phone" ? (
+                            <>
+                              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <rect x="3" y="5" width="18" height="14" rx="2" />
+                                <path d="M3 7l9 6 9-6" />
+                              </svg>
+                              Use my school email
+                            </>
+                          ) : (
+                            "Use my mobile number"
+                          )}
+                        </button>
+                        <span className="text-center" style={{ fontSize: 14, color: "var(--muted)" }}>
+                          We don&apos;t share your number.
+                        </span>
+                      </>
+                    )}
+                    {error ? (
+                      <p role="alert" className="m-0" style={{ fontSize: 14, color: "var(--lilac-ink)" }}>
+                        {error}
+                      </p>
+                    ) : null}
+                  </>
+                ) : null}
+
+                {step === READY ? (
+                  <>
+                    <motion.div initial={{ scale: 0.3, rotate: -90, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 180, damping: 14 }}>
+                      <Mark size={88} color="#7C88DC" />
+                    </motion.div>
+                    <h1 className="display m-0" style={{ fontSize: "clamp(40px,5.4vw,58px)" }}>
+                      You&apos;re ready, {firstName(finalResume?.name ?? resume.name) || "friend"}.
+                    </h1>
+                    <p className="m-0" style={{ fontSize: 18, color: "var(--muted)" }}>
+                      {result && result.matches > 0
+                        ? `${spell(result.matches, true)} ${result.matches === 1 ? "internship matches" : "internships match"} your resume. Here's the closest match.`
+                        : "We'll show you new internships as companies post them."}
+                    </p>
+                    {result?.top ? (
+                      <Link href={`/jobs?open=${result.top.id}`} className="card flex w-full items-center gap-4 p-4 text-ink no-underline" style={{ boxSizing: "border-box" }}>
+                        <CompanyMark logo={result.top.logo} bg={result.top.logo_bg} size={52} />
+                        <span className="flex flex-1 flex-col gap-0.5">
+                          <span style={{ fontWeight: 600, fontSize: 16 }}>{result.top.title}</span>
+                          <span style={{ fontSize: 15, color: "var(--muted)" }}>
+                            {result.top.company} · {result.top.mode === "Remote" ? "Remote" : result.top.city} · {allowanceLabel(result.top.allowance)}
+                          </span>
+                        </span>
+                        <span aria-hidden="true" style={{ fontSize: 20 }}>
+                          →
+                        </span>
+                      </Link>
+                    ) : null}
+                    <div className="flex flex-wrap gap-2">
+                      <motion.button className="btn btn-p" {...pressProps} onClick={() => router.push("/jobs")}>
+                        View all internships
+                      </motion.button>
+                      <Link href="/resume" className="btn">
+                        Review my resume
+                      </Link>
+                    </div>
+                  </>
+                ) : null}
+              </motion.div>
+            </AnimatePresence>
+
+            {step >= 1 && step <= 7 ? (
+              <div className="flex items-center justify-end gap-4 pt-1">
+                {step === 4 || step === 6 ? (
+                  <button className="link-btn" onClick={() => go(step + 1, 1)}>
+                    Skip
+                  </button>
+                ) : null}
+                <motion.button
+                  className="flex h-[60px] w-[60px] cursor-pointer items-center justify-center rounded-full border-0 text-ink"
+                  style={{ background: canNext ? "var(--primary)" : "var(--line)", color: canNext ? "var(--ink)" : "var(--faint)" }}
+                  aria-label="Next"
+                  disabled={!canNext}
+                  {...pressProps}
+                  onClick={next}
+                >
+                  <Arrow />
+                </motion.button>
+              </div>
+            ) : null}
+          </main>
+
+          {step === READY && finalResume ? (
+            <aside aria-label="Your resume" className="hidden min-w-0 max-w-[520px] min-[1000px]:block" style={{ flex: "1 1 400px" }}>
+              <ResumeDoc data={finalResume} />
+            </aside>
+          ) : (
+            <LivePaper d={d} answered={answered} capSync={capSync} fupSync={fupSync} />
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -511,17 +570,17 @@ function PhoneCapture({ channel, onPhone, children }: { channel: "phone" | "emai
   );
 }
 
-function LivePaper({ d, capSync, fresh }: { d: Draft; capSync: SyncState; fresh: Set<string> }) {
-  const r = currentResume(d);
+function LivePaper({ d, answered, capSync, fupSync }: { d: Draft; answered: number; capSync: SyncState; fupSync: SyncState }) {
+  const r = draftToResume(d);
   const skills = r.skills.length ? r.skills : skillsForCourse(d.course);
-  const details = [r.city, r.availability ? `Available ${r.availability}` : ""].filter(Boolean).join(" · ");
+  const lead = r.experience;
   return (
     <aside aria-label="Your resume, live" className="relative hidden min-w-0 max-w-[480px] min-[1000px]:block" style={{ flex: "1 1 400px" }}>
       <div aria-hidden="true" className="absolute rounded-xl" style={{ inset: "24px -16px -16px 24px", background: "var(--surface)" }} />
       <div className="card relative flex min-h-[520px] flex-col gap-4 p-10" style={{ boxSizing: "border-box" }}>
         <div className="flex items-center justify-between">
           <span style={{ fontSize: 13, fontWeight: 600, color: "var(--accent)" }}>Your resume</span>
-          <span style={{ fontSize: 13, color: "var(--muted)" }}>{d.coach ? "Sync updates it as you chat" : "Updates as you answer"}</span>
+          <span style={{ fontSize: 13, color: "var(--muted)" }}>Updates as you answer</span>
         </div>
         {r.name ? (
           <span key={r.name.length > 0 ? "n" : "x"} className="display pop" style={{ fontSize: 30 }}>
@@ -533,18 +592,16 @@ function LivePaper({ d, capSync, fresh }: { d: Draft; capSync: SyncState; fresh:
           </span>
         )}
         <span style={{ fontSize: 16, fontWeight: 500, color: r.course ? "var(--ink)" : "var(--ghost)" }}>{r.course || "Your course"}</span>
-        {details ? (
-          <span className="pop" style={{ fontSize: 14, color: "var(--muted)", marginTop: -8 }}>
-            {details}
-          </span>
-        ) : null}
         <span style={{ height: 2, background: "var(--ink)" }} />
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <span className="eyebrow">Projects</span>
           {capSync === "writing" && !d.capstoneItem ? <Writing /> : null}
-          {r.projects.length ? (
-            r.projects.map((p, i) => <PaperItem key={`${p.title}-${i}`} it={p} fresh={fresh.has(p.title)} />)
+          {d.capstoneItem ? (
+            <div className="pop flex flex-col gap-0.5">
+              <span style={{ fontWeight: 600 }}>{d.capstoneItem.title}</span>
+              <span style={{ fontSize: 14, color: "var(--muted)" }}>{d.capstoneItem.line}</span>
+            </div>
           ) : capSync !== "writing" ? (
             <>
               <span className="sk" style={{ width: "70%" }} />
@@ -553,10 +610,16 @@ function LivePaper({ d, capSync, fresh }: { d: Draft; capSync: SyncState; fresh:
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <span className="eyebrow">Experience</span>
-          {r.experience.length ? (
-            r.experience.map((e, i) => <PaperItem key={`${e.title}-${i}`} it={e} fresh={fresh.has(e.title)} />)
+          {fupSync === "writing" && !d.followupItem ? <Writing /> : null}
+          {lead.length && answered >= 5 ? (
+            lead.map((e, i) => (
+              <div key={`${e.title}-${i}`} className="pop flex flex-col gap-0.5">
+                <span style={{ fontWeight: 600 }}>{e.title}</span>
+                <span style={{ fontSize: 14, color: "var(--muted)" }}>{e.line}</span>
+              </div>
+            ))
           ) : (
             <>
               <span className="sk" style={{ width: "60%" }} />
@@ -567,10 +630,7 @@ function LivePaper({ d, capSync, fresh }: { d: Draft; capSync: SyncState; fresh:
 
         <div className="flex flex-col gap-2">
           <span className="eyebrow">Skills</span>
-          <div
-            className="flex flex-wrap gap-1 rounded-lg"
-            style={{ background: fresh.has("Skills") ? "var(--soft-2)" : "transparent", boxShadow: fresh.has("Skills") ? "0 0 0 6px var(--soft-2)" : "none", transition: "background .5s, box-shadow .5s" }}
-          >
+          <div className="flex flex-wrap gap-1">
             {skills.map((k) => (
               <span key={k} className="tag pop">
                 {k}
@@ -590,42 +650,13 @@ function LivePaper({ d, capSync, fresh }: { d: Draft; capSync: SyncState; fresh:
   );
 }
 
-// One entry on the live paper. Placeholder lines are faint until Sync asks
-// about them; entries Sync just changed get a soft highlight.
-function PaperItem({ it, fresh }: { it: ResumeItem; fresh: boolean }) {
-  const placeholder = isPlaceholder(it);
-  return (
-    <div
-      className="pop flex flex-col gap-0.5 rounded-lg"
-      style={{
-        background: fresh ? "var(--soft-2)" : "transparent",
-        boxShadow: fresh ? "0 0 0 6px var(--soft-2)" : "none",
-        transition: "background .5s, box-shadow .5s",
-      }}
-    >
-      <span style={{ fontWeight: 600 }}>{it.title}</span>
-      <span style={{ fontSize: 14, color: placeholder ? "var(--faint)" : "var(--muted)", fontStyle: placeholder ? "italic" : undefined }}>
-        {it.line}
-        {placeholder ? <span className="sr-only"> (Sync will ask about this)</span> : null}
-      </span>
-      {it.bullets?.length ? (
-        <ul className="m-0 flex flex-col gap-0.5 pl-4" style={{ fontSize: 14, color: "var(--muted)" }}>
-          {it.bullets.map((b, i) => (
-            <li key={i}>{b}</li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
-  );
-}
-
-function Writing({ label = "Sync is writing…" }: { label?: string }) {
+function Writing() {
   return (
     <span className="flex items-center gap-2" style={{ fontSize: 14, color: "var(--accent)", fontWeight: 600 }}>
       <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2.4, ease: "linear" }} className="inline-flex">
         <Mark size={16} color="var(--mark)" />
       </motion.span>
-      {label}
+      Sync is writing…
     </span>
   );
 }
