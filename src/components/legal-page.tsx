@@ -54,10 +54,6 @@ export function LegalPage({ title, intro, sections }: { title: string; intro: Re
   );
 }
 
-// The privacy contact, or a visible note that it hasn't been set.
 export function ContactEmail() {
-  if (!LEGAL.email) {
-    return <span style={{ color: "var(--lilac-ink)", fontWeight: 600 }}>(contact email not set: add NEXT_PUBLIC_LEGAL_EMAIL)</span>;
-  }
   return <a href={`mailto:${LEGAL.email}`}>{LEGAL.email}</a>;
 }

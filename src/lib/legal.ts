@@ -6,9 +6,8 @@ export const LEGAL = {
   // business name once there is one.
   operator: "Unisync",
   effective: "Nov. 24, 2026",
-  // Where privacy requests and questions go. Required by the Data Privacy Act,
-  // so set NEXT_PUBLIC_LEGAL_EMAIL before launch.
-  email: process.env.NEXT_PUBLIC_LEGAL_EMAIL?.trim() || "",
+  // Where privacy requests and legal questions go.
+  email: "mail@unisync.dev",
 } as const;
 
 // Outside services that handle personal data for Unisync, and what for.

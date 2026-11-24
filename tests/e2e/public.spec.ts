@@ -78,6 +78,7 @@ test("privacy policy and terms are linked and readable @phone", async ({ page })
   await expect(page.getByRole("heading", { name: "Privacy Policy", level: 1 })).toBeVisible();
   await expect(page.getByRole("heading", { name: "5. Sync and AI" })).toBeVisible();
   await expect(page.getByText(/Data Privacy Act of 2012/)).toBeVisible();
+  await expect(page.getByRole("link", { name: "mail@unisync.dev" }).first()).toHaveAttribute("href", "mailto:mail@unisync.dev");
   await page.getByRole("contentinfo").getByRole("link", { name: "Terms" }).click();
   await expect(page.getByRole("heading", { name: "Terms of Service", level: 1 })).toBeVisible();
   await expect(page.getByText(/Never ask students for money/)).toBeVisible();

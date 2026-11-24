@@ -31,7 +31,7 @@ How it's guarded:
 
 ### Privacy policy and terms
 
-`/privacy` and `/terms` describe what the app actually does: the data each role creates, who can see it (schools see their students; companies see applicants), the outside services that handle it (`PROCESSORS` in `src/lib/legal.ts`), Sync's use of Claude, account deletion and rights under the Data Privacy Act of 2012. Sign-in, the onboarding save step and company registration link to both. Before launch, set `NEXT_PUBLIC_LEGAL_EMAIL` (the pages show a visible warning until you do), put the registered business name in `LEGAL.operator`, update both pages when data handling changes, and have a lawyer review them.
+`/privacy` and `/terms` describe what the app actually does: the data each role creates, who can see it (schools see their students; companies see applicants), the outside services that handle it (`PROCESSORS` in `src/lib/legal.ts`), Sync's use of Claude, account deletion and rights under the Data Privacy Act of 2012. Sign-in, the onboarding save step and company registration link to both. Privacy requests go to mail@unisync.dev (`LEGAL.email`). Before launch, put the registered business name in `LEGAL.operator`, and have a lawyer review both pages. Update them whenever data handling changes.
 
 Emails (`src/lib/email`) cover resume ready, application sent, new applicant, interview, offer, reminder, invite, company verified, message and MOA. With demo mode on, preview them at `/api/emails/index`.
 
