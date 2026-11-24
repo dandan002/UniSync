@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand";
 import { InView, Reveal } from "@/components/motion";
+import { SiteFooter } from "@/components/site-footer";
 
 // Short audience pages linked from the landing nav.
 export function Pitch({ title, lead, cta, points, children }: { title: ReactNode; lead: string; cta: { href: string; label: string }; points: Array<{ t: string; d: string }>; children?: ReactNode }) {
@@ -46,6 +47,7 @@ export function Pitch({ title, lead, cta, points, children }: { title: ReactNode
         </div>
       </section>
       {children}
+      <SiteFooter />
     </div>
   );
 }

@@ -71,3 +71,17 @@ test("signed-in pages redirect to sign-in", async ({ page }) => {
   await page.goto("/school");
   await expect(page).toHaveURL(/\/sign-in/);
 });
+
+test("privacy policy and terms are linked and readable @phone", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("contentinfo").getByRole("link", { name: "Privacy" }).click();
+  await expect(page.getByRole("heading", { name: "Privacy Policy", level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "5. Sync and AI" })).toBeVisible();
+  await expect(page.getByText(/Data Privacy Act of 2012/)).toBeVisible();
+  await page.getByRole("contentinfo").getByRole("link", { name: "Terms" }).click();
+  await expect(page.getByRole("heading", { name: "Terms of Service", level: 1 })).toBeVisible();
+  await expect(page.getByText(/Never ask students for money/)).toBeVisible();
+
+  await page.goto("/sign-in");
+  await expect(page.getByRole("link", { name: "Terms of Service" })).toHaveAttribute("href", "/terms");
+});

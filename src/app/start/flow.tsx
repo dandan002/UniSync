@@ -10,6 +10,7 @@ import { CodeAuth, toE164 } from "@/components/code-auth";
 import { Dictate } from "@/components/dictate";
 import { pressProps } from "@/components/motion";
 import { ResumeDoc } from "@/components/resume-doc";
+import { AgreeLine } from "@/components/site-footer";
 import { SyncChat } from "@/components/sync-chat";
 import { refreshMatches, saveOnboarding, type MatchSummary } from "@/lib/actions/student";
 import { clearDraft, hasDraft, loadDraft, REFINING_KEY, saveDraft } from "@/lib/draft";
@@ -434,6 +435,7 @@ export function Flow() {
                         <motion.button className="btn btn-p" {...pressProps} disabled={saving} onClick={() => void finish()}>
                           {saving ? "Saving…" : "Save my resume"}
                         </motion.button>
+                        <AgreeLine action="saving" />
                       </>
                     ) : (
                       <>
@@ -462,8 +464,9 @@ export function Flow() {
                           )}
                         </button>
                         <span className="text-center" style={{ fontSize: 14, color: "var(--muted)" }}>
-                          We don&apos;t share your number.
+                          Only your school and companies you apply to can see your number.
                         </span>
+                        <AgreeLine action="continuing" className="text-center" />
                       </>
                     )}
                     {error ? (

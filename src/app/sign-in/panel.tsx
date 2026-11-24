@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CodeAuth, useTicketSignIn } from "@/components/code-auth";
 import { Reveal } from "@/components/motion";
+import { AgreeLine } from "@/components/site-footer";
 
 const DEMOS = [
   { persona: "student", name: "Bea Santos", role: "Student with applications" },
@@ -49,6 +50,7 @@ export function SignInPanel({ next, as, email, demos }: { next: string; as: "stu
         <button type="button" className="btn" onClick={() => setChannel(channel === "email" ? "phone" : "email")}>
           {channel === "email" ? "Use my mobile number" : "Use my email"}
         </button>
+        <AgreeLine action="continuing" />
       </Reveal>
 
       {demos ? (

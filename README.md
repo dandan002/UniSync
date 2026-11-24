@@ -8,7 +8,7 @@ Built with Next.js 16, Supabase (Postgres, row-level security, Storage), Clerk (
 
 | Area | Routes | What it does |
 | --- | --- | --- |
-| Public | `/`, `/start`, `/schools`, `/employers` | Landing page with the first question inline; eight-question onboarding with a live resume, saved on the device until the student signs in, then a chat with Sync that fills in the specifics |
+| Public | `/`, `/start`, `/schools`, `/employers`, `/privacy`, `/terms` | Landing page with the first question inline; eight-question onboarding with a live resume, saved on the device until the student signs in, then a chat with Sync that fills in the specifics |
 | Sign-in | `/sign-in`, `/welcome` | Email or phone code (Clerk), one-click demo accounts, role-based routing |
 | Students | `/home`, `/jobs`, `/resume`, `/resume/sync` | Next interview or offer, applications, updates, CHED forms with uploads, hours log; matched jobs with filters and apply; resume templates, strength score, hold to approve, PDF, editor; Sync chat |
 | Schools | `/school`, `/school/companies`, `/school/forms`, `/school/people`, `/api/reports/ched` | KPIs, needs attention with one-click fixes, roster with bulk remind and endorse; MOAs; form review; people, roles, company verification, activity; CHED CSV export |
@@ -28,6 +28,10 @@ How it's guarded:
 - **Untrusted input:** the browser's transcript is capped (24 turns, 1,200 characters per message, 64 KB per request) and replayed as plain text only, so no tool calls or thinking blocks can be forged. The resume and checklist travel as tagged data in the user turn, never in the system prompt, and the prompt tells Sync to treat them as content, not instructions. It refuses off-topic requests and prompt-injection attempts and steers back to the resume.
 - **What gets saved:** every tool input is validated, stripped of control and invisible characters, length-capped and capped in count. First-person text ("I", "my", "we", "our") is sent back to Sync to rewrite, and so is any number the student never gave (digits or number words in English or Filipino; years and dates are exempt), so a made-up "35%" can't reach the resume. The result passes the same `ResumeSchema` as manual edits before it's stored. The prompt forbids inventing facts, and summaries are written only from what the student says they want.
 - **Cost:** 20 messages per 10 minutes and 150 per day per student, enforced in Postgres by `take_sync_turn()` (migration `20261124090000_sync_chat_limits.sql`). Until that migration is applied, the route falls back to per-instance in-memory limits and logs a warning. Output is capped at 8,000 tokens per step.
+
+### Privacy policy and terms
+
+`/privacy` and `/terms` describe what the app actually does: the data each role creates, who can see it (schools see their students; companies see applicants), the outside services that handle it (`PROCESSORS` in `src/lib/legal.ts`), Sync's use of Claude, account deletion and rights under the Data Privacy Act of 2012. Sign-in, the onboarding save step and company registration link to both. Before launch, set `NEXT_PUBLIC_LEGAL_EMAIL` (the pages show a visible warning until you do), put the registered business name in `LEGAL.operator`, update both pages when data handling changes, and have a lawyer review them.
 
 Emails (`src/lib/email`) cover resume ready, application sent, new applicant, interview, offer, reminder, invite, company verified, message and MOA. With demo mode on, preview them at `/api/emails/index`.
 

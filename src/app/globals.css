@@ -579,6 +579,31 @@
     max-width: calc(100% - 48px);
   }
 
+  /* Legal pages */
+  .legal p,
+  .legal li {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .legal ul {
+    margin: 0;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: disc;
+  }
+  .legal ul ul {
+    margin-top: 8px;
+    list-style: circle;
+  }
+  .legal strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
   /* Resume paper */
   .resume-paper {
     background: #ffffff;
