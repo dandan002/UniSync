@@ -3,12 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { z } from "zod";
-import { loadJobsFor, loadResume } from "@/lib/data";
+import { loadJobsFor, loadResume, persistResume } from "@/lib/data";
 import { ApplicationSentEmail, NewApplicantEmail, ResumeReadyEmail } from "@/lib/email/templates";
 import { sendEmail } from "@/lib/email/send";
 import { allowanceLabel, firstName } from "@/lib/format";
 import { whyRecommend } from "@/lib/match";
-import { draftToResume, EMPTY_DRAFT, normalizeResume, type Draft } from "@/lib/resume";
+import { draftToResume, EMPTY_DRAFT, type Draft } from "@/lib/resume";
+import { ItemSchema, ResumeSchema } from "@/lib/resume-schema";
 import type { Company, Job, ResumeData, Template } from "@/lib/types";
 import { getViewer, type Viewer } from "@/lib/viewer";
 
@@ -24,14 +25,6 @@ async function student(): Promise<Viewer> {
 function fail(e: unknown): { ok: false; error: string } {
   return { ok: false, error: e instanceof Error ? e.message : "Something went wrong." };
 }
-
-const ItemSchema = z.object({
-  title: z.string().max(120),
-  line: z.string().max(300),
-  when: z.string().max(40).optional(),
-  section: z.enum(["Leadership", "Work", "Volunteer", "Activities"]).optional(),
-  kind: z.string().max(40).optional(),
-});
 
 const DraftSchema = z.object({
   course: z.string().max(120),
@@ -50,8 +43,21 @@ const DraftSchema = z.object({
 
 export type TopJob = { id: string; title: string; company: string; city: string; mode: string; allowance: number; logo: string; logo_bg: string };
 
-// Step 8 of onboarding: the student is signed in, so save the draft.
-export async function saveOnboarding(input: unknown, phone?: string): Promise<Result<{ matches: number; top: TopJob | null }>> {
+export type MatchSummary = { matches: number; top: TopJob | null };
+
+async function matchSummary(viewer: Viewer, resume: ResumeData, course?: string): Promise<MatchSummary> {
+  const jobs = await loadJobsFor(course ? { ...viewer, profile: { ...viewer.profile, course } } : viewer, resume);
+  const good = jobs.filter((j) => j.good);
+  const best = good[0] ?? jobs[0];
+  const top: TopJob | null = best
+    ? { id: best.id, title: best.title, company: best.company.name, city: best.city, mode: best.mode, allowance: best.allowance, logo: best.company.logo, logo_bg: best.company.logo_bg }
+    : null;
+  return { matches: good.length, top };
+}
+
+// Step 8 of onboarding: the student is signed in, so save the draft. Returns
+// the saved resume so Sync can refine it next.
+export async function saveOnboarding(input: unknown, phone?: string): Promise<Result<MatchSummary & { resume: ResumeData; studentId: string }>> {
   try {
     const viewer = await student();
     const parsed = DraftSchema.safeParse(input);
@@ -67,12 +73,7 @@ export async function saveOnboarding(input: unknown, phone?: string): Promise<Re
     const res = await supabase.from("resumes").upsert({ student_id: profile.id, data: resume, template: "classic" }, { onConflict: "student_id" });
     if (res.error) throw new Error(res.error.message);
 
-    const jobs = await loadJobsFor({ ...viewer, profile: { ...profile, course: d.course } }, resume);
-    const good = jobs.filter((j) => j.good);
-    const best = good[0] ?? jobs[0];
-    const top: TopJob | null = best
-      ? { id: best.id, title: best.title, company: best.company.name, city: best.city, mode: best.mode, allowance: best.allowance, logo: best.company.logo, logo_bg: best.company.logo_bg }
-      : null;
+    const { matches, top } = await matchSummary(viewer, resume, d.course);
 
     if (!existing.data) {
       after(() =>
@@ -81,7 +82,7 @@ export async function saveOnboarding(input: unknown, phone?: string): Promise<Re
           "Your resume is ready",
           ResumeReadyEmail({
             name: firstName(d.name),
-            matches: good.length,
+            matches,
             skills: resume.skills,
             topJob: top ? { title: top.title, company: top.company, detail: `${top.city} · ${allowanceLabel(top.allowance)}` } : undefined,
           }),
@@ -89,38 +90,38 @@ export async function saveOnboarding(input: unknown, phone?: string): Promise<Re
       );
     }
     revalidatePath("/", "layout");
-    return { ok: true, data: { matches: good.length, top } };
+    return { ok: true, data: { matches, top, resume, studentId: profile.id } };
   } catch (e) {
     return fail(e);
   }
 }
 
-const ResumeSchema = z.object({
-  name: z.string().min(1).max(120),
-  course: z.string().max(120),
-  school: z.string().max(160).optional(),
-  email: z.string().max(160).optional(),
-  phone: z.string().max(40).optional(),
-  city: z.string().max(80).optional(),
-  availability: z.string().max(60).optional(),
-  language: z.enum(["English", "Filipino", "Taglish"]).optional(),
-  projects: z.array(ItemSchema).max(8),
-  experience: z.array(ItemSchema).max(12),
-  skills: z.array(z.string().max(40)).max(20),
-  prefs: z.object({ places: z.array(z.string().max(40)).max(12), minAllowance: z.number().int().min(0).max(100000) }),
-});
+// Matches for the resume as saved now, after Sync's edits.
+export async function refreshMatches(): Promise<Result<MatchSummary>> {
+  try {
+    const viewer = await student();
+    const { data } = await loadResume(viewer);
+    return { ok: true, data: await matchSummary(viewer, data) };
+  } catch (e) {
+    return fail(e);
+  }
+}
 
+// Saves edits to an existing resume. Updates rather than upserts: students
+// may only insert student_id, data and template, so an upsert carrying
+// updated_at is refused.
 export async function saveResume(input: unknown, template?: Template): Promise<Result> {
   try {
     const viewer = await student();
     const parsed = ResumeSchema.safeParse(input);
     if (!parsed.success) return { ok: false, error: "Check the highlighted fields." };
-    const data = normalizeResume(parsed.data) as ResumeData;
-    const patch: Record<string, unknown> = { student_id: viewer.profile.id, data, updated_at: new Date().toISOString() };
-    if (template) patch.template = template;
-    const res = await viewer.supabase.from("resumes").upsert(patch, { onConflict: "student_id" });
-    if (res.error) throw new Error(res.error.message);
-    await viewer.supabase.from("profiles").update({ full_name: data.name, course: data.course, city: data.city ?? null }).eq("id", viewer.profile.id);
+    if (template && !["classic", "modern", "compact"].includes(template)) return { ok: false, error: "Unknown template." };
+    const res = await persistResume(viewer, parsed.data as ResumeData);
+    if (!res.ok) throw new Error(res.error);
+    if (template) {
+      const t = await viewer.supabase.from("resumes").update({ template }).eq("student_id", viewer.profile.id);
+      if (t.error) throw new Error(t.error.message);
+    }
     revalidatePath("/resume");
     return { ok: true, data: undefined };
   } catch (e) {

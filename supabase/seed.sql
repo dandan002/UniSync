@@ -307,4 +307,7 @@ insert into public.audit_log (school_id, actor_id, actor_name, action, created_a
   ('10000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000030', 'Liza Ocampo', 'approved four weeks of hours', now() - interval '1 day 3 hours'),
   ('10000000-0000-4000-8000-000000000001', '30000000-0000-4000-8000-000000000020', 'Maria Reyes', 'exported the CHED report', now() - interval '22 days');
 
+-- Shared demo personas can't be deleted (see delete_my_account).
+update public.profiles set demo = true where lower(coalesce(email, '')) ~ '(@|\.)example\.com$';
+
 commit;

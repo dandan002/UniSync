@@ -75,7 +75,13 @@ export const EXPERIENCE_DEFAULTS: Record<Exclude<Experience, "None yet">, { item
   },
 };
 
-export const PLACES = ["Pasig", "Makati", "Taguig", "Calamba", "Santa Rosa", "Remote"];
+// An entry still showing the stock text from onboarding, with no real details.
+const DEFAULT_LINES = new Set(Object.values(EXPERIENCE_DEFAULTS).map((d) => d.item.line));
+export function isPlaceholder(item: ResumeItem): boolean {
+  return DEFAULT_LINES.has(item.line.trim()) && !(item.bullets ?? []).length;
+}
+
+export const PLACES =["Pasig", "Makati", "Taguig", "Calamba", "Santa Rosa", "Remote"];
 export const ALLOWANCES: Array<{ label: string; value: number }> = [
   { label: "Any", value: 0 },
   { label: "₱3,000+", value: 3000 },
@@ -194,7 +200,11 @@ export function normalizeResume(raw: unknown, fallbackName = ""): ResumeData {
           .filter((x) => x && typeof x === "object")
           .map((x) => x as ResumeItem)
           .filter((x) => typeof x.title === "string")
-          .map((x) => ({ ...x, line: typeof x.line === "string" ? x.line : "" }))
+          .map((x) => {
+            const { bullets, ...rest } = x;
+            const list = Array.isArray(bullets) ? bullets.filter((b): b is string => typeof b === "string" && b.trim().length > 0) : [];
+            return { ...rest, line: typeof x.line === "string" ? x.line : "", ...(list.length ? { bullets: list.slice(0, 6) } : {}) };
+          })
       : [];
   return {
     name: typeof r.name === "string" && r.name ? r.name : fallbackName,
@@ -205,6 +215,7 @@ export function normalizeResume(raw: unknown, fallbackName = ""): ResumeData {
     city: typeof r.city === "string" ? r.city : undefined,
     language: r.language,
     availability: typeof r.availability === "string" ? r.availability : undefined,
+    summary: typeof r.summary === "string" && r.summary.trim() ? r.summary : undefined,
     projects: items(r.projects),
     experience: items(r.experience),
     skills: Array.isArray(r.skills) ? r.skills.filter((s): s is string => typeof s === "string") : [],

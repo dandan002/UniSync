@@ -54,3 +54,13 @@ describe("resume building", () => {
     expect(r.prefs).toEqual({ places: [], minAllowance: 0 });
   });
 });
+
+describe("resume details from Sync", () => {
+  it("keeps bullets and a summary, dropping junk", () => {
+    const r = normalizeResume({ name: "Bea", summary: "  ", projects: [{ title: "App", line: "Built it.", bullets: ["Used SQL.", 4, "", "Shipped it."] }] });
+    expect(r.summary).toBeUndefined();
+    expect(r.projects[0].bullets).toEqual(["Used SQL.", "Shipped it."]);
+    expect(normalizeResume({ name: "Bea", summary: "IT student." }).summary).toBe("IT student.");
+    expect(normalizeResume({ name: "Bea", projects: [{ title: "App", line: "x", bullets: [] }] }).projects[0]).toEqual({ title: "App", line: "x" });
+  });
+});

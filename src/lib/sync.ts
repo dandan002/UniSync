@@ -37,7 +37,8 @@ Rules:
 - skills: up to four concrete skills shown in the answer, such as "SQL", "Budgeting" or "Google Sheets". Use an empty list if none are clear.`;
 
 let client: Anthropic | null = null;
-function anthropic(): Anthropic | null {
+// Shared client, or null when no API key is set.
+export function anthropic(): Anthropic | null {
   if (!process.env.ANTHROPIC_API_KEY) return null;
   client ??= new Anthropic();
   return client;

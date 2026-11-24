@@ -4,11 +4,16 @@ import { animate, motion, useMotionValue, useTransform } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
+import { Mark } from "@/components/brand";
+import { ConfirmDialog } from "@/components/confirm";
 import { FormUpload } from "@/components/form-upload";
 import { pressProps } from "@/components/motion";
 import { ResumeDoc } from "@/components/resume-doc";
+import { deleteResume } from "@/lib/actions/account";
 import { approveResume, saveResume, setTemplate } from "@/lib/actions/student";
+import { forgetChat } from "@/lib/draft";
 import { spell } from "@/lib/format";
+import { reviewResume } from "@/lib/review";
 import type { FormKey, ResumeData, ResumeItem, Template } from "@/lib/types";
 
 const TEMPLATES: Array<{ id: Template; name: string }> = [
@@ -35,10 +40,12 @@ export function ResumeEditor({
   const [tpl, setTpl] = useState<Template>(initialTemplate);
   const [approved, setApproved] = useState(initialApproved);
   const [editing, setEditing] = useState(false);
+  const [removing, setRemoving] = useState(false);
   const [error, setError] = useState("");
   const [, start] = useTransition();
   const idx = TEMPLATES.findIndex((t) => t.id === tpl);
   const done = Math.min(forms.done + (approved && !initialApproved ? 1 : 0), forms.total);
+  const review = reviewResume(data);
 
   return (
     <>
@@ -63,7 +70,10 @@ export function ResumeEditor({
             <h1 className="display m-0" style={{ fontSize: "clamp(32px,4vw,44px)", lineHeight: 1 }}>
               Your resume
             </h1>
-            <span style={{ fontSize: 16, color: "var(--muted)" }}>Built from your answers. Edit anything.</span>
+            <span style={{ fontSize: 16, color: "var(--muted)" }}>
+              Built from your answers. Strength {review.score}%
+              {review.gaps.length ? ` · Sync can help with ${spell(review.gaps.length)} ${review.gaps.length === 1 ? "thing" : "things"}` : ""}.
+            </span>
           </div>
           <div role="tablist" aria-label="Template" className="relative flex w-[300px] rounded-[10px] p-1" style={{ background: "var(--line-3)" }}>
             <motion.span
@@ -134,13 +144,34 @@ export function ResumeEditor({
             <button className="btn" style={{ height: 48 }} onClick={() => setEditing(true)}>
               Edit
             </button>
-            <Link href="/start" className="btn" style={{ height: 48 }}>
-              Edit with Sync
+            <Link href="/resume/sync" className="btn" style={{ height: 48 }}>
+              <Mark size={16} color="var(--mark)" />
+              Improve with Sync
             </Link>
             <button className="btn btn-ghost" style={{ height: 48 }} onClick={() => window.print()}>
               Download PDF
             </button>
+            <span className="flex-1" />
+            <button className="link-btn" style={{ color: "var(--lilac-ink)" }} onClick={() => setRemoving(true)}>
+              Delete resume
+            </button>
           </div>
+        ) : null}
+        {removing ? (
+          <ConfirmDialog
+            title="Delete your resume?"
+            confirmLabel="Delete resume"
+            onClose={() => setRemoving(false)}
+            onConfirm={async () => {
+              const res = await deleteResume();
+              if (!res.ok) return res.error;
+              forgetChat(studentId);
+              router.push("/start");
+            }}
+          >
+            <p className="m-0">This removes your resume, its approval and your chat with Sync. Your account, applications and school forms stay.</p>
+            <p className="m-0">You&apos;ll start again from the first question. Companies you&apos;ve applied to see an empty resume until you build a new one.</p>
+          </ConfirmDialog>
         ) : null}
         {error ? (
           <p role="alert" className="m-0" style={{ fontSize: 14, color: "var(--lilac-ink)" }}>
@@ -234,6 +265,14 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
               <input className="field" aria-label="When" placeholder="2026" value={it.when ?? ""} onChange={(e) => update(i, { when: e.target.value })} />
             </div>
             <textarea className="field" aria-label="Description" value={it.line} onChange={(e) => update(i, { line: e.target.value })} style={{ minHeight: 70 }} />
+            <textarea
+              className="field"
+              aria-label="Bullets, one per line"
+              placeholder="Bullets, one per line"
+              value={(it.bullets ?? []).join("\n")}
+              onChange={(e) => update(i, { bullets: e.target.value.split("\n").slice(0, 6) })}
+              style={{ minHeight: 70 }}
+            />
             <button type="button" className="link-btn self-start" style={{ height: 32 }} onClick={() => set({ [key]: list.filter((_, j) => j !== i) } as Partial<ResumeData>)}>
               Remove
             </button>
@@ -252,10 +291,18 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
       onSubmit={async (e) => {
         e.preventDefault();
         setBusy(true);
+        const tidy = (list: ResumeItem[]) =>
+          list
+            .filter((p) => p.title.trim())
+            .map((p) => {
+              const bullets = (p.bullets ?? []).map((b) => b.trim()).filter(Boolean);
+              return { ...p, bullets: bullets.length ? bullets : undefined };
+            });
         const next: ResumeData = {
           ...d,
-          projects: d.projects.filter((p) => p.title.trim()),
-          experience: d.experience.filter((p) => p.title.trim()),
+          summary: d.summary?.trim() || undefined,
+          projects: tidy(d.projects),
+          experience: tidy(d.experience),
           skills: skills.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 20),
         };
         const err = await onSave(next);
@@ -285,6 +332,10 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
           <input className="field" placeholder="April to July" value={d.availability ?? ""} onChange={(e) => set({ availability: e.target.value })} />
         </label>
       </div>
+      <label className="label">
+        Summary
+        <textarea className="field" value={d.summary ?? ""} maxLength={400} placeholder="One or two sentences: the internship you want and what you bring." onChange={(e) => set({ summary: e.target.value })} style={{ minHeight: 70 }} />
+      </label>
       {items("projects")}
       {items("experience")}
       <label className="label">

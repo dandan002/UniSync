@@ -8,13 +8,26 @@ Built with Next.js 16, Supabase (Postgres, row-level security, Storage), Clerk (
 
 | Area | Routes | What it does |
 | --- | --- | --- |
-| Public | `/`, `/start`, `/schools`, `/employers` | Landing page with the first question inline; eight-question onboarding with a live resume, saved on the device until the student signs in |
+| Public | `/`, `/start`, `/schools`, `/employers` | Landing page with the first question inline; eight-question onboarding with a live resume, saved on the device until the student signs in, then a chat with Sync that fills in the specifics |
 | Sign-in | `/sign-in`, `/welcome` | Email or phone code (Clerk), one-click demo accounts, role-based routing |
-| Students | `/home`, `/jobs`, `/resume` | Next interview or offer, applications, updates, CHED forms with uploads, hours log; matched jobs with filters and apply; resume templates, hold to approve, PDF, editor |
+| Students | `/home`, `/jobs`, `/resume`, `/resume/sync` | Next interview or offer, applications, updates, CHED forms with uploads, hours log; matched jobs with filters and apply; resume templates, strength score, hold to approve, PDF, editor; Sync chat |
 | Schools | `/school`, `/school/companies`, `/school/forms`, `/school/people`, `/api/reports/ched` | KPIs, needs attention with one-click fixes, roster with bulk remind and endorse; MOAs; form review; people, roles, company verification, activity; CHED CSV export |
 | Employers | `/register`, `/employer`, `/employer/jobs`, `/employer/interns` | Company registration and verification; applicant board with Sync recommendations, interviews, offers and messages (requests for money are blocked); jobs; hours approval and MOA signing |
 
 Sync (`/api/sync`) rewrites Taglish answers into English resume lines with `claude-haiku-5-5` and structured output. Without `ANTHROPIC_API_KEY`, or if the call fails, it falls back to a rule-based rewrite.
+
+### Sync chat
+
+Once the student has answered the quick questions and saved, Sync becomes a chat (`/api/sync/chat`, `src/lib/agent`). A checklist in `src/lib/review.ts` finds the weak spots (stock placeholder entries, entries without specifics or numbers, missing dates, skills, summary, city and start date) and scores the resume. Sync works through that list one question at a time, in English, Filipino or Taglish, and edits the resume as the student answers: titles like "Cashier, 7-Eleven", a one-line description, and two to four bullets with the student's own numbers. The resume and strength score update live, every change shows as a chip, and the latest change can be undone. Students can come back any time from Improve with Sync on `/resume`.
+
+It runs on `claude-haiku-5-5` with adaptive thinking at medium effort, streamed, with five tools and at most six steps per message. Without `ANTHROPIC_API_KEY` it walks the same checklist with fixed questions and the rule-based rewrite.
+
+How it's guarded:
+
+- **Who and what:** signed-in students only, same-origin JSON requests only, and only on their own saved resume, which is reloaded from the database every turn. The tools can edit projects, experience, skills, summary, city and availability. They can't reach name, email, phone or job preferences.
+- **Untrusted input:** the browser's transcript is capped (24 turns, 1,200 characters per message, 64 KB per request) and replayed as plain text only, so no tool calls or thinking blocks can be forged. The resume and checklist travel as tagged data in the user turn, never in the system prompt, and the prompt tells Sync to treat them as content, not instructions. It refuses off-topic requests and prompt-injection attempts and steers back to the resume.
+- **What gets saved:** every tool input is validated, stripped of control and invisible characters, length-capped and capped in count. First-person text ("I", "my", "we", "our") is sent back to Sync to rewrite. The result passes the same `ResumeSchema` as manual edits before it's stored. The prompt forbids inventing facts, and summaries are written only from what the student says they want.
+- **Cost:** 20 messages per 10 minutes and 150 per day per student, enforced in Postgres by `take_sync_turn()` (migration `20261124090000_sync_chat_limits.sql`). Until that migration is applied, the route falls back to per-instance in-memory limits and logs a warning. Output is capped at 8,000 tokens per step.
 
 Emails (`src/lib/email`) cover resume ready, application sent, new applicant, interview, offer, reminder, invite, company verified, message and MOA. With demo mode on, preview them at `/api/emails/index`.
 
@@ -24,6 +37,7 @@ Emails (`src/lib/email`) cover resume ready, application sent, new applicant, in
 - **Profiles:** `public.ensure_profile()` runs on first sign-in. It claims a matching invited or seeded profile by verified email, or creates one. A school email domain links a student to their school.
 - **Authorization:** in the database. Students see their own rows, staff see their school, supervisors see their company and its applicants. State changes (approvals, forms, hours, invites, roles, company checks) go through checked `security definer` functions in `supabase/migrations`.
 - **Uploads:** CHED form files go to the private `forms` bucket, one folder per student.
+- **Deleting:** students can delete their resume from `/resume` and start over (`delete_my_resume()` also resets the resume form). Anyone can delete their account from the account menu by typing DELETE. That removes their uploaded forms through the Storage API, then calls `delete_my_account()`, which deletes the profile and everything that cascades from it (resume, applications, forms, hours, saved jobs, notifications), and finally deletes the Clerk user. Companies with open applications get a notification, the school's activity log notes it, and when the last supervisor of a company leaves, its open jobs close. A school's only admin has to hand the role over first. Demo personas (`profiles.demo`, plus Clerk `external_id` `demo-*`) can't be deleted. Clerk session tokens stay valid for up to a minute after the user is gone, so deleted logins are kept in `private.deleted_accounts` for a day, and `ensure_profile()` won't recreate them.
 
 ## Setup
 

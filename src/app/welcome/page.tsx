@@ -22,7 +22,8 @@ export default async function Welcome({ searchParams }: PageProps<"/welcome">) {
     if (e instanceof SetupError) return <SetupNotice />;
     throw e;
   }
-  if (!viewer) redirect("/sign-in");
+  // Signed in to Clerk but no profile: the account was just deleted.
+  if (!viewer) redirect("/");
 
   const { profile } = viewer;
   if (profile.role === "student") {

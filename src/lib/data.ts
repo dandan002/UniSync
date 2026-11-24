@@ -1,6 +1,7 @@
 import "server-only";
 import { isMatch, matchJob, type Match } from "@/lib/match";
 import { normalizeResume } from "@/lib/resume";
+import { ResumeSchema } from "@/lib/resume-schema";
 import type { Application, Company, Job, ResumeData, ResumeRow } from "@/lib/types";
 import type { Viewer } from "@/lib/viewer";
 
@@ -20,6 +21,19 @@ export async function loadResume(viewer: Viewer): Promise<{ row: ResumeRow | nul
   if (!resume.course && viewer.profile.course) resume.course = viewer.profile.course;
   if (!resume.school && viewer.school) resume.school = viewer.school.name;
   return { row, data: resume };
+}
+
+// Saves an existing resume's content after validating it. Returns what was
+// stored, so callers can show exactly that.
+export async function persistResume(viewer: Viewer, input: ResumeData): Promise<{ ok: true; data: ResumeData } | { ok: false; error: string }> {
+  const parsed = ResumeSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "That change doesn't fit the resume format." };
+  const data = normalizeResume(parsed.data);
+  const res = await viewer.supabase.from("resumes").update({ data, updated_at: new Date().toISOString() }).eq("student_id", viewer.profile.id).select("student_id");
+  if (res.error) return { ok: false, error: res.error.message };
+  if (!res.data?.length) return { ok: false, error: "Save your resume first." };
+  await viewer.supabase.from("profiles").update({ full_name: data.name, course: data.course, city: data.city ?? null }).eq("id", viewer.profile.id);
+  return { ok: true, data };
 }
 
 // Open jobs at verified companies, ranked for this student.

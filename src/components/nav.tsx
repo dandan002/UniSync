@@ -1,10 +1,14 @@
 "use client";
 
-import { SignOutButton } from "@clerk/nextjs";
+import { SignOutButton, useClerk } from "@clerk/nextjs";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Avatar } from "@/components/brand";
+import { ConfirmDialog } from "@/components/confirm";
+import { DELETE_PHRASE } from "@/lib/account";
+import { deleteAccount } from "@/lib/actions/account";
+import { clearChats, clearDraft } from "@/lib/draft";
 
 export function NavTabs({ items }: { items: Array<{ href: string; label: string }> }) {
   const path = usePathname();
@@ -41,6 +45,9 @@ export function SideLinks({ items }: { items: Array<{ href: string; label: strin
 
 export function AccountMenu({ name, detail, align = "right" }: { name: string; detail?: string; align?: "right" | "up" }) {
   const [open, setOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const { signOut } = useClerk();
+  const router = useRouter();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -82,11 +89,50 @@ export function AccountMenu({ name, detail, align = "right" }: { name: string; d
             Signed in as {name}
           </span>
           <SignOutButton redirectUrl="/">
-            <button type="button" role="menuitem" className="btn btn-sm btn-ghost" style={{ justifyContent: "flex-start" }}>
+            <button type="button" role="menuitem" className="btn btn-sm btn-ghost" style={{ justifyContent: "flex-start" }} onClick={clearChats}>
               Sign out
             </button>
           </SignOutButton>
+          <span className="hairline mx-2 my-1" aria-hidden="true" />
+          <button
+            type="button"
+            role="menuitem"
+            className="btn btn-sm btn-ghost"
+            style={{ justifyContent: "flex-start", color: "var(--lilac-ink)" }}
+            onClick={() => {
+              setOpen(false);
+              setDeleting(true);
+            }}
+          >
+            Delete account
+          </button>
         </div>
+      ) : null}
+      {deleting ? (
+        <ConfirmDialog
+          title="Delete your account?"
+          confirmLabel="Delete my account"
+          phrase={DELETE_PHRASE}
+          onClose={() => setDeleting(false)}
+          onConfirm={async (typed) => {
+            const res = await deleteAccount(typed);
+            if (!res.ok) return res.error;
+            clearChats();
+            clearDraft();
+            try {
+              await signOut({ redirectUrl: "/" });
+            } catch {
+              // The login is already gone, so Clerk may refuse to sign out.
+              router.replace("/");
+              router.refresh();
+            }
+          }}
+        >
+          <p className="m-0">
+            This permanently deletes your Unisync account and everything tied to it: your profile, resume, applications, uploaded forms and logged hours. You&apos;ll be signed out.
+          </p>
+          <p className="m-0">Companies you&apos;ve applied to are told you left, and your school&apos;s activity log notes it. This can&apos;t be undone.</p>
+        </ConfirmDialog>
       ) : null}
     </div>
   );
