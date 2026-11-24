@@ -225,7 +225,7 @@ export function CodeAuth({
 // One-click demo personas, signed in with short-lived sign-in tokens.
 export function useTicketSignIn() {
   const signInState = useSignIn();
-  return async (persona: string) => {
+  const start = async (persona: string) => {
     if (!signInState.isLoaded) throw new Error("Still loading. Try again in a second.");
     const res = await fetch("/api/demo", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ persona }) });
     const body = (await res.json()) as { ticket?: string; error?: string };
@@ -234,4 +234,5 @@ export function useTicketSignIn() {
     if (si.status !== "complete" || !si.createdSessionId) throw new Error("Demo sign-in didn't finish.");
     await signInState.setActive({ session: si.createdSessionId });
   };
+  return { ready: signInState.isLoaded, start };
 }

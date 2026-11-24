@@ -34,7 +34,7 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("*, school:schools(*), company:companies(*)")
+    .select("*, school:schools(*), company:companies!profiles_company_id_fkey(*)")
     .eq("clerk_id", userId)
     .single();
   if (error || !data) throw new Error(error?.message ?? "Profile not found.");

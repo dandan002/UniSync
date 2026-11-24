@@ -66,12 +66,12 @@ export function SignInPanel({ next, as, email, demos }: { next: string; as: "stu
                 type="button"
                 className="card flex cursor-pointer flex-col items-start gap-0.5 p-3 text-left text-ink"
                 style={{ font: "inherit", background: "var(--paper)" }}
-                disabled={!!busy}
+                disabled={!!busy || !ticket.ready}
                 onClick={async () => {
                   setBusy(d.persona);
                   setError("");
                   try {
-                    await ticket(d.persona);
+                    await ticket.start(d.persona);
                     router.push("/welcome");
                   } catch (e) {
                     setError(e instanceof Error ? e.message : "Demo sign-in failed.");
