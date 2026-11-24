@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Mark } from "@/components/brand";
 import { Dictate } from "@/components/dictate";
@@ -355,7 +356,12 @@ export function SyncChat({
             </motion.button>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-2" style={{ fontSize: 13, color: "var(--muted)" }}>
-            <span>Sync only writes what you tell it. You can undo any change.</span>
+            <span>
+              Sync only writes what you tell it. You can undo any change. Sync uses Claude by Anthropic, so don&apos;t share passwords or ID numbers.{" "}
+              <Link href="/privacy#sync" target="_blank">
+                How Sync uses your data
+              </Link>
+            </span>
             <button type="button" className="link-btn" style={{ height: 28, fontSize: 13 }} disabled={busy} onClick={startOver}>
               Start over
             </button>

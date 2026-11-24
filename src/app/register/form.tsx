@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { pressProps } from "@/components/motion";
+import { AgreeLine } from "@/components/site-footer";
 import { registerCompany } from "@/lib/actions/employer";
 
 export function RegisterForm({ email }: { email: string }) {
@@ -71,6 +72,7 @@ export function RegisterForm({ email }: { email: string }) {
       <motion.button className="btn btn-p self-start" {...pressProps} disabled={pending}>
         {pending ? "Submitting…" : "Submit for review"}
       </motion.button>
+      <AgreeLine action="submitting" />
     </form>
   );
 }

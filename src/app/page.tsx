@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CompanyMark, Logo, Mark } from "@/components/brand";
+import { SiteFooter } from "@/components/site-footer";
+import { CompanyMark, Logo } from "@/components/brand";
 import { InView } from "@/components/motion";
 import { Hero } from "./hero";
 
@@ -112,24 +113,7 @@ export default function Landing() {
         </InView>
       </section>
 
-      <footer style={{ borderTop: "1px solid var(--line)" }}>
-        <div className="mx-auto flex max-w-[1200px] flex-wrap justify-between gap-4 p-6" style={{ fontSize: 14, color: "var(--muted)" }}>
-          <span className="flex items-center gap-2">
-            <Mark size={18} color="var(--muted)" /> Made for students in the Philippines.
-          </span>
-          <nav aria-label="Footer" className="flex gap-6">
-            <Link href="/schools" className="text-muted no-underline hover:text-ink">
-              Schools
-            </Link>
-            <Link href="/employers" className="text-muted no-underline hover:text-ink">
-              Employers
-            </Link>
-            <a href="#safety-h" className="text-muted no-underline hover:text-ink">
-              Safety
-            </a>
-          </nav>
-        </div>
-      </footer>
+      <SiteFooter extra={[{ href: "#safety-h", label: "Safety" }]} />
     </div>
   );
 }

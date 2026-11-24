@@ -88,6 +88,12 @@ export function AccountMenu({ name, detail, align = "right" }: { name: string; d
           <span className="px-3 py-2" style={{ fontSize: 13, color: "var(--muted)" }}>
             Signed in as {name}
           </span>
+          <Link href="/privacy" role="menuitem" className="btn btn-sm btn-ghost" style={{ justifyContent: "flex-start" }} onClick={() => setOpen(false)}>
+            Privacy Policy
+          </Link>
+          <Link href="/terms" role="menuitem" className="btn btn-sm btn-ghost" style={{ justifyContent: "flex-start" }} onClick={() => setOpen(false)}>
+            Terms of Service
+          </Link>
           <SignOutButton redirectUrl="/">
             <button type="button" role="menuitem" className="btn btn-sm btn-ghost" style={{ justifyContent: "flex-start" }} onClick={clearChats}>
               Sign out

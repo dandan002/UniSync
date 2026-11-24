@@ -1,5 +1,6 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { z } from "zod";
+import { ungrounded, ungroundedError } from "@/lib/agent/grounding";
 import { shortName } from "@/lib/review";
 import type { ResumeData, ResumeItem } from "@/lib/types";
 
@@ -208,8 +209,16 @@ function bulletsOf(list: string[] | undefined): string[] | undefined {
 
 // Applies one tool call to the resume. Never throws; errors go back to Sync
 // as the tool result so it can correct itself. The keyless fallback files the
-// student's own words, so it skips the resume-voice check.
-export function applyEdit(resume: ResumeData, name: string, input: unknown, { voice = true }: { voice?: boolean } = {}): EditResult {
+// student's own words, so it skips the resume-voice and number checks.
+// `known` holds every number the student has said; text with any other
+// number is sent back (dates in `when` are exempt).
+export function applyEdit(
+  resume: ResumeData,
+  name: string,
+  input: unknown,
+  { voice = true, known }: { voice?: boolean; known?: Set<number> } = {},
+): EditResult {
+  const madeUp = (...texts: Array<string | undefined>) => (known ? ungrounded(texts, known) : []);
   switch (name) {
     case "edit_entry": {
       const p = EditEntry.safeParse(input);
@@ -218,6 +227,8 @@ export function applyEdit(resume: ResumeData, name: string, input: unknown, { vo
       const item = resume[list][index];
       if (!item) return { ok: false, error: `There is no ${list}[${index}]. Check the numbering in <resume>.` };
       if (voice && firstPerson(p.data.line, ...(p.data.bullets ?? []))) return { ok: false, error: FIRST_PERSON_ERROR };
+      const bad = madeUp(p.data.title, p.data.line, ...(p.data.bullets ?? []));
+      if (bad.length) return { ok: false, error: ungroundedError(bad) };
       const next: ResumeItem = { ...item };
       if (p.data.title !== undefined) next.title = cleanText(p.data.title, LIMITS.title) || item.title;
       if (p.data.line !== undefined) next.line = cleanText(p.data.line, LIMITS.line);
@@ -234,6 +245,8 @@ export function applyEdit(resume: ResumeData, name: string, input: unknown, { vo
       if (!p.success) return { ok: false, error: `Invalid input: ${p.error.issues[0]?.message ?? "check the fields"}.` };
       const { list } = p.data;
       if (voice && firstPerson(p.data.line, ...(p.data.bullets ?? []))) return { ok: false, error: FIRST_PERSON_ERROR };
+      const bad = madeUp(p.data.title, p.data.line, ...(p.data.bullets ?? []));
+      if (bad.length) return { ok: false, error: ungroundedError(bad) };
       if (resume[list].length >= LIMITS[list]) return { ok: false, error: `The resume already has ${LIMITS[list]} ${list} entries. Improve or replace one instead.` };
       const title = cleanText(p.data.title, LIMITS.title);
       if (title.length < 2) return { ok: false, error: "The entry needs a title." };
@@ -271,6 +284,8 @@ export function applyEdit(resume: ResumeData, name: string, input: unknown, { vo
       const p = SetProfile.safeParse(input);
       if (!p.success) return { ok: false, error: "Invalid input: send summary, city or availability." };
       if (voice && firstPerson(p.data.summary)) return { ok: false, error: FIRST_PERSON_SUMMARY };
+      const bad = madeUp(p.data.summary, p.data.availability);
+      if (bad.length) return { ok: false, error: ungroundedError(bad) };
       const next = { ...resume };
       const changed: string[] = [];
       if (p.data.summary !== undefined) {

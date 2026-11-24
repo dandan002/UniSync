@@ -106,7 +106,12 @@ function clean(o: RewriteOutput): RewriteOutput {
 const TAGLISH: Array<[RegExp, string]> = [
   [/,?\s*(\d+) kami sa team/gi, " for a $1-person team"],
   [/\bpara sa\b/gi, "for the"],
-  [/\bako (yung|ang) (gumawa ng|gumawa|nag)\b/gi, "I built the"],
+  [/\bako (yung|ang) (gumawa ng|gumawa)\b/gi, "I built the"],
+  [/\bako (yung|ang) nag-?/gi, "I "],
+  [/\b(gumawa|ginawa) (kami|ako) ng\b/gi, "built the"],
+  [/\bgamit ang\b/gi, "using"],
+  [/\bkasama ang\b/gi, "with"],
+  [/\bginamit (siya|ito|namin)?\s*ng\b/gi, "used by the"],
   [/\bkami\b/gi, "we"],
   [/\bat\b/gi, "and"],
   [/\bsa\b/gi, "in"],
@@ -128,7 +133,8 @@ export function ruleRewrite(input: Pick<RewriteInput, "kind" | "topic" | "answer
     input.kind === "project"
       ? capitalize(titleWords.replace(/^(i |we |my |our )/i, ""))
       : input.topic || capitalize(titleWords);
-  let line = capitalize(text.replace(/^(i |we )/i, ""));
+  // Capitalize each sentence, since the word swaps above can leave "built the. then…".
+  let line = capitalize(text.replace(/^(i |we )/i, "")).replace(/([.!?]\s+)([a-z])/g, (_, p: string, c: string) => p + c.toUpperCase());
   if (!/[.!?]$/.test(line)) line += ".";
   const lower = input.answer.toLowerCase();
   const skills = SKILL_WORDS.filter((s) => lower.includes(s.toLowerCase())).slice(0, 4);

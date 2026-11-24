@@ -2,7 +2,8 @@ import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import type { ChatEvent, ChatTurn } from "@/lib/agent/chat";
 import { applyEdit, TOOLS } from "@/lib/agent/edits";
-import { buildMessages, renderGaps, SYSTEM } from "@/lib/agent/prompt";
+import { numbersIn } from "@/lib/agent/grounding";
+import { buildMessages, renderGaps, renderResume, SYSTEM } from "@/lib/agent/prompt";
 import { reviewResume } from "@/lib/review";
 import type { ResumeData } from "@/lib/types";
 
@@ -30,6 +31,10 @@ export async function runAgent(opts: {
   const { client, emit, signal } = opts;
   let resume = opts.resume;
   const messages = buildMessages(opts.history, opts.message, resume, reviewResume(resume));
+  // Numbers Sync may put on the resume: whatever the student has typed, plus
+  // what's already there. Sync's own replies don't count.
+  const said = opts.history.filter((t) => t.role === "user").map((t) => t.text);
+  const known = numbersIn([...said, opts.message, renderResume(resume)].join("\n"));
   let wrote = false;
   let edited = false;
   let badJson = 0;
@@ -82,7 +87,7 @@ export async function runAgent(opts: {
     const results: Anthropic.ContentBlockParam[] = [];
     let changed = false;
     for (const call of calls) {
-      const r = applyEdit(resume, call.name, call.input);
+      const r = applyEdit(resume, call.name, call.input, { known });
       if (r.ok) {
         resume = r.resume;
         changed = true;
