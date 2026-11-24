@@ -34,6 +34,13 @@ test("student: home, jobs and resume", async ({ page }) => {
   await page.getByRole("tab", { name: "Compact" }).click();
   await expect(page.getByRole("tab", { name: "Compact" })).toHaveAttribute("aria-selected", "true");
   await page.getByRole("tab", { name: "Classic" }).click();
+
+  // Sync can pick up a saved resume. Opening the chat changes nothing.
+  await page.getByRole("button", { name: "Improve with Sync" }).click();
+  const chat = page.getByRole("region", { name: "Chat with Sync" });
+  await expect(chat.getByRole("listitem").first()).toContainText("?", { timeout: 45_000 });
+  await chat.getByRole("button", { name: "Done" }).click();
+  await expect(page.getByLabel("Resume preview").getByText("Canteen inventory system, capstone")).toBeVisible();
 });
 
 test("coordinator: students, forms and activity", async ({ page }) => {
@@ -92,18 +99,24 @@ test("new student: finish onboarding signed in and save", async ({ page }) => {
   }
   await page.evaluate(() => localStorage.clear());
   await page.reload();
+  const next = page.getByRole("button", { name: "Next", exact: true });
   await page.getByRole("button", { name: "Information Technology", exact: true }).click();
-  await page.getByRole("button", { name: "Next" }).click();
+  await next.click();
   await page.getByLabel("What's your full name?").fill("Nina Garcia");
-  await page.getByRole("button", { name: "Next" }).click();
-  await page.getByRole("button", { name: "Next" }).click();
+  await next.click();
+  await next.click();
   await page.getByLabel(/capstone/).fill("Gumawa kami ng attendance app gamit ang QR codes para sa 300 students. Ako ang nag-design ng UI sa Figma.");
-  await page.getByRole("button", { name: "Next" }).click();
+  await next.click();
   await page.getByRole("button", { name: "Volunteer" }).click();
-  await page.getByRole("button", { name: "Next" }).click();
-  await page.getByRole("button", { name: "Skip" }).click();
+  await next.click();
   await page.getByRole("button", { name: "Taguig" }).click();
-  await page.getByRole("button", { name: "Next" }).click();
+  await next.click();
+  const chat = page.getByRole("region", { name: "Chat with Sync" });
+  await expect(chat.getByRole("listitem").first()).toContainText("?", { timeout: 45_000 });
+  await chat.getByLabel("Message Sync").fill("Nag-volunteer ako sa Brigada Eskwela, nag-paint ng classrooms kasama ang 30 students.");
+  await chat.getByRole("button", { name: "Send" }).click();
+  await expect(chat.getByRole("listitem").nth(2)).toBeVisible({ timeout: 45_000 });
+  await chat.getByRole("button", { name: /^(Finish|Looks good)/ }).click();
   await expect(page.getByRole("heading", { name: "Save your resume." })).toBeVisible();
   await page.getByRole("button", { name: "Save my resume" }).click();
   await expect(page.getByRole("heading", { name: "You're ready, Nina." })).toBeVisible({ timeout: 30_000 });

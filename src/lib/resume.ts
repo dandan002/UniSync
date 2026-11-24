@@ -1,3 +1,4 @@
+import type { CoachState } from "@/lib/coach-shared";
 import type { ResumeData, ResumeItem } from "@/lib/types";
 
 // Starter skills by course, shown the moment a student names their course.
@@ -41,7 +42,8 @@ export const EXPERIENCES = [
 ] as const;
 export type Experience = (typeof EXPERIENCES)[number];
 
-// What each answer adds before Sync hears the details.
+// What each answer adds before Sync hears the details. These lines are
+// placeholders: Sync asks about each one in the chat and replaces it.
 export const EXPERIENCE_DEFAULTS: Record<Exclude<Experience, "None yet">, { item: ResumeItem; skills: string[]; ask: string }> = {
   "Club officer": {
     item: { section: "Leadership", title: "Officer, student organization", line: "Helped run meetings and events for members.", kind: "Club officer" },
@@ -83,8 +85,9 @@ export const ALLOWANCES: Array<{ label: string; value: number }> = [
 ];
 export const LANGUAGES = ["English", "Filipino", "Taglish"] as const;
 
-// Everything the onboarding chat collects. Lives in localStorage until the
-// student saves, so nobody needs an account to start.
+// Everything onboarding collects. Lives in localStorage until the student
+// saves, so nobody needs an account to start. The basic answers seed the
+// resume; once the student reaches the chat, Sync's edits live in `coach`.
 export type Draft = {
   step: number;
   last: number;
@@ -95,11 +98,9 @@ export type Draft = {
   capstoneItem: ResumeItem | null;
   capstoneSkills: string[];
   experiences: Experience[];
-  followup: string;
-  followupItem: ResumeItem | null;
-  followupSkills: string[];
   places: string[];
   minAllowance: number;
+  coach: CoachState | null;
   updatedAt: number;
 };
 
@@ -113,18 +114,11 @@ export const EMPTY_DRAFT: Draft = {
   capstoneItem: null,
   capstoneSkills: [],
   experiences: [],
-  followup: "",
-  followupItem: null,
-  followupSkills: [],
   places: [],
   minAllowance: 0,
+  coach: null,
   updatedAt: 0,
 };
-
-export function followupTopic(d: Pick<Draft, "experiences">): Exclude<Experience, "None yet"> | null {
-  const first = d.experiences.find((e) => e !== "None yet");
-  return (first as Exclude<Experience, "None yet">) ?? null;
-}
 
 function uniq(list: string[]): string[] {
   const seen = new Set<string>();
@@ -139,19 +133,13 @@ function uniq(list: string[]): string[] {
 }
 
 export function draftToResume(d: Draft, extra?: { school?: string; email?: string; phone?: string; city?: string }): ResumeData {
-  const topic = followupTopic(d);
   const experience: ResumeItem[] = [];
   const skills = [...skillsForCourse(d.course), ...d.capstoneSkills];
   for (const e of d.experiences) {
     if (e === "None yet") continue;
     const def = EXPERIENCE_DEFAULTS[e];
-    if (e === topic && d.followupItem) {
-      experience.push({ ...d.followupItem, section: def.item.section, kind: e });
-      skills.push(...d.followupSkills);
-    } else {
-      experience.push(def.item);
-      skills.push(...def.skills);
-    }
+    experience.push({ ...def.item });
+    skills.push(...def.skills);
   }
   return {
     name: d.name.trim(),
@@ -161,14 +149,30 @@ export function draftToResume(d: Draft, extra?: { school?: string; email?: strin
     phone: extra?.phone,
     city: extra?.city,
     language: d.language,
-    projects: d.capstoneItem ? [{ ...d.capstoneItem, when: d.capstoneItem.when ?? String(new Date().getFullYear()) }] : [],
+    projects: d.capstoneItem ? [{ ...d.capstoneItem, kind: "capstone", when: d.capstoneItem.when ?? String(new Date().getFullYear()) }] : [],
     experience,
     skills: uniq(skills).slice(0, 10),
     prefs: { places: d.places, minAllowance: d.minAllowance },
   };
 }
 
-// "2 of 8 filled" on the landing preview and onboarding.
+// The resume as it stands: the basic answers, with Sync's refinements on top
+// once the chat has started.
+export function currentResume(d: Draft, extra?: { school?: string; email?: string; phone?: string; city?: string }): ResumeData {
+  const base = draftToResume(d, extra);
+  if (!d.coach) return base;
+  const c = d.coach.resume;
+  return {
+    ...base,
+    city: c.city || base.city,
+    availability: c.availability || base.availability,
+    projects: c.projects,
+    experience: c.experience,
+    skills: c.skills,
+  };
+}
+
+// "2 of 6 filled" for the basic answers.
 export function filledCount(d: Partial<Draft>): number {
   let n = 0;
   if ((d.course ?? "").trim().length > 2) n++;
@@ -176,7 +180,6 @@ export function filledCount(d: Partial<Draft>): number {
   if (d.language) n++;
   if (d.capstoneItem) n++;
   if ((d.experiences ?? []).length) n++;
-  if (d.followupItem) n++;
   if ((d.places ?? []).length) n++;
   return n;
 }
@@ -194,7 +197,12 @@ export function normalizeResume(raw: unknown, fallbackName = ""): ResumeData {
           .filter((x) => x && typeof x === "object")
           .map((x) => x as ResumeItem)
           .filter((x) => typeof x.title === "string")
-          .map((x) => ({ ...x, line: typeof x.line === "string" ? x.line : "" }))
+          .map((x) => {
+            const bullets = Array.isArray(x.bullets) ? x.bullets.filter((b): b is string => typeof b === "string" && b.trim().length > 0).slice(0, 4) : [];
+            const { bullets: _drop, ...rest } = x;
+            void _drop;
+            return { ...rest, line: typeof x.line === "string" ? x.line : "", ...(bullets.length ? { bullets } : {}) };
+          })
       : [];
   return {
     name: typeof r.name === "string" && r.name ? r.name : fallbackName,

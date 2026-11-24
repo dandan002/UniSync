@@ -7,7 +7,9 @@ import { useRef, useState, useTransition } from "react";
 import { FormUpload } from "@/components/form-upload";
 import { pressProps } from "@/components/motion";
 import { ResumeDoc } from "@/components/resume-doc";
+import { SyncChat } from "@/components/sync-chat";
 import { approveResume, saveResume, setTemplate } from "@/lib/actions/student";
+import type { CoachState } from "@/lib/coach-shared";
 import { spell } from "@/lib/format";
 import type { FormKey, ResumeData, ResumeItem, Template } from "@/lib/types";
 
@@ -35,8 +37,11 @@ export function ResumeEditor({
   const [tpl, setTpl] = useState<Template>(initialTemplate);
   const [approved, setApproved] = useState(initialApproved);
   const [editing, setEditing] = useState(false);
+  const [coaching, setCoaching] = useState(false);
+  const [coach, setCoach] = useState<CoachState | null>(null);
   const [error, setError] = useState("");
   const [, start] = useTransition();
+  const savedJson = useRef(JSON.stringify(initial));
   const idx = TEMPLATES.findIndex((t) => t.id === tpl);
   const done = Math.min(forms.done + (approved && !initialApproved ? 1 : 0), forms.total);
 
@@ -91,6 +96,45 @@ export function ResumeEditor({
           </div>
         </div>
 
+        {coaching ? (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="card flex flex-col gap-4 p-5 sm:p-6">
+            <div className="flex flex-col gap-1">
+              <h2 className="m-0" style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.01em" }}>
+                Improve with Sync
+              </h2>
+              <span style={{ fontSize: 15, color: "var(--muted)" }}>Sync asks about the parts that need detail and saves each change to your resume.</span>
+            </div>
+            <SyncChat
+              mode="edit"
+              language={data.language ?? "Taglish"}
+              name={data.name}
+              course={data.course}
+              state={coach}
+              seed={{ projects: data.projects, experience: data.experience, skills: data.skills, city: data.city, availability: data.availability }}
+              onState={(c) => {
+                setCoach(c);
+                // Save only turns where Sync changed something.
+                const last = c.messages[c.messages.length - 1];
+                if (last?.role !== "sync" || !last.changes?.length) return;
+                const next: ResumeData = { ...data, ...c.resume };
+                const json = JSON.stringify(next);
+                if (json === savedJson.current) return;
+                savedJson.current = json;
+                setData(next);
+                start(async () => {
+                  const res = await saveResume(next, tpl);
+                  setError(res.ok ? "" : res.error);
+                });
+              }}
+              onFinish={() => {
+                setCoaching(false);
+                router.refresh();
+              }}
+              finishLabel="Done"
+            />
+          </motion.div>
+        ) : null}
+
         {editing ? (
           <Editor
             data={data}
@@ -98,6 +142,7 @@ export function ResumeEditor({
             onSave={async (next) => {
               const res = await saveResume(next, tpl);
               if (!res.ok) return res.error;
+              savedJson.current = JSON.stringify(next);
               setData(next);
               setEditing(false);
               router.refresh();
@@ -110,7 +155,7 @@ export function ResumeEditor({
           </motion.div>
         )}
 
-        {!editing ? (
+        {!editing && !coaching ? (
           <div className="flex flex-wrap items-center gap-2">
             {approved ? (
               <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
@@ -134,9 +179,9 @@ export function ResumeEditor({
             <button className="btn" style={{ height: 48 }} onClick={() => setEditing(true)}>
               Edit
             </button>
-            <Link href="/start" className="btn" style={{ height: 48 }}>
-              Edit with Sync
-            </Link>
+            <button className="btn" style={{ height: 48 }} onClick={() => setCoaching(true)}>
+              Improve with Sync
+            </button>
             <button className="btn btn-ghost" style={{ height: 48 }} onClick={() => window.print()}>
               Download PDF
             </button>
@@ -234,6 +279,14 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
               <input className="field" aria-label="When" placeholder="2026" value={it.when ?? ""} onChange={(e) => update(i, { when: e.target.value })} />
             </div>
             <textarea className="field" aria-label="Description" value={it.line} onChange={(e) => update(i, { line: e.target.value })} style={{ minHeight: 70 }} />
+            <textarea
+              className="field"
+              aria-label="Details, one per line"
+              placeholder="Details, one per line (up to three)"
+              value={(it.bullets ?? []).join("\n")}
+              onChange={(e) => update(i, { bullets: e.target.value.split("\n") })}
+              style={{ minHeight: 70 }}
+            />
             <button type="button" className="link-btn self-start" style={{ height: 32 }} onClick={() => set({ [key]: list.filter((_, j) => j !== i) } as Partial<ResumeData>)}>
               Remove
             </button>
@@ -252,10 +305,16 @@ function Editor({ data, onSave, onCancel }: { data: ResumeData; onSave: (d: Resu
       onSubmit={async (e) => {
         e.preventDefault();
         setBusy(true);
+        const tidy = (it: ResumeItem): ResumeItem => {
+          const bullets = (it.bullets ?? []).map((b) => b.trim()).filter(Boolean).slice(0, 3);
+          const { bullets: _drop, ...rest } = it;
+          void _drop;
+          return bullets.length ? { ...rest, bullets } : rest;
+        };
         const next: ResumeData = {
           ...d,
-          projects: d.projects.filter((p) => p.title.trim()),
-          experience: d.experience.filter((p) => p.title.trim()),
+          projects: d.projects.filter((p) => p.title.trim()).map(tidy),
+          experience: d.experience.filter((p) => p.title.trim()).map(tidy),
           skills: skills.split(",").map((s) => s.trim()).filter(Boolean).slice(0, 20),
         };
         const err = await onSave(next);

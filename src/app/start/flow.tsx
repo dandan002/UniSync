@@ -7,26 +7,22 @@ import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { Arrow, CompanyMark, Mark } from "@/components/brand";
 import { CodeAuth, toE164 } from "@/components/code-auth";
+import { Dictate } from "@/components/dictate";
 import { pressProps } from "@/components/motion";
+import { ResumeDoc } from "@/components/resume-doc";
+import { SyncChat } from "@/components/sync-chat";
 import { saveOnboarding, type TopJob } from "@/lib/actions/student";
+import { isPlaceholder, reconcileCoach, type CoachResume } from "@/lib/coach-shared";
 import { clearDraft, hasDraft, loadDraft, saveDraft } from "@/lib/draft";
 import { allowanceLabel, firstName, spell } from "@/lib/format";
-import {
-  ALLOWANCES,
-  EMPTY_DRAFT,
-  EXPERIENCE_DEFAULTS,
-  EXPERIENCES,
-  LANGUAGES,
-  PLACES,
-  draftToResume,
-  followupTopic,
-  skillsForCourse,
-  type Draft,
-  type Experience,
-} from "@/lib/resume";
+import { ALLOWANCES, EMPTY_DRAFT, EXPERIENCES, LANGUAGES, PLACES, currentResume, draftToResume, skillsForCourse, type Draft, type Experience } from "@/lib/resume";
 import type { ResumeItem } from "@/lib/types";
 
+// Six quick questions for the basics, then a chat with Sync that fills in
+// the details, then save.
 const TOTAL = 8;
+const CHAT = 7;
+const SAVE = 8;
 
 // Returning with a named draft: offer to continue. Coming from the landing
 // page with only a course: start at the name question.
@@ -49,7 +45,7 @@ export function Flow() {
   const [dir, setDir] = useState(1);
   const [saved, setSaved] = useState(false);
   const [capSync, setCapSync] = useState<SyncState>("idle");
-  const [fupSync, setFupSync] = useState<SyncState>("idle");
+  const [preview, setPreview] = useState(false);
   const [channel, setChannel] = useState<"phone" | "email">("phone");
   const [phone, setPhone] = useState("");
   const [saving, setSaving] = useState(false);
@@ -59,13 +55,16 @@ export function Flow() {
 
   const update = useCallback((patch: Partial<Draft>) => {
     setD((prev) => {
-      const next = { ...prev, ...patch };
+      let next = { ...prev, ...patch };
+      // Changing a basic answer after the chat started keeps Sync's work.
+      if (next.coach && ("experiences" in patch || "capstoneItem" in patch)) {
+        const resume = reconcileCoach(next.coach.resume, next);
+        if (resume !== next.coach.resume) next = { ...next, coach: { ...next.coach, resume } };
+      }
       saveDraft(next);
       return next;
     });
   }, []);
-
-  const topic = followupTopic(d);
 
   function go(to: number, direction: number) {
     setDir(direction);
@@ -79,52 +78,32 @@ export function Flow() {
     }
   }
 
-  async function runSync(kind: "project" | "experience") {
-    const answer = kind === "project" ? d.capstone : d.followup;
+  async function runSync() {
+    const answer = d.capstone;
     if (answer.trim().length < 3) return;
-    const set = kind === "project" ? setCapSync : setFupSync;
-    set("writing");
+    setCapSync("writing");
     try {
       const res = await fetch("/api/sync", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          kind,
-          topic: kind === "experience" ? (topic ?? "") : "",
-          question: kind === "project" ? "What did you build for your capstone?" : topic ? EXPERIENCE_DEFAULTS[topic].ask : "",
-          answer,
-          course: d.course,
-        }),
+        body: JSON.stringify({ kind: "project", topic: "", question: "What did you build for your capstone?", answer, course: d.course }),
       });
       if (!res.ok) throw new Error("sync failed");
       const out = (await res.json()) as { title: string; line: string; skills: string[] };
-      const item: ResumeItem = { title: out.title, line: out.line };
-      if (kind === "project") update({ capstoneItem: item, capstoneSkills: out.skills });
-      else update({ followupItem: item, followupSkills: out.skills });
+      update({ capstoneItem: { title: out.title, line: out.line }, capstoneSkills: out.skills });
     } catch {
       // Keep the student's own words if Sync can't help.
-      const item: ResumeItem = { title: kind === "project" ? "Capstone project" : (topic ?? "Experience"), line: answer.trim() };
-      if (kind === "project") update({ capstoneItem: item });
-      else update({ followupItem: item });
+      update({ capstoneItem: { title: "Capstone project", line: answer.trim() } });
     }
-    set("done");
+    setCapSync("done");
   }
 
   function next() {
-    if (step === 4 && d.capstone.trim()) void runSync("project");
-    if (step === 6 && d.followup.trim()) void runSync("experience");
-    if (step === 5 && !topic) {
-      go(7, 1);
-      return;
-    }
+    if (step === 4 && d.capstone.trim() && !d.capstoneItem) void runSync();
     go(Math.min(step + 1, TOTAL), 1);
   }
 
   function back() {
-    if (step === 7 && !topic) {
-      go(5, -1);
-      return;
-    }
     go(Math.max(step - 1, 1), -1);
   }
 
@@ -134,8 +113,7 @@ export function Flow() {
     step === 3 ||
     step === 4 ||
     (step === 5 && d.experiences.length > 0) ||
-    step === 6 ||
-    (step === 7 && d.places.length > 0);
+    (step === 6 && d.places.length > 0);
 
   async function finish() {
     setSaving(true);
@@ -149,11 +127,9 @@ export function Flow() {
         capstoneItem: d.capstoneItem,
         capstoneSkills: d.capstoneSkills,
         experiences: d.experiences,
-        followup: d.followup,
-        followupItem: d.followupItem,
-        followupSkills: d.followupSkills,
         places: d.places,
         minAllowance: d.minAllowance,
+        refined: d.coach?.resume ?? null,
       },
       channel === "phone" && phone ? toE164(phone) : undefined,
     );
@@ -168,9 +144,12 @@ export function Flow() {
     setStep(9);
   }
 
-  const resume = draftToResume(d);
-  const answered = step === 0 ? d.last - 1 : step - 1;
+  const resume = currentResume(d);
   const inFlow = step >= 1 && step <= TOTAL;
+  const base = draftToResume(d);
+  const seed: CoachResume = { projects: base.projects, experience: base.experience, skills: base.skills };
+  const lastSync = d.coach ? [...d.coach.messages].reverse().find((m) => m.role === "sync") : undefined;
+  const fresh = new Set((lastSync?.changes ?? []).filter((c) => c.kind !== "removed").map((c) => c.what));
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink">
@@ -232,7 +211,7 @@ export function Flow() {
                     Welcome back{d.name ? `, ${firstName(d.name)}` : ""}.
                   </h1>
                   <p className="m-0" style={{ fontSize: 18, color: "var(--muted)", lineHeight: 1.5 }}>
-                    Saved on this phone. {spell(Math.max(TOTAL - d.last + 1, 0), true)} {TOTAL - d.last + 1 === 1 ? "question" : "questions"} left.
+                    Saved on this phone. {spell(Math.max(TOTAL - d.last + 1, 0), true)} {TOTAL - d.last + 1 === 1 ? "step" : "steps"} left.
                   </p>
                   <div className="flex flex-wrap gap-2 pt-2">
                     <motion.button className="btn btn-p" {...pressProps} onClick={() => go(Math.max(d.last, 1), 1)}>
@@ -307,7 +286,7 @@ export function Flow() {
               {step === 5 ? (
                 <>
                   <Q id="q5">What else have you done?</Q>
-                  <span style={{ fontSize: 16, color: "var(--muted)" }}>Select all that apply.</span>
+                  <span style={{ fontSize: 16, color: "var(--muted)" }}>Select all that apply. Sync will ask about each one next.</span>
                   <div role="group" aria-labelledby="q5" className="flex flex-wrap gap-2">
                     {EXPERIENCES.map((e) => {
                       const on = d.experiences.includes(e);
@@ -321,8 +300,7 @@ export function Flow() {
                             let list: Experience[];
                             if (e === "None yet") list = on ? [] : ["None yet"];
                             else list = on ? d.experiences.filter((x) => x !== e) : [...d.experiences.filter((x) => x !== "None yet"), e];
-                            const topicChanged = followupTopic({ experiences: list }) !== topic;
-                            update({ experiences: list, ...(topicChanged ? { followup: "", followupItem: null, followupSkills: [] } : {}) });
+                            update({ experiences: list });
                           }}
                         >
                           {e}
@@ -333,25 +311,10 @@ export function Flow() {
                 </>
               ) : null}
 
-              {step === 6 && topic ? (
+              {step === 6 ? (
                 <>
-                  <Q id="q6">{EXPERIENCE_DEFAULTS[topic].ask}</Q>
-                  <textarea
-                    aria-labelledby="q6"
-                    className="area"
-                    autoFocus
-                    value={d.followup}
-                    placeholder={topic === "Club officer" ? "Treasurer ako ng IT Society. Nag-collect ng fees from mga 120 members, tapos monthly report sa Google Sheets." : "Tell Sync in your own words."}
-                    onChange={(e) => update({ followup: e.target.value, followupItem: null })}
-                  />
-                  <Dictate lang={d.language === "English" ? "en-PH" : "fil-PH"} onText={(t) => update({ followup: `${d.followup} ${t}`.trim(), followupItem: null })} />
-                </>
-              ) : null}
-
-              {step === 7 ? (
-                <>
-                  <Q id="q7">Where can you intern?</Q>
-                  <div role="group" aria-labelledby="q7" className="flex flex-wrap gap-2">
+                  <Q id="q6">Where can you intern?</Q>
+                  <div role="group" aria-labelledby="q6" className="flex flex-wrap gap-2">
                     {PLACES.map((p) => {
                       const on = d.places.includes(p);
                       return (
@@ -374,7 +337,41 @@ export function Flow() {
                 </>
               ) : null}
 
-              {step === 8 ? (
+              {step === CHAT ? (
+                <>
+                  <div className="flex flex-col gap-2">
+                    <Q id="q7">Let&apos;s make it stronger.</Q>
+                    <span style={{ fontSize: 16, color: "var(--muted)", lineHeight: 1.5 }}>
+                      Sync will ask about the details recruiters look for. Answer in your own words, in any language. Finish whenever you&apos;re ready.
+                    </span>
+                  </div>
+                  <button type="button" className="btn btn-sm self-start min-[1000px]:hidden" aria-expanded={preview} onClick={() => setPreview((p) => !p)}>
+                    {preview ? "Hide resume" : "Preview resume"}
+                  </button>
+                  {preview ? (
+                    <div className="min-[1000px]:hidden" style={{ fontSize: 14 }}>
+                      <ResumeDoc data={resume} template="compact" />
+                    </div>
+                  ) : null}
+                  {capSync === "writing" ? (
+                    <Writing label="Sync is reading your answers…" />
+                  ) : (
+                    <SyncChat
+                      mode="onboarding"
+                      language={d.language}
+                      name={d.name}
+                      course={d.course}
+                      state={d.coach}
+                      seed={seed}
+                      onState={(coach) => update({ coach })}
+                      onFinish={() => go(SAVE, 1)}
+                      finishLabel={d.coach?.done ? "Looks good. Save it" : "Finish"}
+                    />
+                  )}
+                </>
+              ) : null}
+
+              {step === SAVE ? (
                 <>
                   <Q id="q8">Save your resume.</Q>
                   {isSignedIn ? (
@@ -465,9 +462,9 @@ export function Flow() {
             </motion.div>
           </AnimatePresence>
 
-          {step >= 1 && step <= 7 ? (
+          {step >= 1 && step < CHAT ? (
             <div className="flex items-center justify-end gap-4 pt-1">
-              {step === 4 || step === 6 ? (
+              {step === 4 ? (
                 <button className="link-btn" onClick={() => go(step + 1, 1)}>
                   Skip
                 </button>
@@ -486,7 +483,7 @@ export function Flow() {
           ) : null}
         </main>
 
-        <LivePaper d={d} answered={answered} capSync={capSync} fupSync={fupSync} />
+        <LivePaper d={d} capSync={capSync} fresh={fresh} />
       </div>
     </div>
   );
@@ -514,63 +511,17 @@ function PhoneCapture({ channel, onPhone, children }: { channel: "phone" | "emai
   );
 }
 
-type Recognition = { lang: string; interimResults: boolean; start: () => void; stop: () => void; onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null; onend: (() => void) | null };
-
-function Dictate({ lang, onText }: { lang: string; onText: (t: string) => void }) {
-  const [supported] = useState(() => {
-    const w = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
-    return !!(w.SpeechRecognition || w.webkitSpeechRecognition);
-  });
-  const [on, setOn] = useState(false);
-  const rec = useRef<Recognition | null>(null);
-  if (!supported) return null;
-  return (
-    <button
-      type="button"
-      className="btn self-start"
-      aria-pressed={on}
-      onClick={() => {
-        if (on) {
-          rec.current?.stop();
-          return;
-        }
-        const w = window as unknown as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition };
-        const R = (w.SpeechRecognition || w.webkitSpeechRecognition)!;
-        const r = new R();
-        r.lang = lang;
-        r.interimResults = false;
-        r.onresult = (e) => {
-          const t = Array.from(e.results)
-            .map((x) => x[0]?.transcript ?? "")
-            .join(" ");
-          if (t.trim()) onText(t.trim());
-        };
-        r.onend = () => setOn(false);
-        rec.current = r;
-        setOn(true);
-        r.start();
-      }}
-    >
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="9" y="3" width="6" height="11" rx="3" />
-        <path d="M5 11a7 7 0 0014 0M12 18v3" />
-      </svg>
-      {on ? "Listening… tap to stop" : "Record a voice note"}
-    </button>
-  );
-}
-
-function LivePaper({ d, answered, capSync, fupSync }: { d: Draft; answered: number; capSync: SyncState; fupSync: SyncState }) {
-  const r = draftToResume(d);
+function LivePaper({ d, capSync, fresh }: { d: Draft; capSync: SyncState; fresh: Set<string> }) {
+  const r = currentResume(d);
   const skills = r.skills.length ? r.skills : skillsForCourse(d.course);
-  const lead = r.experience;
+  const details = [r.city, r.availability ? `Available ${r.availability}` : ""].filter(Boolean).join(" · ");
   return (
     <aside aria-label="Your resume, live" className="relative hidden min-w-0 max-w-[480px] min-[1000px]:block" style={{ flex: "1 1 400px" }}>
       <div aria-hidden="true" className="absolute rounded-xl" style={{ inset: "24px -16px -16px 24px", background: "var(--surface)" }} />
       <div className="card relative flex min-h-[520px] flex-col gap-4 p-10" style={{ boxSizing: "border-box" }}>
         <div className="flex items-center justify-between">
           <span style={{ fontSize: 13, fontWeight: 600, color: "var(--accent)" }}>Your resume</span>
-          <span style={{ fontSize: 13, color: "var(--muted)" }}>Updates as you answer</span>
+          <span style={{ fontSize: 13, color: "var(--muted)" }}>{d.coach ? "Sync updates it as you chat" : "Updates as you answer"}</span>
         </div>
         {r.name ? (
           <span key={r.name.length > 0 ? "n" : "x"} className="display pop" style={{ fontSize: 30 }}>
@@ -582,16 +533,18 @@ function LivePaper({ d, answered, capSync, fupSync }: { d: Draft; answered: numb
           </span>
         )}
         <span style={{ fontSize: 16, fontWeight: 500, color: r.course ? "var(--ink)" : "var(--ghost)" }}>{r.course || "Your course"}</span>
+        {details ? (
+          <span className="pop" style={{ fontSize: 14, color: "var(--muted)", marginTop: -8 }}>
+            {details}
+          </span>
+        ) : null}
         <span style={{ height: 2, background: "var(--ink)" }} />
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <span className="eyebrow">Projects</span>
           {capSync === "writing" && !d.capstoneItem ? <Writing /> : null}
-          {d.capstoneItem ? (
-            <div className="pop flex flex-col gap-0.5">
-              <span style={{ fontWeight: 600 }}>{d.capstoneItem.title}</span>
-              <span style={{ fontSize: 14, color: "var(--muted)" }}>{d.capstoneItem.line}</span>
-            </div>
+          {r.projects.length ? (
+            r.projects.map((p, i) => <PaperItem key={`${p.title}-${i}`} it={p} fresh={fresh.has(p.title)} />)
           ) : capSync !== "writing" ? (
             <>
               <span className="sk" style={{ width: "70%" }} />
@@ -600,16 +553,10 @@ function LivePaper({ d, answered, capSync, fupSync }: { d: Draft; answered: numb
           ) : null}
         </div>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           <span className="eyebrow">Experience</span>
-          {fupSync === "writing" && !d.followupItem ? <Writing /> : null}
-          {lead.length && answered >= 5 ? (
-            lead.map((e, i) => (
-              <div key={`${e.title}-${i}`} className="pop flex flex-col gap-0.5">
-                <span style={{ fontWeight: 600 }}>{e.title}</span>
-                <span style={{ fontSize: 14, color: "var(--muted)" }}>{e.line}</span>
-              </div>
-            ))
+          {r.experience.length ? (
+            r.experience.map((e, i) => <PaperItem key={`${e.title}-${i}`} it={e} fresh={fresh.has(e.title)} />)
           ) : (
             <>
               <span className="sk" style={{ width: "60%" }} />
@@ -620,7 +567,10 @@ function LivePaper({ d, answered, capSync, fupSync }: { d: Draft; answered: numb
 
         <div className="flex flex-col gap-2">
           <span className="eyebrow">Skills</span>
-          <div className="flex flex-wrap gap-1">
+          <div
+            className="flex flex-wrap gap-1 rounded-lg"
+            style={{ background: fresh.has("Skills") ? "var(--soft-2)" : "transparent", boxShadow: fresh.has("Skills") ? "0 0 0 6px var(--soft-2)" : "none", transition: "background .5s, box-shadow .5s" }}
+          >
             {skills.map((k) => (
               <span key={k} className="tag pop">
                 {k}
@@ -640,13 +590,42 @@ function LivePaper({ d, answered, capSync, fupSync }: { d: Draft; answered: numb
   );
 }
 
-function Writing() {
+// One entry on the live paper. Placeholder lines are faint until Sync asks
+// about them; entries Sync just changed get a soft highlight.
+function PaperItem({ it, fresh }: { it: ResumeItem; fresh: boolean }) {
+  const placeholder = isPlaceholder(it);
+  return (
+    <div
+      className="pop flex flex-col gap-0.5 rounded-lg"
+      style={{
+        background: fresh ? "var(--soft-2)" : "transparent",
+        boxShadow: fresh ? "0 0 0 6px var(--soft-2)" : "none",
+        transition: "background .5s, box-shadow .5s",
+      }}
+    >
+      <span style={{ fontWeight: 600 }}>{it.title}</span>
+      <span style={{ fontSize: 14, color: placeholder ? "var(--faint)" : "var(--muted)", fontStyle: placeholder ? "italic" : undefined }}>
+        {it.line}
+        {placeholder ? <span className="sr-only"> (Sync will ask about this)</span> : null}
+      </span>
+      {it.bullets?.length ? (
+        <ul className="m-0 flex flex-col gap-0.5 pl-4" style={{ fontSize: 14, color: "var(--muted)" }}>
+          {it.bullets.map((b, i) => (
+            <li key={i}>{b}</li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
+
+function Writing({ label = "Sync is writing…" }: { label?: string }) {
   return (
     <span className="flex items-center gap-2" style={{ fontSize: 14, color: "var(--accent)", fontWeight: 600 }}>
       <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 2.4, ease: "linear" }} className="inline-flex">
         <Mark size={16} color="var(--mark)" />
       </motion.span>
-      Sync is writing…
+      {label}
     </span>
   );
 }

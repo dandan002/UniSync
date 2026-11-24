@@ -10,7 +10,7 @@ const FONTS: Record<Template, string> = {
 // The printable resume. Always light, like paper.
 export function ResumeDoc({ data, template = "classic", className = "" }: { data: ResumeData; template?: Template; className?: string }) {
   const compact = template === "compact";
-  const contact = [data.email, data.phone, data.city].filter(Boolean).join(" · ");
+  const contact = [data.email, data.phone, data.city, data.availability ? `Available ${data.availability}` : ""].filter(Boolean).join(" · ");
   const subtitle = [data.course, data.school].filter(Boolean).join(" · ");
   return (
     <article
@@ -40,6 +40,13 @@ export function ResumeDoc({ data, template = "classic", className = "" }: { data
                 {it.when ? <span style={{ fontSize: 14, color: "#5E6280", whiteSpace: "nowrap" }}>{it.when}</span> : null}
               </div>
               {it.line ? <span style={{ fontSize: 15, lineHeight: 1.55 }}>{it.line}</span> : null}
+              {it.bullets?.length ? (
+                <ul className="m-0 flex flex-col pl-5" style={{ fontSize: 15, lineHeight: 1.5, gap: compact ? 0 : 2 }}>
+                  {it.bullets.map((b, j) => (
+                    <li key={j}>{b}</li>
+                  ))}
+                </ul>
+              ) : null}
             </div>
           ))}
         </div>

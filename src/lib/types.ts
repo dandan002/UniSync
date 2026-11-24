@@ -56,6 +56,8 @@ export type Profile = {
 export type ResumeItem = {
   title: string;
   line: string;
+  // Up to three supporting points Sync adds once the student gives details.
+  bullets?: string[];
   when?: string;
   section?: "Leadership" | "Work" | "Volunteer" | "Activities";
   kind?: string;
