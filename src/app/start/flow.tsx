@@ -13,7 +13,7 @@ import { ResumeDoc } from "@/components/resume-doc";
 import { AgreeLine } from "@/components/site-footer";
 import { SyncChat } from "@/components/sync-chat";
 import { refreshMatches, saveOnboarding, type MatchSummary } from "@/lib/actions/student";
-import { clearDraft, hasDraft, loadDraft, REFINING_KEY, saveDraft } from "@/lib/draft";
+import { clearDraft, clearPendingSave, hasDraft, hasPendingSave, loadDraft, markPendingSave, REFINING_KEY, saveDraft } from "@/lib/draft";
 import { allowanceLabel, firstName, spell } from "@/lib/format";
 import {
   ALLOWANCES,
@@ -48,6 +48,8 @@ function setRefining(on: boolean) {
 // Returning with a named draft: offer to continue. Coming from the landing
 // page with only a course: start at the name question.
 function firstStep(draft: Draft): number {
+  // Reloaded while signing in to save: go straight back to the save step.
+  if (hasPendingSave() && draft.name) return TOTAL;
   if (hasDraft(draft) && draft.name) return 0;
   const resumeAt = Math.min(Math.max(draft.last, 1), TOTAL);
   return draft.course ? Math.max(resumeAt, 2) : 1;
@@ -75,6 +77,7 @@ export function Flow() {
   const [chat, setChat] = useState<{ resume: ResumeData; studentId: string } | null>(null);
   const [finalResume, setFinalResume] = useState<ResumeData | null>(null);
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const savingRef = useRef(false);
 
   // Reloaded mid-chat: the draft is gone but the resume is saved, so continue there.
   useEffect(() => {
@@ -88,6 +91,14 @@ export function Flow() {
     setRefining(false);
     router.replace("/resume/sync");
   }, [router]);
+
+  // Signed in with a save pending (just verified a code, or reloaded during
+  // sign-in): save without waiting for another tap.
+  useEffect(() => {
+    if (isSignedIn && step === TOTAL && hasPendingSave()) void finish();
+    // finish reads the latest draft from this render; rerun only on these.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSignedIn, step]);
 
   const update = useCallback((patch: Partial<Draft>) => {
     setD((prev) => {
@@ -169,28 +180,54 @@ export function Flow() {
     step === 6 ||
     (step === 7 && d.places.length > 0);
 
+  // Saves the draft to the signed-in account. Runs once at a time; called by
+  // the code form, the Save button, and the effect below.
   async function finish() {
+    if (savingRef.current) return;
+    savingRef.current = true;
     setSaving(true);
     setError("");
-    const res = await saveOnboarding(
-      {
-        course: d.course,
-        name: d.name,
-        language: d.language,
-        capstone: d.capstone,
-        capstoneItem: d.capstoneItem,
-        capstoneSkills: d.capstoneSkills,
-        experiences: d.experiences,
-        followup: d.followup,
-        followupItem: d.followupItem,
-        followupSkills: d.followupSkills,
-        places: d.places,
-        minAllowance: d.minAllowance,
-      },
-      channel === "phone" && phone ? toE164(phone) : undefined,
-    );
+    let res;
+    let watchdog: ReturnType<typeof setTimeout> | undefined;
+    try {
+      // A save normally takes a few seconds. Never leave "Saving…" up forever.
+      const tooSlow = new Promise<never>((_, reject) => {
+        watchdog = setTimeout(() => reject(new Error("timeout")), 30_000);
+      });
+      res = await Promise.race([
+        saveOnboarding(
+          {
+            course: d.course,
+            name: d.name,
+            language: d.language,
+            capstone: d.capstone,
+            capstoneItem: d.capstoneItem,
+            capstoneSkills: d.capstoneSkills,
+            experiences: d.experiences,
+            followup: d.followup,
+            followupItem: d.followupItem,
+            followupSkills: d.followupSkills,
+            places: d.places,
+            minAllowance: d.minAllowance,
+          },
+          channel === "phone" && phone ? toE164(phone) : undefined,
+        ),
+        tooSlow,
+      ]);
+    } catch {
+      // Never reached the server or lost the answer. Keep the pending save so
+      // a reload tries again by itself.
+      savingRef.current = false;
+      setSaving(false);
+      setError("We couldn't reach Unisync. Check your connection, then tap Save my resume.");
+      return;
+    } finally {
+      clearTimeout(watchdog);
+    }
+    savingRef.current = false;
     setSaving(false);
     if (!res.ok) {
+      clearPendingSave();
       setError(res.error);
       return;
     }
@@ -443,7 +480,7 @@ export function Flow() {
                           Add your number so you can come back and companies can reach you.
                         </p>
                         <PhoneCapture channel={channel} onPhone={setPhone}>
-                          <CodeAuth key={channel} channel={channel} fullName={d.name} onDone={() => finish()} submitLabel={channel === "phone" ? "Text me a code" : "Email me a code"} />
+                          <CodeAuth key={channel} channel={channel} fullName={d.name} onVerifying={markPendingSave} onDone={() => finish()} submitLabel={channel === "phone" ? "Text me a code" : "Email me a code"} />
                         </PhoneCapture>
                         <div className="flex items-center gap-3" style={{ fontSize: 14, color: "var(--faint)" }}>
                           <span className="hairline flex-1" />

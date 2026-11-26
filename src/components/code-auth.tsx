@@ -35,6 +35,7 @@ export function CodeAuth({
   channel,
   initial = "",
   fullName,
+  onVerifying,
   onDone,
   submitLabel,
   autoFocus,
@@ -42,6 +43,8 @@ export function CodeAuth({
   channel: Channel;
   initial?: string;
   fullName?: string;
+  // Called as the code is submitted, before the session exists.
+  onVerifying?: () => void;
   onDone: () => void | Promise<void>;
   submitLabel?: string;
   autoFocus?: boolean;
@@ -101,6 +104,7 @@ export function CodeAuth({
     if (!signInState.isLoaded || !signUpState.isLoaded || code.trim().length < 6) return;
     setBusy(true);
     setError("");
+    onVerifying?.();
     try {
       if (mode === "signin") {
         const res = await signInState.signIn.attemptFirstFactor({ strategy: channel === "phone" ? "phone_code" : "email_code", code: code.trim() });
@@ -111,7 +115,12 @@ export function CodeAuth({
           channel === "phone"
             ? await signUpState.signUp.attemptPhoneNumberVerification({ code: code.trim() })
             : await signUpState.signUp.attemptEmailAddressVerification({ code: code.trim() });
-        if (res.status !== "complete" || !res.createdSessionId) throw new Error("We couldn't finish creating your account. Try again.");
+        if (res.status !== "complete" || !res.createdSessionId) {
+          // Usually an account setting in Clerk (a required field this form
+          // doesn't collect). Name it so it can be fixed.
+          const missing = [...(res.missingFields ?? []), ...(res.unverifiedFields ?? [])].map((f) => f.replace(/_/g, " "));
+          throw new Error(missing.length ? `We couldn't finish creating your account (missing: ${missing.join(", ")}).` : "We couldn't finish creating your account. Try again.");
+        }
         await signUpState.setActive({ session: res.createdSessionId });
       }
       await onDone();

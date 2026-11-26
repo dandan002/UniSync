@@ -70,7 +70,7 @@ With `DEMO_LOGINS=on`, the sign-in page offers six personas:
 - Liza (verified employer)
 - Tess (employer in review)
 
-They're Clerk users matched by `external_id` (`demo-*`) and are signed in with short-lived sign-in tokens. Their emails use reserved `example.com` subdomains, so no mail is sent. Turn demo mode off in production.
+They're Clerk users matched by `external_id` (`demo-*`) and are signed in with short-lived sign-in tokens. An hourly `pg_cron` job (`roll-demo-interviews`) keeps demo interviews in the future by moving any that are less than a day away forward by whole weeks. Their emails use reserved `example.com` subdomains, so no mail is sent. Turn demo mode off in production.
 
 ## Tests
 
@@ -79,6 +79,8 @@ npm test                 # unit tests (Vitest)
 npm run test:e2e         # browser tests (Playwright) against http://localhost:3000
 E2E_BASE_URL=https://your-app.vercel.app npm run test:e2e
 ```
+
+The onboarding email-code tests sign up with Clerk test addresses (`+clerk_test`, code `424242`) and delete the account afterwards. Only Clerk development instances accept those, so the tests skip when `E2E_BASE_URL` is set.
 
 ## Design system
 

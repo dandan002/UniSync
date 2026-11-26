@@ -26,6 +26,7 @@ export function saveDraft(d: Draft) {
 export function clearDraft() {
   try {
     window.localStorage.removeItem(KEY);
+    window.localStorage.removeItem(PENDING_SAVE_KEY);
   } catch {
     // ignore
   }
@@ -33,6 +34,37 @@ export function clearDraft() {
 
 export function hasDraft(d: Draft): boolean {
   return d.updatedAt > 0 && (d.course.length > 0 || d.name.length > 0);
+}
+
+// Set when the student submits their sign-in code: "save the draft as soon
+// as I'm signed in". Survives a reload during sign-in. Expires so an old
+// draft never overwrites a resume later.
+const PENDING_SAVE_KEY = "unisync:pending-save:v1";
+const PENDING_SAVE_MS = 10 * 60_000;
+
+export function markPendingSave() {
+  try {
+    window.localStorage.setItem(PENDING_SAVE_KEY, String(Date.now()));
+  } catch {
+    // ignore
+  }
+}
+
+export function hasPendingSave(): boolean {
+  try {
+    const at = Number(window.localStorage.getItem(PENDING_SAVE_KEY));
+    return at > 0 && Date.now() - at < PENDING_SAVE_MS;
+  } catch {
+    return false;
+  }
+}
+
+export function clearPendingSave() {
+  try {
+    window.localStorage.removeItem(PENDING_SAVE_KEY);
+  } catch {
+    // ignore
+  }
 }
 
 // Sync chat transcripts, one per student, and the "mid-chat" marker.

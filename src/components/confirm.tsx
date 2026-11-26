@@ -55,8 +55,10 @@ export function ConfirmDialog({
         aria-labelledby={`${id}-title`}
         aria-describedby={`${id}-body`}
         className="dialog"
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
+        // Motion owns the transform, so the centering from .dialog goes through it too.
+        style={{ transform: "none" }}
+        initial={{ opacity: 0, scale: 0.96, x: "-50%", y: "-46%" }}
+        animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
         transition={{ type: "spring", stiffness: 320, damping: 26 }}
       >
         <h2 id={`${id}-title`} className="m-0" style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.02em" }}>
